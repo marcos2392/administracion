@@ -13,11 +13,25 @@ class CreateUsuarios extends AbstractMigration
     public function change()
     {
         $table = $this->table('usuarios');
-        $table->addColumn('name', 'string', [
-            'default' => null,
+        $table->addColumn('nombre', 'string', [
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('usuario', 'string', [
+            'null' => false,
+        ]);
+        $table->addColumn('password', 'string', [
+            'null' => false,
+        ]);
+        $table->addColumn('admin', 'boolean', [
+            'default' => false,
+            'null' => false,
+        ]);
+        $table->addColumn('activo', 'boolean', [
+            'default' => true,
+            'null' => false,
+        ]);
+        
         
         $table->create();
     }
