@@ -13,45 +13,87 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery.js"></script>
     <title>
-        <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->meta('icon') ?>
+    <?= $this->Html->css('bootstrap.min') ?>
+    <?= $this->Html->css('chosen.min') ?>
+    <?= $this->Html->css('administracion') ?>
+
+    <?= $this->Html->script('bootstrap.min') ?>
+    <?= $this->Html->script('chosen.jquery.min') ?>
+    <?= $this->Html->script('administracion') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+    <br>
+    <div class="container">
+        <div class="row margenes">
+            <div class="col-md-7">
+                <div class="row">
+                    <?=$this->Html->link( $this->Html->image('logojmeza.jpg', ['class' => 'pull-left imagen-logo']), array('controller'=>'Principal','action'=>'inicio'), array('escape'=>false)); ?>
+                    <?= $this->Html->image('logojoyeriameza.jpg', ['class' => 'pull-left']) ?>
+                </div>
+            </div>
+
+            <div class="col-md-5 hidden-print">
+                <?php if (isset($usuario)): ?>
+                    <div class="der">
+                        Usuario: <strong><?= $usuario->nombre ?></strong>
+                    </div>
+                    <div class="der">
+                        Fecha: <strong><?= $fecha ?></strong>
+                    </div>
+                    <div class="der">
+                        <?= $this->Html->link('Cerrar sesión', ['controller' => 'Usuarios', 'action' => 'logout']) ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <div class="container clearfix">
-        <?= $this->fetch('content') ?>
+        <br>
+        <?php if (isset($usuario)): ?>
+            <div class="navbar navbar-inverse"> 
+                <ul class="nav navbar-nav"> 
+                    <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
+                    <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
+                    <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li> 
+                </ul> 
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><?= $this->Html->link('Usuarios', ['controller' =>'Usuarios','action' => 'usuarios']); ?></li>
+                            <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
+                            <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        <?php endif; ?>
     </div>
-    <footer>
-    </footer>
+    <div class="container-fluid">
+
+        <?= $this->Flash->render() ?>
+        <div class="container clearfix">
+            <?= $this->fetch('content') ?>
+        </div>
+        <footer>
+        </footer>
+    </div>
 </body>
 </html>

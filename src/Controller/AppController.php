@@ -16,7 +16,9 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-
+use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
+use Cake\I18n\Date;
 /**
  * Application Controller
  *
@@ -43,13 +45,27 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-
-        /*
-         * Enable the following components for recommended CakePHP security settings.
-         * see http://book.cakephp.org/3.0/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
-        //$this->loadComponent('Csrf');
+        $this->loadComponent('Auth', [
+            'loginRedirect' => [
+                'controller' => 'Principal',
+                'action' => 'inicio'
+            ],
+            'loginAction' => [
+                'controller' => 'Usuarios',
+                'action' => 'login'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'userModel' => 'Usuarios',
+                    'passwordHasher' => 'Legacy',
+                    'fields' => [
+                        'username' => 'usuario',
+                        'password' => 'password',
+                    ]
+                ]
+            ],
+            'authError' => false
+        ]);
     }
 
     /**
@@ -65,5 +81,37 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+
+        if ($this->Auth) {
+            $usuario = $this->getUsuario();
+            $this->set([
+                'usuario' => $usuario,
+                'fecha' => Time::now()->i18nFormat('dd-MMM-yyyy')
+            ]);
+        }
+    }
+
+    protected function getUsuario() {
+        $usuarios_table = TableRegistry::get('usuarios');
+        return $usuarios_table->find('all')
+            ->where(['Usuarios.usuario' => $this->Auth->user('usuario')])->first();
+    }
+
+    protected function setFechasReporte() {
+        $fechas = [];
+
+        $fecha1_dia = $this->request->getQuery('fecha1_dia')['day'] ?? date('d');
+        $fecha1_mes = $this->request->getQuery('fecha1_mes')['month'] ?? date('m');
+        $fecha1_anio = $this->request->getQuery('fecha1_anio')['year'] ?? date('Y');
+        $fechas['f1'] = strtotime("$fecha1_anio-$fecha1_mes-$fecha1_dia");
+
+        $fecha2_dia = $this->request->getQuery('fecha2_dia')['day'] ?? date('d');
+        $fecha2_mes = $this->request->getQuery('fecha2_mes')['month'] ?? date('m');
+        $fecha2_anio = $this->request->getQuery('fecha2_anio')['year'] ?? date('Y');
+        $fechas['f2'] = strtotime("$fecha2_anio-$fecha2_mes-$fecha2_dia");
+
+        $this->set(compact('fechas'));
+
+        return $fechas;
     }
 }

@@ -193,6 +193,8 @@ Type::build('datetime')
 Type::build('timestamp')
     ->useImmutable();
 
+Inflector::rules('irregular', ['sucursal' => 'sucursales']);
+
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize
  * table, model, controller names or whatever other string is passed to the
@@ -219,4 +221,13 @@ Type::build('timestamp')
  */
 if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
+}
+
+function sueldo($sueldo,$hrs){
+    
+    $pago_hora=$sueldo/48;
+    $separar[1]=explode(':',$hrs);
+    $hrs=$separar[1][0]+($separar[1][1]/60);
+    $sueldo=$pago_hora*$hrs;
+    return round($sueldo);
 }
