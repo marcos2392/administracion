@@ -73,9 +73,7 @@ class EmpleadosController extends AppController
         $descanso = $this->request->getData('descanso')?? 0;
         $diaextra = $this->request->getData('diaextra')?? 0;
         $tipoextra = $this->request->getData('tipoextra')?? 0;
-
-		//$entrada = $this->request->getData('entrada');
-		//$salida = $this->request->getData('salida');
+        $horario_mixto = $this->request->getData('horario_mixto')?? 0;
 
         $nombre=htmlentities($nombre, ENT_QUOTES,'UTF-8');
         $nombre = ucwords(strtolower($nombre));
@@ -83,11 +81,8 @@ class EmpleadosController extends AppController
         $apellidos=htmlentities($apellidos, ENT_QUOTES,'UTF-8');
         $apellidos = ucwords(strtolower($apellidos));
 
-        $separar[1]=explode(':',$entrada);
-        $separar[2]=explode(':',$salida);
-
-        $entrada=$this->gethora($separar[1][0],$separar[1][1]);
-        $salida=$this->gethora($separar[2][0],$separar[2][1]);
+        $entrada=$this->gethora($entrada);
+        $salida=$this->gethora($salida);
 
         $empleado_existente = $this->Empleados->find()
         ->where(['nombre' => $nombre,'apellidos'=>$apellidos])
@@ -110,6 +105,7 @@ class EmpleadosController extends AppController
         $empleado->dia_extra=$diaextra;
         $empleado->tipo_extra=$tipoextra;
         $empleado->empleado_id=$empleado_id;
+        $empleado->horario_mixto=$horario_mixto;
 
         if($nombre=="" || $apellidos=="" || $descanso=="" || $sucursal=="")
         {
@@ -141,12 +137,13 @@ class EmpleadosController extends AppController
 
         $nombres = $this->request->getData('nombre') ?? '';
         $apellidos = $this->request->getData('apellidos') ?? '';
-        $entrada = $this->request->getData('entrada');
+        $entrada = $this->request->getData('entrada'); 
         $salida = $this->request->getData('salida');
         $sucursal = $this->request->getData('sucursal') ?? '';
         $descanso = $this->request->getData('descanso')?? 0;
         $diaextra = $this->request->getData('diaextra')?? 0;
         $tipoextra = $this->request->getData('tipoextra')?? 0;
+        $horario_mixto = $this->request->getData('horario_mixto')?? 0;
         $lunes_entrada = $this->request->getData('lunes_entrada');
         $lunes_salida = $this->request->getData('lunes_salida');
         $martes_entrada = $this->request->getData('martes_entrada');
@@ -163,26 +160,44 @@ class EmpleadosController extends AppController
         $domingo_salida = $this->request->getData('domingo_salida');
 
         $nombres = ucwords(strtolower($nombres));
-        $apellidos=htmlentities($apellidos, ENT_QUOTES,'UTF-8');
+        $apellidos=htmlentities($apellidos, ENT_QUOTES,'UTF-8'); 
         $apellidos = ucwords(strtolower($apellidos));
 
         $entrada=$this->gethora($entrada);
         $salida=$this->gethora($salida);
 
-        $lunes_entrada=$this->gethora($lunes_entrada);
-        $lunes_salida=$this->gethora($lunes_salida);
-        $martes_entrada=$this->gethora($martes_entrada);
-        $martes_salida=$this->gethora($martes_salida);
-        $miercoles_entrada=$this->gethora($miercoles_entrada);
-        $miercoles_salida=$this->gethora($miercoles_salida);
-        $jueves_entrada=$this->gethora($jueves_entrada);
-        $jueves_salida=$this->gethora($jueves_salida);
-        $viernes_entrada=$this->gethora($viernes_entrada);
-        $viernes_salida=$this->gethora($viernes_salida);
-        $sabado_entrada=$this->gethora($sabado_entrada);
-        $sabado_salida=$this->gethora($sabado_salida);
-        $domingo_entrada=$this->gethora($domingo_entrada);
-        $domingo_salida=$this->gethora($domingo_salida);
+        if($horario_mixto==1)
+        {
+            $lunes_entrada=$this->gethora($lunes_entrada);
+            $lunes_salida=$this->gethora($lunes_salida);
+            $martes_entrada=$this->gethora($martes_entrada);
+            $martes_salida=$this->gethora($martes_salida);
+            $miercoles_entrada=$this->gethora($miercoles_entrada);
+            $miercoles_salida=$this->gethora($miercoles_salida);
+            $jueves_entrada=$this->gethora($jueves_entrada);
+            $jueves_salida=$this->gethora($jueves_salida);
+            $viernes_entrada=$this->gethora($viernes_entrada);
+            $viernes_salida=$this->gethora($viernes_salida);
+            $sabado_entrada=$this->gethora($sabado_entrada);
+            $sabado_salida=$this->gethora($sabado_salida);
+            $domingo_entrada=$this->gethora($domingo_entrada);
+            $domingo_salida=$this->gethora($domingo_salida);
+
+            $empleado->lunes_entrada=$lunes_entrada;
+            $empleado->lunes_salida=$lunes_salida;
+            $empleado->martes_entrada=$martes_entrada;
+            $empleado->martes_salida=$martes_salida;
+            $empleado->miercoles_entrada=$miercoles_entrada;
+            $empleado->miercoles_salida=$miercoles_salida;
+            $empleado->jueves_entrada=$jueves_entrada;
+            $empleado->jueves_salida=$jueves_salida;
+            $empleado->viernes_entrada=$viernes_entrada;
+            $empleado->viernes_salida=$viernes_salida;
+            $empleado->sabado_entrada=$sabado_entrada;
+            $empleado->sabado_salida=$sabado_salida;
+            $empleado->domingo_entrada=$domingo_entrada;
+            $empleado->domingo_salida=$domingo_salida;
+        }
 
         $empleado->nombre=$nombres;
         $empleado->apellidos=$apellidos;
@@ -192,20 +207,7 @@ class EmpleadosController extends AppController
         $empleado->dia_extra=$diaextra;
         $empleado->tipo_extra=$tipoextra;
         $empleado->sucursal_id=$sucursal;
-        $empleado->lunes_entrada=$lunes_entrada;
-        $empleado->lunes_salida=$lunes_salida;
-        $empleado->martes_entrada=$martes_entrada;
-        $empleado->martes_salida=$martes_salida;
-        $empleado->miercoles_entrada=$miercoles_entrada;
-        $empleado->miercoles_salida=$miercoles_salida;
-        $empleado->jueves_entrada=$jueves_entrada;
-        $empleado->jueves_salida=$jueves_salida;
-        $empleado->viernes_entrada=$viernes_entrada;
-        $empleado->viernes_salida=$viernes_salida;
-        $empleado->sabado_entrada=$sabado_entrada;
-        $empleado->sabado_salida=$sabado_salida;
-        $empleado->domingo_entrada=$domingo_entrada;
-        $empleado->domingo_salida=$domingo_salida;
+        
 
         if ($this->request->is('post'))
         {
@@ -246,9 +248,9 @@ class EmpleadosController extends AppController
         return $this->Empleados->get($id_empleado);
     }
 
-    private function gethora($hora) {
+    private function gethora($hora) { 
 
-        $separar[1]=explode(':',$hora);
+        $separar[1]=explode(':',$hora); 
 
         $hora=$separar[1][0];
         $minutos=$separar[1][1];

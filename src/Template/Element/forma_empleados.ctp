@@ -58,7 +58,7 @@
 		<?= $this->Form->text('horario_mixto', ['class' => 'focus form-control', 'value' => $horario_mixto=($empleado->horario_mixto!=null)?$empleado->horario_mixto: 0 ]) ?>
 	</div>
 	<div class="col-md-6">
-        <span class="help-block">0=Deshabilitado, 2=Habilitado</span>
+        <span class="help-block">0=Deshabilitado, 1=Habilitado</span>
     </div>
 </div>
 <?php if($empleado->horario_mixto==true){ ?>
