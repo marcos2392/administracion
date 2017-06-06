@@ -63,7 +63,7 @@
 <div class="form-group">
     <?= $this->Form->label('sucursal_sistema', 'Sucursal Sistema: ', ['class' => 'col-md-2 control-label']) ?>
     <div class="col-md-3">
-        <?= $this->Form->select('sucursal_sistema', $this->Select->options($sucursales_sistema, 'TB_CODIGO', 'TB_ELEMENT', ['blank' => ['0' => '']]), ['class' => 'form-control chosen']) ?>
+        <?= $this->Form->select('sucursal_sistema', $this->Select->options($sucursales_sistema, 'id', 'TB_ELEMENT', ['blank' => ['0' => '']]), ['class' => 'form-control chosen']) ?>
     </div>
     <div class="col-md-7">
         <span class="help-block">Seleccionar Sucursal</span>
