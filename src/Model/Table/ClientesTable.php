@@ -30,9 +30,9 @@ class ClientesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('cliente');
-        $this->displayField('CL_CODIGO');
-        $this->primaryKey('CL_CODIGO');
+        $this->table('clientes');
+        $this->displayField('id');
+        $this->primaryKey('id');
 
         $this->belongsTo('tipos')
             ->setName('tipos')

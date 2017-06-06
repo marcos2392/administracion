@@ -214,7 +214,7 @@ class NominasController extends AppController
         ->toArray();
 
         foreach($joyeria as $joy):
-            $pago_joyeria=$joy->TR_ABONO;
+            $pago_joyeria=$joy->pago;
         endforeach;
 
         return $pago_joyeria;

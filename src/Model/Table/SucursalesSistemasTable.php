@@ -33,9 +33,9 @@ class SucursalesSistemasTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('sucursal');
-        $this->setDisplayField('TB_CODIGO');
-        $this->setPrimaryKey('TB_CODIGO');
+        $this->setTable('Sucursales');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
         
     }
 
