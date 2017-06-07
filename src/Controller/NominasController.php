@@ -228,7 +228,7 @@ class NominasController extends AppController
 
         foreach($venta_semanal as $venta):
             $vta_semanal=$venta->vta;
-        endforeach;
+        endforeach; 
 
         return $vta_semanal;
     }
