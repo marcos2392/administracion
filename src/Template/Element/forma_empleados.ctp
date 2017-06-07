@@ -20,13 +20,13 @@
 <div class="form-group">
 	<?= $this->Form->label('porcentaje', 'Porcentaje comision: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
-		<?= $this->Form->text('porcentaje', ['class' => 'focus form-control', 'value' => $empleado->porcentaje_comision]) ?>
+		<?= $this->Form->text('porcentaje', ['class' => 'focus form-control', 'value' => $porcentaje=($empleado->porcentaje_comision==null)?0 :$empleado->porcentaje_comision ]) ?>
 	</div>
 </div>
 <div class="form-group">
 	<?= $this->Form->label('infonavit', 'Infonavit', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
-		<?= $this->Form->text('infonavit', ['class' => 'focus form-control', 'value' => $empleado->infonavit]) ?>
+		<?= $this->Form->text('infonavit', ['class' => 'focus form-control', 'value' => $infonavit=($empleado->infonavit==null)?0 :$empleado->infonavit]) ?>
 	</div>
 </div>
 
