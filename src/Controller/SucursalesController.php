@@ -47,6 +47,7 @@ class SucursalesController extends AppController
         $nombre = $this->request->getData('nombre') ?? '';
         $nombre = ucwords(strtolower($nombre));
         $comision= $this->request->getData('comision') ?? '';
+        $horas_trabajo = $this->request->getData('horas') ?? '';
         $bono= $this->request->getData('bono') ?? '';
         $cantidad_bono= $this->request->getData('cantidad_bono')==''? 0: $this->request->getData('cantidad_bono');
         $venta_minima= $this->request->getData('venta_minima') ?? '';
@@ -57,6 +58,7 @@ class SucursalesController extends AppController
 
         $sucursal->nombre=$nombre;
         $sucursal->comision=$comision;
+        $sucursal->horas=$horas_trabajo;
         $sucursal->bono=$bono;
         $sucursal->cantidad_bono=$cantidad_bono;
         $sucursal->minimo_venta=$venta_minima;
@@ -96,6 +98,7 @@ class SucursalesController extends AppController
         $nombre = $this->request->getData('nombre') ?? '';
         $nombre = ucwords(strtolower($nombre));
         $comision= $this->request->getData('comision') ?? '';
+        $horas_trabajo = $this->request->getData('horas') ?? '';
         $bono= $this->request->getData('bono') ?? ''; 
         $cantidad_bono= $this->request->getData('cantidad_bono')?? '' ;
         $venta_minima= $this->request->getData('venta_minima') ?? '';
@@ -105,6 +108,7 @@ class SucursalesController extends AppController
 
         $sucursal->nombre=$nombre;
         $sucursal->comision=$comision;
+        $sucursal->horas=$horas_trabajo;
         $sucursal->bono=$bono;
         $sucursal->cantidad_bono=$cantidad_bono;
         $sucursal->minimo_venta=$venta_minima;
