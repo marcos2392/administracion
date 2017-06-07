@@ -76,6 +76,7 @@ class NominasController extends AppController
                     $minimo_venta=$so->minimo_venta;
                     $cantidad_minima_venta=$so->cantidad_minima_venta;
                     $sistema_id=$so->sistema_id;
+                    $horas_sucursal=$so->horas;
                 endforeach;
 
                 $conn = ConnectionManager::get('checador');
@@ -106,7 +107,7 @@ class NominasController extends AppController
                         $separar[1]=explode(':',$horastotales);
                         $horastotales=$separar[1][0]+($separar[1][1]/60);
 
-                        $sueldo=round($reg["empleado"]->sueldo/48*($horastotales));
+                        $sueldo=round($reg["empleado"]->sueldo/$horas_sucursal*($horastotales));
 
                         if($comision==true)
                         {
