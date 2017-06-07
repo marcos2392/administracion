@@ -11,6 +11,24 @@
 		<?= $this->Form->text('apellidos', ['class' => 'focus form-control', 'value' => $empleado->apellidos]) ?>
 	</div>
 </div>
+<div class="form-group">
+	<?= $this->Form->label('sueldo', 'Sueldo: ', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('sueldo', ['class' => 'focus form-control', 'value' => $empleado->sueldo]) ?>
+	</div>
+</div>
+<div class="form-group">
+	<?= $this->Form->label('porcentaje', 'Porcentaje comision: ', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('porcentaje', ['class' => 'focus form-control', 'value' => $empleado->porcentaje_comision]) ?>
+	</div>
+</div>
+<div class="form-group">
+	<?= $this->Form->label('infonavit', 'Infonavit', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('infonavit', ['class' => 'focus form-control', 'value' => $empleado->infonavit]) ?>
+	</div>
+</div>
 
 <?php if($usuario->admin): ?>
 <div class="form-group">

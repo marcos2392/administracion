@@ -74,6 +74,9 @@ class EmpleadosController extends AppController
         $diaextra = $this->request->getData('diaextra')?? 0;
         $tipoextra = $this->request->getData('tipoextra')?? 0;
         $horario_mixto = $this->request->getData('horario_mixto')?? 0;
+        $sueldo = $this->request->getData('sueldo')?? 0;
+        $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
+        $infonavit = $this->request->getData('infonavit')?? 0;
 
         $nombre=htmlentities($nombre, ENT_QUOTES,'UTF-8');
         $nombre = ucwords(strtolower($nombre));
@@ -106,6 +109,9 @@ class EmpleadosController extends AppController
         $empleado->tipo_extra=$tipoextra;
         $empleado->empleado_id=$empleado_id;
         $empleado->horario_mixto=$horario_mixto;
+        $empleado->sueldo=$sueldo;
+        $empleado->porcentaje_comision=$porcentaje_comision;
+        $empleado->infonavit=$infonavit;
 
         if($nombre=="" || $apellidos=="" || $descanso=="" || $sucursal=="")
         {
@@ -143,6 +149,9 @@ class EmpleadosController extends AppController
         $descanso = $this->request->getData('descanso')?? 0;
         $diaextra = $this->request->getData('diaextra')?? 0;
         $tipoextra = $this->request->getData('tipoextra')?? 0;
+        $sueldo = $this->request->getData('sueldo')?? 0;
+        $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
+        $infonavit = $this->request->getData('infonavit')?? 0;
         $horario_mixto = $this->request->getData('horario_mixto')?? 0;
         $lunes_entrada = $this->request->getData('lunes_entrada');
         $lunes_salida = $this->request->getData('lunes_salida');
@@ -206,6 +215,9 @@ class EmpleadosController extends AppController
         $empleado->descanso=$descanso;
         $empleado->dia_extra=$diaextra;
         $empleado->tipo_extra=$tipoextra;
+        $empleado->sueldo=$sueldo;
+        $empleado->porcentaje_comision=$porcentaje_comision;
+        $empleado->infonavit=$infonavit;
         $empleado->sucursal_id=$sucursal;
         
 

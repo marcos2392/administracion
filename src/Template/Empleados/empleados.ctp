@@ -9,8 +9,9 @@
                     <th>Nombre</th>
                     <th>ID</th>
                     <th>Sucursal</th>
-                    <th>Entrada</th>
-                    <th>Salida</th>
+                    <th>Sueldo</th>
+                    <th>% Comision</th>
+                    <th>Infonavit</th>
                     <th>Descanso</th>
                     <th>Horario Mixto</th>
                     <th>Dia Extra</th>
@@ -26,8 +27,9 @@
                         <td><?= $empleado->ncompleto ?></td>
                         <td><b><?= $empleado->id ?></b></td>
                         <td><?= $empleado->sucursal->nombre ?></td>
-                        <td><?= $empleado->entrada->format("h:i") ?></td>
-                        <td><?= $empleado->salida->format("h:i") ?></td>
+                        <td><?= $this->number->currency($empleado->sueldo) ?></td>
+                        <td><?= $empleado->porcentaje_comision ?></td>
+                        <td><?= $this->number->currency($empleado->infonavit) ?></td>
                         <td><?= $empleado->desc() ?></td>
                         <td><?= ($empleado->horario_mixto==true)? "Habilitado" : "" ?></td>
                         <td><?= $empleado->diaextra() ?></td>
