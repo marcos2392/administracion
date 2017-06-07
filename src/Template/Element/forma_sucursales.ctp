@@ -6,6 +6,12 @@
     </div>
 </div>
 <div class="form-group">
+    <?= $this->Form->label('horas', 'Horas Trabajo: ', ['class' => 'col-md-2 control-label']) ?>
+    <div class="col-md-3">
+        <?= $this->Form->text('horas', ['class' => 'focus form-control', 'value' => $sucursal->horas]) ?>
+    </div>
+</div>
+<div class="form-group">
     <?= $this->Form->label('comision', 'Comision: ', ['class' => 'col-md-2 control-label']) ?>
     <div class="col-md-3">
         <?= $this->Form->text('comision', ['class' => 'focus form-control', 'value' => ($sucursal->comision==false)? 0 : 1]) ?>
