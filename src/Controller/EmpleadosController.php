@@ -175,7 +175,7 @@ class EmpleadosController extends AppController
         $entrada=$this->gethora($entrada);
         $salida=$this->gethora($salida);
 
-        if($horario_mixto==1)
+        if($empleado->horario_mixto==true and $horario_mixto==1)
         {
             $lunes_entrada=$this->gethora($lunes_entrada);
             $lunes_salida=$this->gethora($lunes_salida);
@@ -215,6 +215,7 @@ class EmpleadosController extends AppController
         $empleado->descanso=$descanso;
         $empleado->dia_extra=$diaextra;
         $empleado->tipo_extra=$tipoextra;
+        $empleado->horario_mixto=$horario_mixto;
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->infonavit=$infonavit;
