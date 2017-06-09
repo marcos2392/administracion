@@ -38,6 +38,15 @@ class EmpleadosTable extends Table
         
     }
 
+    /*public function beforeSave($event,$empleado,$options)
+    {
+        $lunes=$empleado->lunes_salida; //debug($lunes); die;
+
+        //hacer calculo de horas
+
+        //$empleado->horas_semanales=$horas_totales;
+    }*/
+
     /**
      * Default validation rules.
      *
