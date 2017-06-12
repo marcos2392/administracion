@@ -63,7 +63,7 @@ class NominasController extends AppController
 
             $sucursal = $usuario->admin ? ($this->request->getQuery('sucursal') ?? '0') : $usuario->sucursal->id; 
 
-            $sucursal_capturada=$this->getnomina($sucursal,$inicio_nomina);
+            $sucursal_capturada=$this->getnomina($sucursal,$inicio_nomina);  
 
             if($sucursal_capturada->isEmpty())
             {
