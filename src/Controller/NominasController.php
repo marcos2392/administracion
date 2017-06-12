@@ -123,7 +123,11 @@ class NominasController extends AppController
 
                         if($bono==true)
                         {
-                            $bono=$bono_empleado;
+                            $bono_empleado=$bono_empleado;
+                        }
+                        else
+                        {
+                            $bono_empleado=0;
                         }
 
                         if($comision_empleados==true)
@@ -153,20 +157,20 @@ class NominasController extends AppController
                         $save->fecha_fin=$termino_nomina;
                         $save->sueldo=$sueldo;
                         $save->comision=$comision;
-                        $save->bono=$bono;
+                        $save->bono=$bono_empleado;
                         $save->empleados_id=$reg["empleado"]->id;
                         $save->sucursal_id=$reg["empleado"]->sucursal_id;
                         $save->horas=$horastotales;
                         $save->infonavit=$reg["empleado"]->infonavit;
                         $save->joyeria=$pago_joyeria;
                         $save->sueldo_final=$sueldo_final;
-                        $save->venta_id=$venta_id;
+                        $save->venta_id=$venta_id; //Log::write("debug",$horas); //Log::write("debug",$inicio_nomina); Log::write("debug",$termino_nomina);
                         $this->NominaEmpleadas->save($save); 
                     endforeach; 
                 } 
             }
         }
-        $sucursal_capturada=$this->getnomina($sucursal,$inicio_nomina);
+        $sucursal_capturada=$this->getnomina($sucursal,$inicio_nomina); 
         $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','filtro','sucursal_nombre'));
     }
 
@@ -307,7 +311,7 @@ class NominasController extends AppController
                     $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
                 }
 
-                $sueldo_final=$sueldo+$comision+$bono-$nomina->joyeria-$nomina->infonavit-$empleado["deduccion"]+$empleado["extra"];
+                $sueldo_final=$sueldo+$comision+$bono-$nomina->joyeria-$nomina->infonavit-$empleado["deduccion"]+$empleado["extra"]; Log::write("debug",$sueldo);
 
                 $nomina->sueldo=$sueldo;
                 $nomina->horas=$empleado["horas"];
