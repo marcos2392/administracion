@@ -5,7 +5,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\Exception\RecordNotFoundException;
-
+use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -159,7 +159,6 @@ class NominasController extends AppController
                         $save->horas=$horastotales;
                         $save->infonavit=$reg["empleado"]->infonavit;
                         $save->joyeria=$pago_joyeria;
-                        $save->joyeria=$pago_joyeria;
                         $save->sueldo_final=$sueldo_final;
                         $save->venta_id=$venta_id;
                         $this->NominaEmpleadas->save($save); 
@@ -205,7 +204,7 @@ class NominasController extends AppController
         $sucursal_capturada=$this->NominaEmpleadas->find() 
             ->contain('Empleados')
             ->where(["nominaempleadas.sucursal_id"=>$sucursal,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio]);
-        return $sucursal_capturada; debug($sucursal_capturada); die;
+        return $sucursal_capturada;
     }
 
     private function getPagoJoyeria($id,$inicio_nomina,$termino_nomina) {
