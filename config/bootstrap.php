@@ -231,3 +231,35 @@ function sueldo($sueldo,$hrs){
     $sueldo=$pago_hora*$hrs;
     return round($sueldo);
 }
+
+function getHoras($horas){
+
+    if(strrpos($horas, ".")==true)
+    {
+        $separar[1]=explode('.',$horas); 
+
+        $total_minutos[1] = ($separar[1][0]*60)+(($separar[1][1]*.0001)*60); 
+        $total_minutos_transcurridos = $total_minutos[1];
+
+        $total_minutos_transcurridos=$total_minutos_transcurridos/60; 
+        $horas=floor($total_minutos_transcurridos);
+        $minutos=($total_minutos_transcurridos*60)%60;
+
+        if($horas<=9)
+        {
+            $horas='0'.$horas; 
+        } 
+        if($minutos<=9)
+        {
+           $minutos='0'.$minutos;
+        } 
+        
+        return ($horas.':'.$minutos);
+    }
+    else
+    {
+        return $horas.':00';
+    }
+
+}
+

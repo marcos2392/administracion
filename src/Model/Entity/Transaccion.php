@@ -87,41 +87,5 @@ class Transaccion extends Entity
         return $this->_properties['TR_ID'];
     }
 
-    protected function _getCantidadDevoluciones()
-    {
-        if (!is_null($this->cantidad_devoluciones)) {
-            return $this->cantidad_devoluciones;
-        }
-        $this->generarCantidadesVentaDevolucion();
-        return $this->cantidad_devoluciones;
-    }
-
-    protected function _getCantidadVentas()
-    {
-        if (!is_null($this->cantidad_ventas)) {
-            return $this->cantidad_ventas;
-        }
-        $this->generarCantidadesVentaDevolucion();
-        return $this->cantidad_ventas;
-    }
-
-    private function generarCantidadesVentaDevolucion()
-    {
-        $cantidad_ventas = 0;
-        $cantidad_devoluciones = 0;
-        foreach ($this->ventas_detalle as $venta_detalle) {
-            if (trim($venta_detalle->VE_TIPO) == "Venta") {
-                $cantidad_ventas += $venta_detalle->VE_PIEZAS;
-            } elseif (trim($venta_detalle->VE_TIPO) == "Devolucion") {
-                $cantidad_devoluciones += $venta_detalle->VE_PIEZAS;
-            }
-        }
-        $this->cantidad_ventas = $cantidad_ventas;
-        $this->cantidad_devoluciones = $cantidad_devoluciones;
-    }
-
-    public function cobranza()
-    {
-        return trim($this->VE_TIPO) == Tipo::COBRANZA;
-    }
+    
 }

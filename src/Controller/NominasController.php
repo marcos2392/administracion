@@ -103,9 +103,7 @@ class NominasController extends AppController
                     foreach($registros as $id=>$reg):
                         $save = $this->NominaEmpleadas->newEntity();
 
-                        $horastotales=$reg["hrs"]["horas_totales"];
-                        $separar[1]=explode(':',$horastotales);
-                        $horastotales=$separar[1][0]+($separar[1][1]/60);
+                        $horastotales=$this->gethorasoperacion($reg["hrs"]["horas_totales"]);
 
                         $sueldo=round($reg["empleado"]->sueldo/$horas_sucursal*($horastotales));
 
@@ -136,11 +134,7 @@ class NominasController extends AppController
 
                             $suma_sueldos=0;
                             foreach($registros as $id=>$registro):
-                                $hrstotales=$registro["hrs"]["horas_totales"];
-                                $separar[1]=explode(':',$hrstotales);
-                                $hrstotales=$separar[1][0]+($separar[1][1]/60);
-
-                                $suma_sueldos+=round($registro["empleado"]->sueldo/48*($hrstotales)); //debug($suma_sueldos); die;
+                                $suma_sueldos+=round($registro["empleado"]->sueldo/48*($hrstotales)); 
                             endforeach;
 
                             $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
@@ -207,7 +201,8 @@ class NominasController extends AppController
     private function getNomina($sucursal,$fecha_inicio) {
         $sucursal_capturada=$this->NominaEmpleadas->find() 
             ->contain('Empleados')
-            ->where(["nominaempleadas.sucursal_id"=>$sucursal,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio]);
+            ->where(["nominaempleadas.sucursal_id"=>$sucursal,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio])
+            ->order("empleados.nombre");
         return $sucursal_capturada;
     }
 
@@ -263,7 +258,7 @@ class NominasController extends AppController
         endforeach;
 
         foreach($empleados as $id=>$empleado): 
-            //debug($empleado); die;
+
             $inicio_nomina=date("Y-m-d",strtotime($empleado["fecha_inicio"]));
             $termino_nomina=date("Y-m-d",strtotime($empleado["fecha_fin"]));
 
@@ -277,7 +272,9 @@ class NominasController extends AppController
 
             foreach($info_empleado as $info): 
 
-                $sueldo=round($info["sueldo"]/48 *($empleado["horas"]));
+                $hrstotales=$this->gethorasoperacion($empleado["horas"]); 
+
+                $sueldo=round($info["sueldo"]/48 *($hrstotales));  /////AGREGAR LA SUMA DE LOS HORARIOS DE CADA EMPLEADO
 
                 if($comision==true)
                 {
@@ -288,7 +285,7 @@ class NominasController extends AppController
                             $ventasemanal=$cantidad_minima_venta;
                         }
                     }
-                    $comision=round(($ventasemanal*$info["porcentaje_comision"])/48*($empleado["horas"]));
+                    $comision=round(($ventasemanal*$info["porcentaje_comision"])/48*($hrstotales));
                 }
 
                 if($bono==true)
@@ -311,10 +308,10 @@ class NominasController extends AppController
                     $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
                 }
 
-                $sueldo_final=$sueldo+$comision+$bono-$nomina->joyeria-$nomina->infonavit-$empleado["deduccion"]+$empleado["extra"]; Log::write("debug",$sueldo);
+                $sueldo_final=$sueldo+$comision+$bono-$nomina->joyeria-$nomina->infonavit-$empleado["deduccion"]+$empleado["extra"];
 
                 $nomina->sueldo=$sueldo;
-                $nomina->horas=$empleado["horas"];
+                $nomina->horas=$hrstotales;
                 $nomina->deduccion=$empleado["deduccion"];
                 $nomina->extra=$empleado["extra"];
                 $nomina->comision=$comision;
@@ -323,5 +320,13 @@ class NominasController extends AppController
                 $this->NominaEmpleadas->save($nomina);
             endforeach;
         endforeach;
+    }
+
+    function getHorasOperacion($horas){
+
+    $separar[1]=explode(':',$horas);
+    $hrstotales=$separar[1][0]+($separar[1][1]/60);
+
+    return $hrstotales;
     }
 }

@@ -63,8 +63,8 @@
             <?php $contador=1; $total_nomina=0;
             foreach($sucursal_capturada as $reg): ?>
                  <tr>
-                    <th><?= $reg->empleado->nombre ?></th>
-                    <td><?= $reg->horas ?></td>
+                    <th><?= $reg->empleado->ncompleto ?></th>
+                    <td><?= $horas=gethoras($reg->horas); ?></td>
                     <td><?= $this->Number->currency($reg->sueldo) ?></td> 
                     <td><?= $this->Number->currency($reg->comision) ?></td>
                     <td><?= $this->Number->currency($reg->bono) ?></td>
