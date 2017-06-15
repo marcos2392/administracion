@@ -17,13 +17,12 @@
                 <?php $contador=1;
                 foreach($sucursal_capturada as $reg):?> 
 
-
                     <?= $this->Form->hidden('empleados['.$reg->id.'][id]', ['value' => $reg->empleados_id]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_inicio]', ['value' => $reg->fecha_inicio]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_fin]', ['value' => $reg->fecha_fin]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][venta_sucursal]', ['value' => $venta]) ?>
                      <tr>
-                     	<td><?= $reg->empleado->nombre ?></td>
+                     	<td><?= $reg->empleado->ncompleto ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][horas]', ['class' => 'focus form-control', 'value' => $horas=gethoras($reg->horas)]) ?></td>
                         <td><?= $this->Number->currency($reg->sueldo) ?></td> 
                         <td><?= $this->Number->currency($reg->comision) ?></td>
