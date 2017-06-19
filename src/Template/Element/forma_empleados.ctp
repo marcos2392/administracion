@@ -70,7 +70,6 @@
         <span class="help-block">1=Entrada, 2=Salida, 3=Descanso</span>
     </div>
 </div>
-
 <div class="form-group">
 	<?= $this->Form->label('entrada', 'Lunes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
@@ -155,7 +154,8 @@
 		<?= $this->Form->text('domingo_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->domingo_salida!="")? $empleado->domingo_salida->format("h:i"): "00:00" ]) ?>
 	</div>
 </div>
-<?php 
+<?php endif;
+
 if($usuario->admin)
 { ?>
 	<div class="form-group">
