@@ -158,7 +158,7 @@ class NominasController extends AppController
                         $save->infonavit=$reg["empleado"]->infonavit;
                         $save->joyeria=$pago_joyeria;
                         $save->sueldo_final=$sueldo_final;
-                        $save->venta_id=$venta_id; //Log::write("debug",$horas); //Log::write("debug",$inicio_nomina); Log::write("debug",$termino_nomina);
+                        $save->venta_id=$venta_id;
                         $this->NominaEmpleadas->save($save); 
                     endforeach; 
                 } 
@@ -175,7 +175,7 @@ class NominasController extends AppController
 
         foreach($sucursal_operaciones as $so): 
             $sucursal=$so->id;
-            $comision=$so->comision;
+            $comision_sucursal=$so->comision;
             $bono=$so->bono;
             $bono_empleado=$so->cantidad_bono;
             $comision_empleados=$so->comision_empleados;
@@ -185,7 +185,7 @@ class NominasController extends AppController
             $sistema_id=$so->sistema_id;
         endforeach;
 
-        foreach($empleados as $id=>$empleado): 
+        foreach($empleados as $id=>$empleado):
 
             $inicio_nomina=date("Y-m-d",strtotime($empleado["fecha_inicio"]));
             $termino_nomina=date("Y-m-d",strtotime($empleado["fecha_fin"]));
@@ -212,9 +212,9 @@ class NominasController extends AppController
                     }
                 }
 
-                $sueldo=round($info["sueldo"]/$hrs_semanales_horario *($hrstotales));
+                $sueldo=round($info["sueldo"]/$hrs_semanales_horario *($hrstotales)); 
 
-                if($comision==true)
+                if($comision_sucursal==true)
                 {
                     if($minimo_venta==true)
                     { 
@@ -222,7 +222,8 @@ class NominasController extends AppController
                         {
                             $ventasemanal=$cantidad_minima_venta;
                         }
-                    }
+                    } 
+
                     $comision=round(($ventasemanal*$info["porcentaje_comision"])/$hrs_semanales_horario*($hrstotales));
                 }
 
