@@ -68,7 +68,7 @@ class NominasController extends AppController
             if($sucursal_capturada->isEmpty())
             {
                 foreach($sucursal_operaciones as $so):
-                    $comision=$so->comision;
+                    $comision_sucursal=$so->comision;
                     $bono=$so->bono;
                     $bono_empleado=$so->cantidad_bono;
                     $comision_empleados=$so->comision_empleados;
@@ -107,7 +107,7 @@ class NominasController extends AppController
 
                         $sueldo=round($reg["empleado"]->sueldo/$hrs_semana*($horastotales));
 
-                        if($comision==true)
+                        if($comision_sucursal==true)
                         {
                             if($minimo_venta==true)
                             { 
