@@ -32,18 +32,6 @@
 
 <?php if($usuario->admin): ?>
 <div class="form-group">
-	<?= $this->Form->label('entrada', 'Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->entrada!="")? $empleado->entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->salida!="")? $empleado->salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
 	<?= $this->Form->label('descanso', 'Descanso: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
 		<?= $this->Form->text('descanso', ['class' => 'focus form-control', 'value' => $empleado->descanso]) ?>

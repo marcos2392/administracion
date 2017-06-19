@@ -143,8 +143,6 @@ class EmpleadosController extends AppController
 
         $nombres = $this->request->getData('nombre') ?? '';
         $apellidos = $this->request->getData('apellidos') ?? '';
-        $entrada = $this->request->getData('entrada'); 
-        $salida = $this->request->getData('salida');
         $sucursal = $this->request->getData('sucursal') ?? '';
         $descanso = $this->request->getData('descanso')?? 0;
         $diaextra = $this->request->getData('diaextra')?? 0;
@@ -152,7 +150,6 @@ class EmpleadosController extends AppController
         $sueldo = $this->request->getData('sueldo')?? 0;
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
-        $horario_mixto = $this->request->getData('horario_mixto')?? 0;
         $lunes_entrada = $this->request->getData('lunes_entrada');
         $lunes_salida = $this->request->getData('lunes_salida');
         $martes_entrada = $this->request->getData('martes_entrada');
@@ -172,50 +169,42 @@ class EmpleadosController extends AppController
         $apellidos=htmlentities($apellidos, ENT_QUOTES,'UTF-8'); 
         $apellidos = ucwords(strtolower($apellidos));
 
-        $entrada=$this->gethora($entrada);
-        $salida=$this->gethora($salida);
+        $lunes_entrada=$this->gethora($lunes_entrada);
+        $lunes_salida=$this->gethora($lunes_salida);
+        $martes_entrada=$this->gethora($martes_entrada);
+        $martes_salida=$this->gethora($martes_salida);
+        $miercoles_entrada=$this->gethora($miercoles_entrada);
+        $miercoles_salida=$this->gethora($miercoles_salida);
+        $jueves_entrada=$this->gethora($jueves_entrada);
+        $jueves_salida=$this->gethora($jueves_salida);
+        $viernes_entrada=$this->gethora($viernes_entrada);
+        $viernes_salida=$this->gethora($viernes_salida);
+        $sabado_entrada=$this->gethora($sabado_entrada);
+        $sabado_salida=$this->gethora($sabado_salida);
+        $domingo_entrada=$this->gethora($domingo_entrada);
+        $domingo_salida=$this->gethora($domingo_salida);
 
-        if($empleado->horario_mixto==true and $horario_mixto==1)
-        {
-            $lunes_entrada=$this->gethora($lunes_entrada);
-            $lunes_salida=$this->gethora($lunes_salida);
-            $martes_entrada=$this->gethora($martes_entrada);
-            $martes_salida=$this->gethora($martes_salida);
-            $miercoles_entrada=$this->gethora($miercoles_entrada);
-            $miercoles_salida=$this->gethora($miercoles_salida);
-            $jueves_entrada=$this->gethora($jueves_entrada);
-            $jueves_salida=$this->gethora($jueves_salida);
-            $viernes_entrada=$this->gethora($viernes_entrada);
-            $viernes_salida=$this->gethora($viernes_salida);
-            $sabado_entrada=$this->gethora($sabado_entrada);
-            $sabado_salida=$this->gethora($sabado_salida);
-            $domingo_entrada=$this->gethora($domingo_entrada);
-            $domingo_salida=$this->gethora($domingo_salida);
-
-            $empleado->lunes_entrada=$lunes_entrada;
-            $empleado->lunes_salida=$lunes_salida;
-            $empleado->martes_entrada=$martes_entrada;
-            $empleado->martes_salida=$martes_salida;
-            $empleado->miercoles_entrada=$miercoles_entrada;
-            $empleado->miercoles_salida=$miercoles_salida;
-            $empleado->jueves_entrada=$jueves_entrada;
-            $empleado->jueves_salida=$jueves_salida;
-            $empleado->viernes_entrada=$viernes_entrada;
-            $empleado->viernes_salida=$viernes_salida;
-            $empleado->sabado_entrada=$sabado_entrada;
-            $empleado->sabado_salida=$sabado_salida;
-            $empleado->domingo_entrada=$domingo_entrada;
-            $empleado->domingo_salida=$domingo_salida;
-        }
+        $empleado->lunes_entrada=$lunes_entrada;
+        $empleado->lunes_salida=$lunes_salida;
+        $empleado->martes_entrada=$martes_entrada;
+        $empleado->martes_salida=$martes_salida;
+        $empleado->miercoles_entrada=$miercoles_entrada;
+        $empleado->miercoles_salida=$miercoles_salida;
+        $empleado->jueves_entrada=$jueves_entrada;
+        $empleado->jueves_salida=$jueves_salida;
+        $empleado->viernes_entrada=$viernes_entrada;
+        $empleado->viernes_salida=$viernes_salida;
+        $empleado->sabado_entrada=$sabado_entrada;
+        $empleado->sabado_salida=$sabado_salida;
+        $empleado->domingo_entrada=$domingo_entrada;
+        $empleado->domingo_salida=$domingo_salida;
+        
 
         $empleado->nombre=$nombres;
         $empleado->apellidos=$apellidos;
-        $empleado->entrada=$entrada;
-        $empleado->salida=$salida;
         $empleado->descanso=$descanso;
         $empleado->dia_extra=$diaextra;
         $empleado->tipo_extra=$tipoextra;
-        $empleado->horario_mixto=$horario_mixto;
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->infonavit=$infonavit;
@@ -263,29 +252,37 @@ class EmpleadosController extends AppController
 
     private function gethora($hora) { 
 
-        $separar[1]=explode(':',$hora); 
+        if($hora!="00:00")
+        {
 
-        $hora=$separar[1][0];
-        $minutos=$separar[1][1];
-        
-        if ($hora == 1) {
-            $hora=13;
-        } elseif ($hora == 2) {
-            $hora=14;
-        } elseif ($hora == 3) {
-            $hora=15;
-        } elseif ($hora == 4) {
-            $hora=16;
-        }elseif ($hora == 5) {
-            $hora=17;
-        }elseif ($hora == 6) {
-            $hora=18;
-        }elseif ($hora == 7) {
-            $hora=19;
-        }elseif ($hora == 8) {
-            $hora=20;
+            $separar[1]=explode(':',$hora); 
+
+            $hora=$separar[1][0];
+            $minutos=$separar[1][1];
+            
+            if ($hora == 1) {
+                $hora=13;
+            } elseif ($hora == 2) {
+                $hora=14;
+            } elseif ($hora == 3) {
+                $hora=15;
+            } elseif ($hora == 4) {
+                $hora=16;
+            }elseif ($hora == 5) {
+                $hora=17;
+            }elseif ($hora == 6) {
+                $hora=18;
+            }elseif ($hora == 7) {
+                $hora=19;
+            }elseif ($hora == 8) {
+                $hora=20;
+            }
+
+            return $hora.':'.$minutos;
         }
-
-        return $hora.':'.$minutos;
+        else
+        {
+            return null;
+        }
     }
 }
