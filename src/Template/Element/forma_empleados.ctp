@@ -70,16 +70,7 @@
         <span class="help-block">1=Entrada, 2=Salida, 3=Descanso</span>
     </div>
 </div>
-<div class="form-group">
-	<?= $this->Form->label('horario_mixto', 'Horario Mixto: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('horario_mixto', ['class' => 'focus form-control', 'value' => $horario_mixto=($empleado->horario_mixto!=null)?$empleado->horario_mixto: 0 ]) ?>
-	</div>
-	<div class="col-md-6">
-        <span class="help-block">0=Deshabilitado, 1=Habilitado</span>
-    </div>
-</div>
-<?php if($empleado->horario_mixto==true){ ?>
+
 <div class="form-group">
 	<?= $this->Form->label('entrada', 'Lunes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
@@ -164,7 +155,6 @@
 		<?= $this->Form->text('domingo_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->domingo_salida!="")? $empleado->domingo_salida->format("h:i"): "00:00" ]) ?>
 	</div>
 </div>
-<?php } endif;
 
 if($usuario->admin)
 { ?>

@@ -13,7 +13,6 @@
                     <th>% Comision</th>
                     <th>Infonavit</th>
                     <th>Descanso</th>
-                    <th>Horario Mixto</th>
                     <th>Dia Extra</th>
                     <th>Tipo Extra</th>
                     <th colspan="2"></th>
@@ -31,7 +30,6 @@
                         <td><?= $empleado->porcentaje_comision ?></td>
                         <td><?= $this->number->currency($empleado->infonavit) ?></td>
                         <td><?= $empleado->desc() ?></td>
-                        <td><?= ($empleado->horario_mixto==true)? "Habilitado" : "" ?></td>
                         <td><?= $empleado->diaextra() ?></td>
                         <td><?= $empleado->tipoextra() ?></td>
                         <td><?= $this->Html->link('Editar', ['action' => 'editar', 'id' => $empleado->id]) ?></td>
