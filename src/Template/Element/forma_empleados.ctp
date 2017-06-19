@@ -155,7 +155,7 @@
 		<?= $this->Form->text('domingo_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->domingo_salida!="")? $empleado->domingo_salida->format("h:i"): "00:00" ]) ?>
 	</div>
 </div>
-
+<?php 
 if($usuario->admin)
 { ?>
 	<div class="form-group">
