@@ -193,6 +193,7 @@ class NominasController extends AppController
 
             foreach($info_empleado as $info): 
                 $pago_joyeria=0;
+                $comision=0;
                 $hrstotales=$this->horasoperacion($empleado["horas"]);
 
                 $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal); 
