@@ -105,7 +105,7 @@ class NominasController extends AppController
 
                         $horastotales=$this->horasoperacion($reg["hrs"]["horas_totales"]); 
 
-                        $sueldo=round($reg["empleado"]->sueldo/$hrs_semana*($horastotales));
+                        $sueldo=round($reg["empleado"]->sueldo/$hrs_semana*($horastotales)); 
 
                         if($comision_sucursal==true)
                         {
@@ -121,7 +121,7 @@ class NominasController extends AppController
 
                         if($bono==true)
                         {
-                            $bono_empleado=$bono_empleado;
+                            $bono_empleado=$bono_empleado; 
                         }
                         else
                         {
@@ -137,8 +137,8 @@ class NominasController extends AppController
                         {
                             $pago_joyeria=$this->pagojoyeria($reg["empleado"]->empleado_id);
                         }
-
-                        $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria);
+                        
+                        $sueldo_final=round($sueldo+$comision+$bono_empleado-$reg["empleado"]->infonavit-$pago_joyeria);
                         $save->fecha=$fecha;
                         $save->fecha_inicio=$inicio_nomina;
                         $save->fecha_fin=$termino_nomina;
