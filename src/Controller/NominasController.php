@@ -98,6 +98,7 @@ class NominasController extends AppController
                     $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
         
                     foreach($registros as $id=>$reg):
+                        $comision=0;
                         $pago_joyeria=0;
                         $hrs_semana=$reg["hrs"]["hrs_semana"];
                         $save = $this->NominaEmpleadas->newEntity();
