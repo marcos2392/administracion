@@ -134,7 +134,7 @@ class NominasController extends AppController
 
                             $suma_sueldos=0;
                             foreach($registros as $id=>$registro):
-                                $suma_sueldos+=round($registro["empleado"]->sueldo/$hrs_semana*($hrstotales)); 
+                                $suma_sueldos+=round($registro["empleado"]->sueldo/$registro["hrs"]["hrs_semana"]*($registro["hrs"]["hrs_semana"])); 
                             endforeach;
 
                             $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
