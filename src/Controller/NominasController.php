@@ -352,7 +352,7 @@ class NominasController extends AppController
 
         $suma_sueldos=0;
         foreach($registros as $id=>$registro):
-            $hrstotales_empleado=$this->gethorasoperacion($registro["hrs"]["horas_totales"]); 
+            $hrstotales_empleado=$this->horasoperacion($registro["hrs"]["horas_totales"]); 
             $suma_sueldos+=round($registro["empleado"]["sueldo"]/$registro["hrs"]["hrs_semana"]*($hrstotales_empleado));  
         endforeach;
 
