@@ -260,7 +260,7 @@ class NominasController extends AppController
         $venta=0;
         $sucursal = $this->request->getQuery('sucursal');
         $inicio_nomina = $this->request->getQuery('inicio');
-        $sucursal_capturada=$this->getnomina($sucursal,$inicio_nomina);
+        $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina);
         foreach($sucursal_capturada as $suc)
         {
             $venta_sucursal=$this->VentasSucursales->find()
