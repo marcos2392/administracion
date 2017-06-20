@@ -80,7 +80,6 @@ class NominasController extends AppController
                 endforeach;
 
                 $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal);
-
                 if($info_checadas!="")
                 {
                     $registros=[];
@@ -98,7 +97,7 @@ class NominasController extends AppController
                     $venta_id=$this->idventa();
                     $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
         
-                    foreach($registros as $id=>$reg): 
+                    foreach($registros as $id=>$reg):
                         $pago_joyeria=0;
                         $hrs_semana=$reg["hrs"]["hrs_semana"];
                         $save = $this->NominaEmpleadas->newEntity();
@@ -146,7 +145,7 @@ class NominasController extends AppController
                         $save->comision=$comision;
                         $save->bono=$bono_empleado;
                         $save->empleados_id=$reg["empleado"]->id;
-                        $save->sucursal_id=$reg["empleado"]->sucursal_id;
+                        $save->sucursal_id=$reg["hrs"]["sucursal"];
                         $save->horas=$horastotales;
                         $save->infonavit=$reg["empleado"]->infonavit;
                         $save->joyeria=$pago_joyeria;
