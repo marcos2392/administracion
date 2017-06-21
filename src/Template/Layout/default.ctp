@@ -25,14 +25,12 @@
         <?= $this->fetch('title') ?>
     </title>
 
-    <?= $this->Html->meta('icon') ?>
-    <?= $this->Html->css('bootstrap.min') ?>
-    <?= $this->Html->css('chosen.min') ?>
-    <?= $this->Html->css('administracion') ?>
+    <?= $this->AssetCompress->css('all') ?>
+    <?= $this->AssetCompress->css('administracion.min') ?>
+    <?= $this->AssetCompress->script('libs') ?>
+    <?= $this->AssetCompress->script('administracion.min') ?>
 
-    <?= $this->Html->script('bootstrap.min') ?>
-    <?= $this->Html->script('chosen.jquery.min') ?>
-    <?= $this->Html->script('administracion') ?>
+    <?= $this->Html->meta('icon') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -69,7 +67,8 @@
                 <ul class="nav navbar-nav"> 
                     <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
                     <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
-                    <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li> 
+                    <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
+                    <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'reporte']); ?></li>
                 </ul> 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

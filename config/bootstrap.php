@@ -223,6 +223,8 @@ if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 
+Plugin::load('AssetCompress', ['bootstrap' => true]);
+
 function sueldo($sueldo,$hrs){
     
     $pago_hora=$sueldo/48;
