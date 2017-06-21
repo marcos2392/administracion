@@ -82,9 +82,6 @@ class EmpleadosController extends AppController
         $apellidos=htmlentities($apellidos, ENT_QUOTES,'UTF-8');
         $apellidos = ucwords(strtolower($apellidos));
 
-        $entrada=$this->gethora($entrada);
-        $salida=$this->gethora($salida);
-
         $empleado_existente = $this->Empleados->find()
         ->where(['nombre' => $nombre,'apellidos'=>$apellidos])
         ->first();
