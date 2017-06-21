@@ -11,7 +11,8 @@
         "cakephp/migrations": "~1.0",
         "cakephp/plugin-installer": "*",
         "markstory/asset_compress": "^3.2",
-        "tedivm/jshrink": "^1.2"
+        "tedivm/jshrink": "^1.2",
+        "natxet/CssMin": "^3.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",
