@@ -68,8 +68,6 @@ class EmpleadosController extends AppController
 		$nombre = $this->request->getData('nombre');
 		$apellidos = $this->request->getData('apellidos');
         $empleado_id = $this->request->getData('empleado');
-        $entrada = $this->request->getData('entrada') ?? 0;
-        $salida = $this->request->getData('salida') ?? 0;
         $descanso = $this->request->getData('descanso')?? 0;
         $diaextra = $this->request->getData('diaextra')?? 0;
         $tipoextra = $this->request->getData('tipoextra')?? 0;
@@ -102,8 +100,6 @@ class EmpleadosController extends AppController
         $empleado->apellidos=$apellidos;
         $empleado->status=true;
         $empleado->sucursal_id=$sucursal;
-        $empleado->entrada=$entrada;
-        $empleado->salida=$salida;
         $empleado->descanso=$descanso;
         $empleado->dia_extra=$diaextra;
         $empleado->tipo_extra=$tipoextra;
@@ -254,7 +250,6 @@ class EmpleadosController extends AppController
 
         if($hora!="00:00")
         {
-
             $separar[1]=explode(':',$hora); 
 
             $hora=$separar[1][0];
