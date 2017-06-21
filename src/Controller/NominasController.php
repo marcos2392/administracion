@@ -63,21 +63,22 @@ class NominasController extends AppController
 
             $sucursal = $usuario->admin ? ($this->request->getQuery('sucursal') ?? '0') : $usuario->sucursal->id; 
 
-            $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina);  
+            $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
+
+            foreach($sucursal_operaciones as $so):
+                $comision_sucursal=$so->comision;
+                $bono=$so->bono;
+                $bono_empleado=$so->cantidad_bono;
+                $comision_empleados=$so->comision_empleados;
+                $porcentaje_comision_empleados=$so->porcentaje_comision_empleados;
+                $minimo_venta=$so->minimo_venta;
+                $cantidad_minima_venta=$so->cantidad_minima_venta;
+                $sistema_id=$so->sistema_id;
+                $horas_sucursal=$so->horas;
+            endforeach; 
 
             if($sucursal_capturada->isEmpty())
             {
-                foreach($sucursal_operaciones as $so):
-                    $comision_sucursal=$so->comision;
-                    $bono=$so->bono;
-                    $bono_empleado=$so->cantidad_bono;
-                    $comision_empleados=$so->comision_empleados;
-                    $porcentaje_comision_empleados=$so->porcentaje_comision_empleados;
-                    $minimo_venta=$so->minimo_venta;
-                    $cantidad_minima_venta=$so->cantidad_minima_venta;
-                    $sistema_id=$so->sistema_id;
-                    $horas_sucursal=$so->horas;
-                endforeach;
 
                 $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal);
                 if($info_checadas!="")
@@ -157,8 +158,9 @@ class NominasController extends AppController
                 } 
             }
         }
+        $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
         $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
-        $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','filtro','sucursal_nombre'));
+        $this->set(compact('sucursales','suc','sucursal','registros','ventasemanal','sucursal_capturada','inicio_nomina','termino_nomina','filtro','sucursal_nombre'));
     }
 
     private function calcular($sucursal,$empleados){ 

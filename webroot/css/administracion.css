@@ -54,3 +54,7 @@ th {
 td {
     text-align: center;
 }
+
+@media print{
+    .container{width: 100% !important;}
+}

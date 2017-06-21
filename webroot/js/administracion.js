@@ -20,5 +20,10 @@ jQuery(function($) {
 	    }
 	});
 
+	$('.link_imprimir').click(function(event) {
+		event.preventDefault();
+		window.print();
+	});
+
 	
 })

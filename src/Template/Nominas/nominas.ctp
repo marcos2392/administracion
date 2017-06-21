@@ -28,28 +28,33 @@
         <div class="col-md-2">
             <?= $this->Form->select('sucursal', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['' => 'Seleccionar']]), ['value' => $sucursal, 'class' => 'form-control']) ?>
         </div>
-    </div>
-    <br>
-    <div class="form-group">
-        <div class="col-md-offset-1 col-md-11">
+        <div class=" col-md-1">
             <?= $this->Form->submit('Enviar', ['class' => 'btn btn-info']) ?>
         </div>
     </div>
+
      <?= $this->Form->hidden('enviado', ['value' => true]) ?>
 <?= $this->Form->end() ?>
 <br><br>
 <?php if(!$sucursal_capturada->isEmpty()){ ?>
 <div class="row">
-    <div class="col-sm-12 ">
+    <div class="col-sm-14 ">
+
         <h4><b>Sucursal: </b><?= $sucursal_nombre ?></h4>
-        <div class="hidden-print">
-            <h4><?=$this->Html->link('Editar',['controller' =>'Nominas','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio_nomina]); ?></h4>
-        </div>
+        <h4><b>Fecha: </b><?= $inicio_nomina," / ",$termino_nomina ?></h4>
+        <h4><b>Venta Sucursal: </b><?= $this->number->currency($ventasemanal) ?></h4>
+
+        <ol class="breadcrumb center hidden-print">
+            <li><?=$this->Html->link('Editar',['controller' =>'Nominas','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio_nomina]); ?></li>
+            <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
+        </ol>
+        <br>
         <table  class="table table-striped">
             <tr class="active">
                 <th>Nombre</th>
                 <th>Hrs</th>
                 <th>Sueldo</th>
+                <th>% Venta</th>
                 <th>Comision</th>
                 <th>Bono</th>
                 <th>Joyeria</th>
@@ -65,7 +70,8 @@
                  <tr>
                     <th><?= $reg->empleado->ncompleto ?></th>
                     <td><?= $horas=gethoras($reg->horas); ?></td>
-                    <td><?= $this->Number->currency($reg->sueldo) ?></td> 
+                    <td><?= $this->Number->currency($reg->sueldo) ?></td>
+                    <th><?= $reg->empleado->porcentaje_comision ?></th> 
                     <td><?= $this->Number->currency($reg->comision) ?></td>
                     <td><?= $this->Number->currency($reg->bono) ?></td>
                     <td><?= $this->Number->currency($reg->joyeria) ?></td>
