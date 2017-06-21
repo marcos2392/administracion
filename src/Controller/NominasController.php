@@ -77,6 +77,8 @@ class NominasController extends AppController
                 $horas_sucursal=$so->horas;
             endforeach; 
 
+            $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
+
             if($sucursal_capturada->isEmpty())
             {
 
@@ -158,7 +160,7 @@ class NominasController extends AppController
                 } 
             }
         }
-        $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
+        
         $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
         $this->set(compact('sucursales','suc','sucursal','registros','ventasemanal','sucursal_capturada','inicio_nomina','termino_nomina','filtro','sucursal_nombre'));
     }
