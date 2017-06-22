@@ -42,6 +42,7 @@ class NominasController extends AppController
         ->order('nombre');
 
          $sucursal=$this->request->getQuery('sucursal');
+         $venta_sucursal=$this->request->getQuery('venta_sucursal');
 
          $filtro = $this->request->getQuery('filtro') ?? 'semanal';
          $fechas = $this->setFechasReporte();
@@ -77,7 +78,7 @@ class NominasController extends AppController
                 $horas_sucursal=$so->horas;
             endforeach; 
 
-            $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
+            $venta_sucursal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
 
             if($sucursal_capturada->isEmpty())
             {
@@ -98,7 +99,7 @@ class NominasController extends AppController
                     $this->VentasSucursales->save($save);
 
                     $venta_id=$this->idventa();
-                    $ventasemanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
+                    $venta_sucursal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
         
                     foreach($registros as $id=>$reg):
                         $comision=0;
@@ -114,12 +115,12 @@ class NominasController extends AppController
                         {
                             if($minimo_venta==true)
                             { 
-                                if($ventasemanal<$cantidad_minima_venta)
+                                if($venta_sucursal<$cantidad_minima_venta)
                                 {
-                                    $ventasemanal=$cantidad_minima_venta; 
+                                    $venta_sucursal=$cantidad_minima_venta; 
                                 } 
                             }
-                            $comision=round(($ventasemanal*$reg["empleado"]->porcentaje_comision)/$hrs_semana*($horastotales));
+                            $comision=round(($venta_sucursal*$reg["empleado"]->porcentaje_comision)/$hrs_semana*($horastotales));
                         }
 
                         if($bono==true)
@@ -133,7 +134,7 @@ class NominasController extends AppController
 
                         if($comision_empleados==true)
                         { 
-                            $comision=$this->comision($ventasemanal,$porcentaje_comision_empleados,$registros,$sueldo);
+                            $comision=$this->comision($venta_sucursal,$porcentaje_comision_empleados,$registros,$sueldo);
                         }
 
                         if($reg["empleado"]->joyeria==true)
@@ -162,7 +163,7 @@ class NominasController extends AppController
         }
         
         $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
-        $this->set(compact('sucursales','suc','sucursal','registros','ventasemanal','sucursal_capturada','inicio_nomina','termino_nomina','filtro','sucursal_nombre'));
+        $this->set(compact('sucursales','suc','sucursal','registros','venta_sucursal','sucursal_capturada','inicio_nomina','termino_nomina','filtro','sucursal_nombre'));
     }
 
     private function calcular($sucursal,$empleados){ 
@@ -276,7 +277,7 @@ class NominasController extends AppController
         foreach($venta_sucursal as $vta)
         {
             $venta=$vta->venta_sucursal; 
-        }
+        } 
 
         $this->set(compact('sucursal_capturada','sucursal','venta'));
     }
@@ -285,9 +286,10 @@ class NominasController extends AppController
 
         $sucursal = $this->request->getQuery('sucursal');
         $empleados = $this->request->getData('empleados');
+        $venta_sucursal = $this->request->getQuery('venta_sucursal');
         $this->calcular($sucursal,$empleados);
 
-        $this->redirect(['action' => 'nominas', 'sucursal' => $sucursal]);
+        $this->redirect(['action' => 'nominas', 'sucursal' => $sucursal,'venta_sucursal'=>$venta_sucursal]);
     }
 
     private function Nomina($sucursal,$fecha_inicio) {
