@@ -246,7 +246,7 @@ class NominasController extends AppController
                     $pago_joyeria=$this->pagojoyeria($info["empleado_id"]);
                 }
 
-                $sueldo_final=round($sueldo+$comision+$bono-$pago_joyeria-$nomina->infonavit-$empleado["deduccion"]+$empleado["extra"]);
+                $sueldo_final=round($sueldo+$comision+$bono-$pago_joyeria-$info["infonavit"]-$empleado["deduccion"]+$empleado["extra"]);
 
                 $nomina->sueldo=$sueldo;
                 $nomina->horas=$hrstotales;
@@ -254,6 +254,7 @@ class NominasController extends AppController
                 $nomina->extra=$empleado["extra"];
                 $nomina->comision=$comision;
                 $nomina->joyeria=$pago_joyeria;
+                $nomina->infonavit=$info["infonavit"];
                 $nomina->sueldo_final=$sueldo_final;
 
                 $this->NominaEmpleadas->save($nomina);
