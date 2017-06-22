@@ -68,7 +68,7 @@ class NominasController extends AppController
 
             foreach($sucursal_operaciones as $so):
                 $comision_sucursal=$so->comision;
-                $bono=$so->bono;
+                $bono_empleado=$so->bono;
                 $bono_empleado=$so->cantidad_bono;
                 $comision_empleados=$so->comision_empleados;
                 $porcentaje_comision_empleados=$so->porcentaje_comision_empleados;
@@ -123,13 +123,13 @@ class NominasController extends AppController
                             $comision=round(($venta_sucursal*$reg["empleado"]->porcentaje_comision)/$hrs_semana*($horastotales));
                         }
 
-                        if($bono==true)
+                        if($bono_empleado==true)
                         {
-                            $bono_empleado=$bono_empleado; 
+                            $bono=round($bono_empleado/$hrs_semana*($horastotales)); 
                         }
                         else
                         {
-                            $bono_empleado=0;
+                            $bono=0;
                         }
 
                         if($comision_empleados==true)
@@ -142,13 +142,13 @@ class NominasController extends AppController
                             $pago_joyeria=$this->pagojoyeria($reg["empleado"]->empleado_id);
                         }
                         
-                        $sueldo_final=round($sueldo+$comision+$bono_empleado-$reg["empleado"]->infonavit-$pago_joyeria);
+                        $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria);
                         $save->fecha=$fecha;
                         $save->fecha_inicio=$inicio_nomina;
                         $save->fecha_fin=$termino_nomina;
                         $save->sueldo=$sueldo;
                         $save->comision=$comision;
-                        $save->bono=$bono_empleado;
+                        $save->bono=$bono;
                         $save->empleados_id=$reg["empleado"]->id;
                         $save->sucursal_id=$reg["hrs"]["sucursal"];
                         $save->horas=$horastotales;
@@ -174,7 +174,7 @@ class NominasController extends AppController
         foreach($sucursal_operaciones as $so): 
             $sucursal=$so->id;
             $comision_sucursal=$so->comision;
-            $bono=$so->bono;
+            $bono_empleado=$so->bono;
             $bono_empleado=$so->cantidad_bono;
             $comision_empleados=$so->comision_empleados;
             $porcentaje_comision_empleados=$so->porcentaje_comision_empleados;
@@ -231,10 +231,10 @@ class NominasController extends AppController
                     $comision=round(($ventasemanal*$info["porcentaje_comision"])/$hrs_semanales_horario*($hrstotales));
                 }
 
-                if($bono==true)
+                if($bono_empleado==true)
                 {
-                    $bono=$bono_empleado;
-                }
+                    $bono=round($bono_empleado/$hrs_semanales_horario*($hrstotales));
+                } 
 
                 if($comision_empleados==true)
                 {
@@ -254,6 +254,7 @@ class NominasController extends AppController
                 $nomina->extra=$empleado["extra"];
                 $nomina->comision=$comision;
                 $nomina->joyeria=$pago_joyeria;
+                $nomina->bono=$bono;
                 $nomina->infonavit=$info["infonavit"];
                 $nomina->sueldo_final=$sueldo_final;
 
