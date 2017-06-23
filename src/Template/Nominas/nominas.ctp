@@ -81,7 +81,11 @@
                     <td><?= $this->Number->currency($reg->extra) ?></td>
                     <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
                     <th width="110px"></th>
-            <?php $total_nomina+= $reg->sueldo_final;
+            <?php 
+            if($reg->empleado->tarjeta==false)
+            {
+                $total_nomina+= $reg->sueldo_final;
+            }
             endforeach; ?>
             </tr>
             <tr>
