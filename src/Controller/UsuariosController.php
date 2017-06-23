@@ -56,6 +56,8 @@ class UsuariosController extends AppController
         $password = $this->request->getData('password');
         $tipo = $this->request->getData('tipo') ?? 0;
 
+        $nombre = ucwords(strtolower($nombre));
+
         $usuario_existente = $this->Usuarios->find()
         ->where(['usuario' => $us])
         ->first();
