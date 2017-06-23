@@ -242,3 +242,14 @@ function getHoras($horas){
     return sprintf("%02d:%02d",$hrs,$min);
 }
 
+function horas($minutos)
+{
+    $horas=floor($minutos/60);
+    $min = $minutos%60;
+    $m=''; 
+    if($min<10): $m='0'; endif;
+    $h=''; 
+    if($horas<10): $h='0'; endif;
+    return $h.$horas.':'.$m.$min;
+}
+
