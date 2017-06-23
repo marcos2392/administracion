@@ -29,6 +29,12 @@
 		<?= $this->Form->text('infonavit', ['class' => 'focus form-control', 'value' => $infonavit=($empleado->infonavit==null)?0 :$empleado->infonavit]) ?>
 	</div>
 </div>
+<div class="form-group">
+	<?= $this->Form->label('tarjeta', 'Tarjeta', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('tarjeta', ['class' => 'focus form-control', 'value' => $tarjeta=($empleado->tarjeta==null)?0 :$empleado->tarjeta]) ?>
+	</div>
+</div>
 
 <?php if($usuario->admin): ?>
 <div class="form-group">

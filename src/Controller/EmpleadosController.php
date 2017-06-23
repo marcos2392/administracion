@@ -75,6 +75,7 @@ class EmpleadosController extends AppController
         $sueldo = $this->request->getData('sueldo')?? 0;
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
+        $tarjeta = $this->request->getData('tarjeta')?? 0;
 
         $nombre=htmlentities($nombre, ENT_QUOTES,'UTF-8');
         $nombre = ucwords(strtolower($nombre));
@@ -105,6 +106,7 @@ class EmpleadosController extends AppController
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->infonavit=$infonavit;
+        $empleado->tarjeta=$tarjeta;
 
         if($nombre=="" || $apellidos=="" || $descanso=="" || $sucursal=="")
         {
@@ -143,6 +145,7 @@ class EmpleadosController extends AppController
         $sueldo = $this->request->getData('sueldo')?? 0;
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
+        $tarjeta = $this->request->getData('tarjeta')?? 0;
         $lunes_entrada = $this->request->getData('lunes_entrada');
         $lunes_salida = $this->request->getData('lunes_salida');
         $martes_entrada = $this->request->getData('martes_entrada');
@@ -201,6 +204,7 @@ class EmpleadosController extends AppController
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->infonavit=$infonavit;
+        $empleado->tarjeta=$tarjeta;
         $empleado->sucursal_id=$sucursal;
         
 
