@@ -78,9 +78,11 @@ class ChecadorController extends AppController
                     $registro[$reg->empleados_id]["checadas"][]=$reg;
                     $registro[$reg->empleados_id]["empleado"]=$empleado->ncompleto;
                 }
+
+                if(empty($registro)): $this->Flash->default('No se encontraron registros.'); endif;
             }
-            
-            if(empty($registro)): $this->Flash->default('No se encontraron registros.'); endif;   
+
+               
         }
 
         $this->set(compact('inicio','fin','registro','filtro','sucursales','sucursal','sucursal_nombre','empleados'));
