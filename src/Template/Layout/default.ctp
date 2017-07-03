@@ -68,7 +68,7 @@
                     <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
                     <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
                     <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
-                    <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'reporte']); ?></li>
+                    <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
                 </ul> 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

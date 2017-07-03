@@ -21,6 +21,8 @@
                     <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_inicio]', ['value' => $reg->fecha_inicio]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_fin]', ['value' => $reg->fecha_fin]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][venta_sucursal]', ['value' => $venta]) ?>
+                    <?= $this->Form->hidden('empleados['.$reg->id.'][joyeria]', ['value' => $reg->joyeria]) ?>
+
                      <tr>
                      	<td><?= $reg->empleado->ncompleto ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][horas]', ['class' => 'focus form-control', 'value' => $horas=gethoras($reg->horas)]) ?></td>

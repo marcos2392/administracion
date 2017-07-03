@@ -61,7 +61,7 @@ class UsuariosController extends AppController
         $usuario_existente = $this->Usuarios->find()
         ->where(['usuario' => $us])
         ->first();
-        if ($usuario_existente) 
+        if ($usuario_existente)
         {
             $this->Flash->error('Ya existe un Usuario con ese nombre: ' . $nombre);
             $this->redirect(['action' => 'nuevo']);

@@ -19,6 +19,10 @@ class ChecadorController extends AppController
         
     }
 
+    public function inicio() {
+
+    }
+
     public function reporte() {
 
         $usuario = $this->getUsuario();
@@ -61,30 +65,46 @@ class ChecadorController extends AppController
             ->where($condicion)
             ->order('empleados_id, fecha,checadas.entrada'); 
 
-            $registro=[];
-
-            foreach($registros as $reg)
-            {
-                if(!isset($registro[$reg->empleados_id]))
-                {
-                    $registro[$reg->empleados_id]=[];
-                }
-                
-                $empleados=$this->Empleados->find()
-                ->where(['id'=>$reg->empleados_id]);
-
-                foreach($empleados as $empleado)
-                {
-                    $registro[$reg->empleados_id]["checadas"][]=$reg;
-                    $registro[$reg->empleados_id]["empleado"]=$empleado->ncompleto;
-                }
-
-                if(empty($registro)): $this->Flash->default('No se encontraron registros.'); endif;
-            }
-
-               
+            $registro=$this->checadas($registros);
         }
 
         $this->set(compact('inicio','fin','registro','filtro','sucursales','sucursal','sucursal_nombre','empleados'));
+    }
+
+    public function editar() {
+
+        $registros=$this->Checadas->find()
+        ->where(['fecha between "2017-06-19" and "2017-06-25" and sucursal=2'])
+        ->order('empleados_id, fecha,checadas.entrada');
+
+        $registro=$this->checadas($registros);
+
+        $this->set(compact('registro'));
+    }
+
+    private function checadas($registros){
+
+        $registro=[];
+
+        foreach($registros as $reg)
+        {
+            if(!isset($registro[$reg->empleados_id]))
+            {
+                $registro[$reg->empleados_id]=[];
+            }
+            
+            $empleados=$this->Empleados->find()
+            ->where(['id'=>$reg->empleados_id]);
+
+            foreach($empleados as $empleado)
+            {
+                $registro[$reg->empleados_id]["checadas"][]=$reg;
+                $registro[$reg->empleados_id]["empleado"]=$empleado->ncompleto;
+            }
+
+            if(empty($registro)): $this->Flash->default('No se encontraron registros.'); endif;
+        }
+
+        return $registro;
     }
 }

@@ -247,6 +247,30 @@ class EmpleadosController extends AppController
         return $this->Empleados->get($id_empleado);
     }
 
+    public function horarios()
+    {
+        $usuario = $this->getUsuario();
+
+        $sucursal=$this->request->getQuery('sucursal');
+        $enviado = $this->request->getQuery('enviado') ?? false;
+
+        $condicion = ["empleados.status=true"];
+
+        $empleados=$this->Empleados->find()
+        ->contain(['sucursales'])
+        ->where($condicion)
+        ->order('sucursales.nombre,empleados.nombre');
+
+        $sucursales=$this->Sucursales->find()
+        ->order('nombre');
+
+        if($enviado!==false) {
+            debug($sucursal); die;
+        }
+
+        $this->set(compact('empleados','sucursales','sucursal'));
+    }
+
     private function gethora($hora) { 
 
         if($hora!="00:00")

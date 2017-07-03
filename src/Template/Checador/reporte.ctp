@@ -1,4 +1,6 @@
-<h3><b>Reportes</b></h3>
+<?= $this->element("menu_checador") ?>
+
+<h3><b>Reportes Checador</b></h3>
 
 <?= $this->Form->create(null, ['class' => ' form-inline hidden-print', 'id' => 'reporte_checador_forma','method'=>'get']) ?>
 
@@ -49,12 +51,17 @@
 <h4><b>Sucursal :</b><?= $sucursal_nombre ?></h4>
 <h4><b>Fecha :</b><?= $inicio ?>/<?= $fin ?></h4>
 <br>
-<h4><div class="inline link hidden-print"><?= $this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></div></h4>
+
+<ol class="breadcrumb center hidden-print">
+    <li><?=$this->Html->link('Editar',['controller' =>'Checador','action' => 'editar','sucursal'=>$sucursal]); ?></li>
+    <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
+</ol>
 
 <div class="row">
     <div class="col-sm-12 ">
         <table  class="table table-striped table table-bordered">
             <tr class="active">
+                <th colspan="3">ID</th>
                 <th colspan="3">Nombre</th>
                 <th colspan="2">Lunes</th>
                 <th colspan="2">Martes</th>
@@ -68,8 +75,9 @@
                 <th colspan="2">Hrs</th>
                 </tr>
                 <?php
-                foreach($registro as $id=>$reg): ?>
+                foreach($registro as $id=>$reg): ?> 
                     <tr>
+                        <td colspan="3"><?= $id ?></td>
                         <td colspan="3"><?= $reg["empleado"] ?></td>
                         <?php 
                         $contador=false;

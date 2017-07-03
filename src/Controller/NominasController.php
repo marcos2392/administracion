@@ -58,8 +58,8 @@ class NominasController extends AppController
 
          if ($enviado!==false) {
             if ($filtro == "rango") {
-                $inicio_nomina=date('Y-m-d', $fechas['f1']); 
-                $termino_nomina=date('Y-m-d', $fechas['f2']);
+                $inicio_nomina=date('Y-m-d', $fechas['f1']);
+                $termino_nomina=date('Y-m-d', strtotime($inicio_nomina. ' + 6 days' )); //debug($termino_nomina); die;
             } 
 
             $sucursal = $usuario->admin ? ($this->request->getQuery('sucursal') ?? '0') : $usuario->sucursal->id; 
@@ -139,7 +139,7 @@ class NominasController extends AppController
 
                         if($reg["empleado"]->joyeria==true)
                         {
-                            $pago_joyeria=$this->pagojoyeria($reg["empleado"]->empleado_id);
+                            $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->empleado_id);
                         }
                         
                         $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria);
@@ -206,7 +206,6 @@ class NominasController extends AppController
 
                 foreach ($info_checadas as $info_ch) 
                 { 
-
                     $nombre=$this->Empleados->get($info_ch["empleados_id"]);
                     $registros[$info_ch["empleados_id"]]["hrs"]=$info_ch;
                     $registros[$info_ch["empleados_id"]]["empleado"]=$nombre;
@@ -244,10 +243,17 @@ class NominasController extends AppController
 
                 if($info["joyeria"]==true) 
                 {
-                    $pago_joyeria=$this->pagojoyeria($info["empleado_id"]);
+                    if($empleado["joyeria"]==0)
+                    {
+                        $pago_joyeria=$this->PagoJoyeria($info["empleado_id"]);
+                    }
+                    else
+                    {
+                        $pago_joyeria=$empleado["joyeria"];
+                    }
                 }
 
-                $sueldo_final=round($sueldo+$comision+$bono-$pago_joyeria-$info["infonavit"]-$empleado["deduccion"]+$empleado["extra"]);
+                $sueldo_final=round((float)$sueldo+(float)$comision+(float)$bono-(float)$pago_joyeria-(float)$info["infonavit"]-(float)$empleado["deduccion"]+(float)$empleado["extra"]);
 
                 $nomina->sueldo=$sueldo;
                 $nomina->horas=$hrstotales;
@@ -303,12 +309,14 @@ class NominasController extends AppController
         return $sucursal_capturada;
     }
 
-    private function PagoJoyeria($id) { 
-        $inicio_nomina=date("Y-m-d",strtotime('monday this week'));
-        $termino_nomina=date("Y-m-d",strtotime('sunday this week'));
+    public function PagoJoyeria($id) { 
+
+        $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
+        $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
         $pago_joyeria=0;
+
         $joyeria=$this->Transacciones->find()
-        ->where(["convert(date,fecha) between '". $inicio_nomina ."' and '". $termino_nomina ."' and cliente_id='".$id."' and sucursal_id='0'"])
+        ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0'"])
         ->toArray();
 
         foreach($joyeria as $joy):
