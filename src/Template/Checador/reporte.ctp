@@ -143,7 +143,7 @@
                         endforeach; ?>
                         <td colspan="2"><?=  $retardos ?></td>
                         <td colspan="2"><?=  $faltas ?></td>
-                        <td colspan="2"><?= $hrs_t=horas($minutos); ?></td>
+                        <td colspan="2"><?= $hrs_t=Horas($minutos); ?></td>
                     </tr>
                 <?php endforeach; ?>
         </table>

@@ -234,7 +234,7 @@ function sueldo($sueldo,$hrs){
     return round($sueldo);
 }
 
-function getHoras($horas){
+function Horas($horas){
 
     $hrs=floor($horas);
     $min=round(($horas-$hrs)*60);
@@ -242,7 +242,7 @@ function getHoras($horas){
     return sprintf("%02d:%02d",$hrs,$min);
 }
 
-function horas($minutos)
+/*function horas($minutos)
 {
     $horas=floor($minutos/60);
     $min = $minutos%60;
@@ -251,5 +251,5 @@ function horas($minutos)
     $h=''; 
     if($horas<10): $h='0'; endif;
     return $h.$horas.':'.$m.$min;
-}
+}*/
 
