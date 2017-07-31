@@ -37,13 +37,8 @@ class Checada extends Entity
 
     public function minutos()
     {
-        $hora=$this->horas->format("H:i");
-
-        $separar[1]=explode(':',$hora);
-
-        $minutos[1] = ($separar[1][0]*60)+$separar[1][1]; 
-        $min=$minutos[1];
+        $hora=$this->horas;
         
-        return $min;
+        return $hora;
     }
 }
