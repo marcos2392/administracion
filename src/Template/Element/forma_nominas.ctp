@@ -12,7 +12,9 @@
                     <th>Prestamo</th>
                     <th>Infonavit</th>
                     <th>Deduccion</th>
+                    <th>ISR</th>
                     <th>Extra</th>
+                    <th>Pago Extras</th>
                 </tr>
                 <?php $contador=1;
                 foreach($sucursal_capturada as $reg):?> 
@@ -25,7 +27,7 @@
 
                      <tr>
                      	<td><?= $reg->empleado->ncompleto ?></td>
-                        <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][horas]', ['class' => 'focus form-control', 'value' => $horas=gethoras($reg->horas)]) ?></td>
+                        <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][horas]', ['class' => 'focus form-control', 'value' => $horas=Horas($reg->horas)]) ?></td>
                         <td><?= $this->Number->currency($reg->sueldo) ?></td> 
                         <td><?= $this->Number->currency($reg->comision) ?></td>
                         <td><?= $this->Number->currency($reg->bono) ?></td>
@@ -33,7 +35,9 @@
                         <td><?= $this->Number->currency($reg->prestamo) ?></td>
                         <td><?= $this->Number->currency($reg->infonavit) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][deduccion]', ['class' => 'focus form-control', 'value' => $reg->deduccion]) ?></td>
+                        <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][isr]', ['class' => 'focus form-control', 'value' => $reg->isr]) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][extra]', ['class' => 'focus form-control', 'value' => $reg->extra]) ?></td>
+                        <td><?= $this->Number->currency($reg->pago_extras) ?></td>
                 <?php endforeach; ?>
                 </tr>
         </table>

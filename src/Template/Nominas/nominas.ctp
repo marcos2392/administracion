@@ -66,21 +66,28 @@
                 <th>Firma</th>
             </tr>
             <?php $contador=1; $total_nomina=0;
-            foreach($sucursal_capturada as $reg): ?>
-                 <tr>
-                    <th><?= $reg->empleado->ncompleto ?></th>
-                    <td><?= $horas=gethoras($reg->horas); ?></td>
-                    <td><?= $this->Number->currency($reg->sueldo) ?></td>
-                    <th><?= $reg->empleado->porcentaje_comision ?></th> 
-                    <td><?= $this->Number->currency($reg->comision) ?></td>
-                    <td><?= $this->Number->currency($reg->bono) ?></td>
-                    <td><?= $this->Number->currency($reg->joyeria) ?></td>
-                    <td><?= $this->Number->currency($reg->prestamo) ?></td>
-                    <td><?= $this->Number->currency($reg->infonavit) ?></td>
-                    <td><?= $this->Number->currency($reg->deduccion) ?></td>
-                    <td><?= $this->Number->currency($reg->extra) ?></td>
-                    <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
-                    <th width="110px"></th>
+            foreach($sucursal_capturada as $reg):
+                if($reg["empleado"]["tarjeta"]==true)
+                {
+                    ?><tr class="hidden-print">
+                <?php }
+                else {
+                     ?> <tr>
+                 <?php } ?>
+
+                <th><?= $reg->empleado->ncompleto ?></th>
+                <td><?= $horas=Horas($reg->horas); ?></td>
+                <td><?= $this->Number->currency($reg->sueldo) ?></td>
+                <th><?= $reg->empleado->porcentaje_comision ?></th> 
+                <td><?= $this->Number->currency($reg->comision) ?></td>
+                <td><?= $this->Number->currency($reg->bono) ?></td>
+                <td><?= $this->Number->currency($reg->joyeria) ?></td>
+                <td><?= $this->Number->currency($reg->prestamo) ?></td>
+                <td><?= $this->Number->currency($reg->infonavit) ?></td>
+                <td><?= $this->Number->currency($reg->deduccion+$reg->isr) ?></td>
+                <td><?= $this->Number->currency($reg->extra+$reg->pago_extras) ?></td>
+                <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
+                <th width="110px"></th>
             <?php 
             if($reg->empleado->tarjeta==false)
             {
@@ -89,7 +96,7 @@
             endforeach; ?>
             </tr>
             <tr>
-                <td colspan="9"></td>
+                <td colspan="10"></td>
                 <th><b>Total Nomina</b></th>
                 <th><?= $this->Number->currency($total_nomina) ?></th>
         </table>
