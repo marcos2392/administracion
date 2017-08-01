@@ -73,13 +73,32 @@ class ChecadorController extends AppController
 
     public function editar() {
 
+        $sucursal=$this->request->getQuery('sucursal');
+
         $registros=$this->Checadas->find()
-        ->where(['fecha between "2017-06-19" and "2017-06-25" and sucursal=2'])
+        ->where(['fecha between "2017-07-24" and "2017-07-30" and sucursal="'.$sucursal.'"'])
         ->order('empleados_id, fecha,checadas.entrada');
 
         $registro=$this->checadas($registros);
 
-        $this->set(compact('registro'));
+        $this->set(compact('registro','sucursal'));
+    }
+
+    public function actualizar() {
+
+        $sucursal = $this->request->getQuery('sucursal'); //debug($sucursal); die;
+        $empleados = $this->request->getData(); //debug($empleados); die;
+
+        foreach($empleados as $emp)
+        {
+            foreach($emp as $id=>$e)
+            {
+                debug($id); die;
+                debug($e); die;
+            }
+        }
+
+        //$this->redirect(['action' => 'reporte', 'sucursal' => $sucursal,'venta_sucursal'=>$venta_sucursal]);
     }
 
     private function checadas($registros){

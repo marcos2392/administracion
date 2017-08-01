@@ -1,62 +1,4 @@
-<?= $this->element("menu_checador") ?>
-
-<h3><b>Reportes Checador</b></h3>
-
-<?= $this->Form->create(null, ['class' => ' form-inline hidden-print', 'id' => 'reporte_checador_forma','method'=>'get']) ?>
-
-<div class="form-group ">
-    <div class="radio">
-        <label >
-            <input type="radio" name="filtro" value="semanal" <?php if ($filtro == "semanal") echo "checked" ?> /> Semanal Nomina
-        </label>
-    </div>
-</div>
-<br><br>
-<div class="form-group  ">
-    <div class="radio">
-        <label>
-            <input type="radio" name="filtro" value="rango" <?php if ($filtro == "rango") echo "checked" ?> /> Rango
-        </label>
-    </div>
-</div>
-<div class="form-group ">
-    
-    <?= $this->element('select_fecha', [
-        'prefijo' => 'fecha1',
-        'fecha' => $fechas['f1']
-    ]) ?>
-    -
-    <?= $this->element('select_fecha', [
-        'prefijo' => 'fecha2',
-        'fecha' => $fechas['f2']
-    ]) ?>
-</div>
-<br>
-<br>
-<div class="form-group form-inline control-label">
-        <?= $this->Form->label('sucursal', 'Sucursal:', ['class' => 'control-label col-md-3']) ?>
-        <div class="col-md-5">
-            <?= $this->Form->select('sucursal', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['' => 'Seleccionar']]), ['value' => $sucursal, 'class' => 'form-control']) ?>
-        </div>
-        <div class=" col-md-2">
-            <?= $this->Form->submit('Enviar', ['class' => 'btn btn-info']) ?>
-        </div>
-    </div>
-
-
-<?= $this->Form->end() ?>
-
-<br>   
-<?php if(!empty($registro)): ?>
-<h4><b>Sucursal :</b><?= $sucursal_nombre ?></h4>
-<h4><b>Fecha :</b><?= $inicio ?>/<?= $fin ?></h4>
-<br>
-
-<ol class="breadcrumb center hidden-print">
-    <li><?=$this->Html->link('Editar',['controller' =>'Checador','action' => 'editar','sucursal'=>$sucursal]); ?></li>
-    <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
-</ol>
-
+<?= $this->Form->create(null, ['url' => $url, 'class' => 'form-horizontal disable', 'id' => 'forma_nominas', 'autocomplete' => "off"]) ?>
 <div class="row">
     <div class="col-sm-12 ">
         <table  class="table table-striped table table-bordered">
@@ -75,7 +17,9 @@
                 <th colspan="2">Hrs</th>
                 </tr>
                 <?php
-                foreach($registro as $id=>$reg): ?> 
+                foreach($registro as $id=>$reg): 
+                
+                 ?> 
                     <tr>
                         <td colspan="3"><?= $id ?></td>
                         <td colspan="3"><?= $reg["empleado"] ?></td>
@@ -83,7 +27,7 @@
                         $contador=false;
                         $retardos=0;
                         $faltas=0;
-                        $minutos=0;
+                        $minutos=0; 
 
                         foreach(range(1,7) as $dia):
                             $descanso=false;
@@ -91,8 +35,9 @@
                             $asistio=false;
                             $entrada="";
                             $salida="";
+                            //$fecha=null;
 
-                            foreach($reg["checadas"] as $r): 
+                            foreach($reg["checadas"] as $r):
                                 if($contador==false)
                                 {
                                     if($r->retardo): $retardos++; endif;
@@ -101,6 +46,7 @@
                                 }
                                 if($r->dia==$dia)
                                 { 
+                                    $fecha=$r->fecha->format("Y-m-d");
                                     $asistio=true;
                                     if($r->entrada!= NULL)
                                     {
@@ -132,13 +78,16 @@
                                     }
                                 else
                                 {  ?>
-                                        <td><?= $entrada ?></td>
-                                        <td><?= $salida ?></td>
+                                        <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?></td>
+                                        <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
                                 <?php }
                             }
                             else
-                            { ?>
-                                <td colspan="2"></td>
+                            {   
+                                $fecha=strtotime('+1 day',strtotime($fecha));
+                                $fecha=date('Y-m-d',$fecha);?>
+                                <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?></td>
+                                <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
                             <?php }
                         endforeach; ?>
                         <td colspan="2"><?=  $retardos ?></td>
@@ -149,5 +98,9 @@
         </table>
     </div>
 </div>
-<?php endif; ?>
-
+<div class="form-group">
+    <div class="col-md-6 col-md-offset-5">
+        <?= $this->Form->button($submit, ['class' => 'btn btn-primary']) ?>
+    </div>
+</div>
+<?= $this->Form->end() ?>
