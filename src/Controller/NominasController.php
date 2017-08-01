@@ -84,7 +84,7 @@ class NominasController extends AppController
 
             if($sucursal_capturada->isEmpty())
             {
-                $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal);
+                $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal,false);
                 if($info_checadas!="")
                 {
                     $registros=[];
@@ -103,7 +103,7 @@ class NominasController extends AppController
                     $venta_sucursal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id);
         
                     foreach($registros as $id=>$reg)
-                    {
+                    {   
                         $comision=0;
                         $pago_joyeria=0;
                         $extra=0;
@@ -202,7 +202,7 @@ class NominasController extends AppController
         }
 
         foreach($empleados as $id=>$empleado)
-        {
+        { 
             $inicio_nomina=date("Y-m-d",strtotime($empleado["fecha_inicio"]));
             $termino_nomina=date("Y-m-d",strtotime($empleado["fecha_fin"]));
 
@@ -221,7 +221,7 @@ class NominasController extends AppController
                 $bono=0;
                 $pago_extras=0;
 
-                $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal); 
+                $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal,$empleado["id"]); 
 
                 foreach ($info_checadas as $info_ch) 
                 { 
@@ -231,7 +231,7 @@ class NominasController extends AppController
                 }
 
                 foreach($registros as $reg)
-                {
+                { 
                     $hrs_semana=$reg["hrs"]["hrs_semana"];
                     $pago_diario=$reg["empleado"]["pago_diario"];
                     $pago_diario_cantidad=$reg["empleado"]["pago_diario_cantidad"];
@@ -409,6 +409,7 @@ class NominasController extends AppController
             }
 
             $sueldo=round($sueldo_base/48*($horas_trabajadas));
+
         }
 
         return $sueldo;
@@ -437,11 +438,21 @@ class NominasController extends AppController
         return $hrstotales;
     }
 
-    function infochecada($inicio_nomina,$termino_nomina,$sucursal){
+    function infochecada($inicio_nomina,$termino_nomina,$sucursal,$id_empleado){
 
-        $conn = ConnectionManager::get('checador');
+        if($id_empleado==false)
+        {
+            $conn = ConnectionManager::get('checador');
                 $query = $conn->execute('SELECT id,empleados_id,SUM(horas) AS horas_totales,sum(hrs_dia) as hrs_semana FROM checadas  where fecha between "'.$inicio_nomina.'" and "'.$termino_nomina.'" and sucursal= "'.$sucursal.'"  group by(empleados_id)');
                 $horast = $query ->fetchAll('assoc');
+        }
+        else
+        {
+            $conn = ConnectionManager::get('checador');
+                $query = $conn->execute('SELECT id,empleados_id,SUM(horas) AS horas_totales,sum(hrs_dia) as hrs_semana FROM checadas  where fecha between "'.$inicio_nomina.'" and "'.$termino_nomina.'" and sucursal= "'.$sucursal.'"  and empleados_id="'.$id_empleado.'"');
+                $horast = $query ->fetchAll('assoc');
+        }
+        
 
         return $horast;
     }
