@@ -398,7 +398,10 @@ class NominasController extends AppController
             
             foreach($checadas as $checada)
             {
-                $sueldo+=round(($pago_diario_cantidad*$checada->horas)/$checada->hrs_dia);
+                if(!$checada->descanso)
+                {
+                    $sueldo+=round(($pago_diario_cantidad*$checada->horas)/$checada->hrs_dia);
+                }
             }
         }
         else
