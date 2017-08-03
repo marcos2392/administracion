@@ -287,7 +287,7 @@ class NominasController extends AppController
                     }
                 }
 
-                $sueldo_final=round((float)$sueldo+(float)$comision+(float)$bono-(float)$pago_joyeria-(float)$info["infonavit"]-(float)$empleado["deduccion"]-$empleado["isr"]-$empleado["prestamo"]+(float)$empleado["extra"]+$pago_extras);
+                $sueldo_final=round((float)$sueldo+(float)$comision+(float)$bono-(float)$pago_joyeria-(float)$empleado["infonavit"]-(float)$empleado["deduccion"]-$empleado["isr"]-$empleado["prestamo"]+(float)$empleado["extra"]+$pago_extras);
 
                 $nomina->sueldo=$sueldo;
                 $nomina->horas=$horas_trabajadas;
@@ -299,7 +299,7 @@ class NominasController extends AppController
                 $nomina->comision=$comision;
                 $nomina->joyeria=$pago_joyeria;
                 $nomina->bono=$bono;
-                $nomina->infonavit=$info["infonavit"];
+                $nomina->infonavit=$empleado["infonavit"];
                 $nomina->sueldo_final=$sueldo_final;
 
                 $this->NominaEmpleadas->save($nomina);
