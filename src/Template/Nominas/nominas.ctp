@@ -61,6 +61,7 @@
                 <th>Prestamo</th>
                 <th>Infonavit</th>
                 <th>Deduccion</th>
+                <th>ISR</th>
                 <th>Extra</th>
                 <th>Sueldo Final</th>
                 <th>Firma</th>
@@ -84,7 +85,8 @@
                 <td><?= $this->Number->currency($reg->joyeria) ?></td>
                 <td><?= $this->Number->currency($reg->prestamo) ?></td>
                 <td><?= $this->Number->currency($reg->infonavit) ?></td>
-                <td><?= $this->Number->currency($reg->deduccion+$reg->isr) ?></td>
+                <td><?= $this->Number->currency($reg->deduccion) ?></td>
+                <td><?= $this->Number->currency($reg->isr) ?></td>
                 <td><?= $this->Number->currency($reg->extra+$reg->pago_extras) ?></td>
                 <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
                 <th width="110px"></th>
@@ -96,7 +98,7 @@
             endforeach; ?>
             </tr>
             <tr>
-                <td colspan="10"></td>
+                <td colspan="11"></td>
                 <th><b>Total Nomina</b></th>
                 <th><?= $this->Number->currency($total_nomina) ?></th>
         </table>

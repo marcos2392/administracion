@@ -12,6 +12,7 @@
                     <th>Sueldo</th>
                     <th>% Comision</th>
                     <th>Infonavit</th>
+                    <th>Tipo Pago</th>
                     <th>Descanso</th>
                     <th>Dia Extra</th>
                     <th>Tipo Extra</th>
@@ -29,6 +30,8 @@
                         <td><?= $this->number->currency($empleado->sueldo) ?></td>
                         <td><?= $empleado->porcentaje_comision ?></td>
                         <td><?= $this->number->currency($empleado->infonavit) ?></td>
+                        <?php $tipo_pago=($empleado->tarjeta)? "Tarjeta" : "Efectivo" ; ?>
+                        <td><?= $tipo_pago ?></td>
                         <td><?= $empleado->desc() ?></td>
                         <td><?= $empleado->diaextra() ?></td>
                         <td><?= $empleado->tipoextra() ?></td>
