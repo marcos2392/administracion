@@ -126,6 +126,12 @@ class NominasController extends AppController
                                     $venta_sucursal=$cantidad_minima_venta; 
                                 } 
                             }
+
+                            if($horas_trabajadas>48)
+                            {
+                                $horas_trabajadas=48;
+                            }
+
                             $comision=round(($venta_sucursal*$reg["empleado"]->porcentaje_comision)/48*($horas_trabajadas));
                         }
 
@@ -252,6 +258,11 @@ class NominasController extends AppController
                             $ventasemanal=$cantidad_minima_venta;
                         }
                     } 
+
+                    if($horas_trabajadas>48)
+                    {
+                        $horas_trabajadas=48;
+                    }
 
                     $comision=round(($ventasemanal*$info["porcentaje_comision"])/48*($horas_trabajadas));
                 }
