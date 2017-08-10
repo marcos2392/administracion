@@ -131,8 +131,12 @@ class NominasController extends AppController
                             {
                                 $horas_trabajadas=48;
                             }
+                            else
+                            {
+                                $horas_trab=$horas_trabajadas;
+                            }
 
-                            $comision=round(($venta_sucursal*$reg["empleado"]->porcentaje_comision)/48*($horas_trabajadas));
+                            $comision=round(($venta_sucursal*$reg["empleado"]->porcentaje_comision)/48*($horas_trab));
                         }
 
                         if($bono_empleado==true)
@@ -261,10 +265,14 @@ class NominasController extends AppController
 
                     if($horas_trabajadas>48)
                     {
-                        $horas_trabajadas=48;
+                        $horas_trab=48;
+                    }
+                    else
+                    {
+                        $horas_trab=$horas_trabajadas;
                     }
 
-                    $comision=round(($ventasemanal*$info["porcentaje_comision"])/48*($horas_trabajadas));
+                    $comision=round(($ventasemanal*$info["porcentaje_comision"])/48*($horas_trab));
                 }
 
                 if($bono_empleado==true)
