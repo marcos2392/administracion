@@ -242,14 +242,87 @@ function Horas($horas){
     return sprintf("%02d:%02d",$hrs,$min);
 }
 
-/*function horas($minutos)
-{
-    $horas=floor($minutos/60);
-    $min = $minutos%60;
-    $m=''; 
-    if($min<10): $m='0'; endif;
-    $h=''; 
-    if($horas<10): $h='0'; endif;
-    return $h.$horas.':'.$m.$min;
-}*/
+function Calcular($hora1,$hora2,$entrada_horario,$salida_horario,$tipo_extra){ 
+
+    $salida=explode(':',$hora1); 
+    $entrada=explode(':',$hora2);
+    $entrada_horario=explode(':',$entrada_horario);
+    $salida_horario=explode(':',$salida_horario);
+
+    $minutos_horario_salida=$salida_horario[0]*60+$salida_horario[1]; 
+    $minutos_salida=$salida[0]*60+$salida[1];
+
+    $hrs_diferencia=$entrada[0]-$entrada_horario[0];
+    $minutos_diferencia=$entrada[1]-$entrada_horario[1];
+    
+    if($hrs_diferencia<1)
+    {
+        if($minutos_diferencia>10)
+        {
+            $entrada[0]=$entrada[0]+1;
+            $entrada[1]=$entrada_horario[1];
+        }
+        else
+        {
+            if($tipo_extra!=1)
+            {
+                $entrada=$entrada_horario;
+            }
+        }
+    }
+
+    if($tipo_extra!=2)
+    { 
+        if($minutos_salida>$minutos_horario_salida)
+        {
+            $salida=$salida_horario; 
+        }
+    }
+
+    $total_minutos_transcurridos[1] = ($salida[0]*60)+$salida[1];
+    $total_minutos_transcurridos[2] = ($entrada[0]*60)+$entrada[1];
+    $total_minutos_transcurridos = $total_minutos_transcurridos[1]-$total_minutos_transcurridos[2];
+
+    $total_minutos_transcurridos=$total_minutos_transcurridos/60;
+    $hrs=floor($total_minutos_transcurridos);
+    $minutos=($total_minutos_transcurridos*60)%60;
+
+    return ($hrs+$minutos/60);
+    
+} 
+
+function FormatoHora($hora) { 
+
+    if($hora!="00:00")
+    {
+        $separar[1]=explode(':',$hora); 
+
+        $hora=$separar[1][0];
+        $minutos=$separar[1][1];
+        
+        if ($hora == 1) {
+            $hora=13;
+        } elseif ($hora == 2) {
+            $hora=14;
+        } elseif ($hora == 3) {
+            $hora=15;
+        } elseif ($hora == 4) {
+            $hora=16;
+        }elseif ($hora == 5) {
+            $hora=17;
+        }elseif ($hora == 6) {
+            $hora=18;
+        }elseif ($hora == 7) {
+            $hora=19;
+        }elseif ($hora == 8) {
+            $hora=20;
+        }
+
+        return $hora.':'.$minutos;
+    }
+    else
+    {
+        return null;
+    }
+}
 

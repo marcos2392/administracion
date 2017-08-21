@@ -53,7 +53,7 @@
 <br>
 
 <ol class="breadcrumb center hidden-print">
-    <li><?=$this->Html->link('Editar',['controller' =>'Checador','action' => 'editar','sucursal'=>$sucursal]); ?></li>
+    <li><?=$this->Html->link('Editar',['controller' =>'Checador','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio,'fin'=>$fin]); ?></li>
     <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
 </ol>
 

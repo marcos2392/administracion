@@ -5,19 +5,19 @@
             <tr class="active">
                 <th colspan="3">ID</th>
                 <th colspan="3">Nombre</th>
-                <th colspan="2">Lunes</th>
-                <th colspan="2">Martes</th>
-                <th colspan="2">Miercoles</th>
-                <th colspan="2">Jueves</th>
-                <th colspan="2">Viernes</th>
-                <th colspan="2">Sabado</th>
-                <th colspan="2">Domingo</th>
-                <th colspan="2">R</th>
-                <th colspan="2">F</th>
-                <th colspan="2">Hrs</th>
+                <th >Lunes</th>
+                <th >Martes</th>
+                <th >Miercoles</th>
+                <th >Jueves</th>
+                <th >Viernes</th>
+                <th >Sabado</th>
+                <th >Domingo</th>
+                <th >R</th>
+                <th >F</th>
+                <th >Hrs</th>
                 </tr>
                 <?php
-                foreach($registro as $id=>$reg): 
+                foreach($registro as $id=>$reg):
                 
                  ?> 
                     <tr>
@@ -28,6 +28,8 @@
                         $retardos=0;
                         $faltas=0;
                         $minutos=0; 
+
+                        $i=1;
 
                         foreach(range(1,7) as $dia):
                             $descanso=false;
@@ -69,30 +71,46 @@
                                 }
                             endforeach;
                             $contador=true;
+            
                             if($asistio)
                             { 
+                                if($dia==1)
+                                { 
+                                    $fecha = date("Y-m-d",strtotime('monday this week -7 days'));
+                                }
+
                                 if($descanso==true || $falta==true)
-                                    { 
-                                        if($descanso==true): ?><td colspan="2">Descanso</td><?php endif;
-                                        if($falta==true): ?><td colspan="2">Falta</td><?php endif;
-                                    }
+                                { 
+                                    if($descanso==true): ?><td width="80px"><?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => 'D']) ?>
+                                    <?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => 'D']) ?></td><?php endif;
+                                    if($falta==true): ?><td>Falta</td><?php endif;
+                                }
                                 else
-                                {  ?>
-                                        <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?></td>
-                                        <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
+                                { ?>
+                                        <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?>
+                                        <?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
                                 <?php }
                             }
                             else
-                            {   
-                                $fecha=strtotime('+1 day',strtotime($fecha));
-                                $fecha=date('Y-m-d',$fecha);?>
-                                <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?></td>
-                                <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
+                            {  
+                                if($dia==1)
+                                { 
+                                    $fecha = date("Y-m-d",strtotime('monday this week -7 days'));
+                                }
+                                else
+                                {
+                                    $fecha=date("Y-m-d",strtotime('+1 day',strtotime($fecha)));
+                                }
+                                
+                                $fecha=date($fecha);?>
+                                <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?>
+                                <?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
                             <?php }
+                            $i++;
                         endforeach; ?>
-                        <td colspan="2"><?=  $retardos ?></td>
-                        <td colspan="2"><?=  $faltas ?></td>
-                        <td colspan="2"><?= $hrs_t=Horas($minutos); ?></td>
+                        <td><?=  $retardos ?></td>
+                        <td><?=  $faltas ?></td>
+                        <td><?= $hrs_t=Horas($minutos); ?></td>
                     </tr>
                 <?php endforeach; ?>
         </table>
