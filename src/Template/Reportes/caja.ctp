@@ -73,7 +73,7 @@
                 ?>
                 <tr>
                     <?php if($mov->usuario_id==$usuario->id){ ?>
-                    <td><?= $this->Html->link($mov->fecha->format('d-m-Y'), ['controller' => 'MovimientosCaja', 'action' => 'editar', 'id' => $mov->id], ['target' => '_blank']) ?></td>
+                    <td><?= $this->Html->link($mov->fecha->format('d-m-Y h:i'), ['controller' => 'MovimientosCaja', 'action' => 'editar', 'id' => $mov->id], ['target' => '_blank']) ?></td>
                     <?php 
                     } 
                     else
