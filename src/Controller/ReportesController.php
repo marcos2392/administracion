@@ -142,7 +142,7 @@ class ReportesController extends AppController
         {
             if ($filtro == "dia") {
                 $fecha=date('Y-m-d');
-                $condicion = ["fecha" => $fecha];
+                $condicion = ["date(fecha)" => $fecha];
             } 
             else 
             { 
@@ -151,10 +151,10 @@ class ReportesController extends AppController
                 $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
             
-            $condicion[]=["usuario_id"=>$usuario_caja];
+            $condicion[]=["usuario_id"=>$usuario_caja]; 
             $movimientos = $this->MovimientosCaja->find() 
             ->where($condicion)
-            ->toArray(); 
+            ->toArray();  
         }
 
         $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja'));
