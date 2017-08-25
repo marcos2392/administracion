@@ -22,6 +22,7 @@ class ReportesController extends AppController
         $this->loadModel('Empleados');
         $this->loadModel('NominaEmpleadas');
         $this->loadModel('Transacciones');
+        $this->loadModel('MovimientosCaja');
         
     }
 
@@ -119,6 +120,44 @@ class ReportesController extends AppController
 
         $sucursal_capturada=$this->getnomina($sucursal);
         $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada'));
+    }
+
+    public function caja(){
+
+        $usuario=$this->getUsuario();
+
+        $fechas = $this->setFechasReporte();
+        $filtro = $this->request->getQuery('filtro') ?? 'dia';
+        $enviado = $this->request->getQuery('enviado') ?? false;
+
+        $usuarios=$this->Usuarios->find()
+        ->where(['caja'=>true])
+        ->order('nombre');
+
+        $usuario_caja=$this->request->getQuery('usuarios');
+        
+        $movimientos=[];
+
+        if ($enviado!==false)
+        {
+            if ($filtro == "dia") {
+                $fecha=date('Y-m-d');
+                $condicion = ["fecha" => $fecha];
+            } 
+            else 
+            { 
+                $fecha_inicio=date('d-M-Y', $fechas['f1']);
+                $fecha_fin=date('d-M-Y', $fechas['f2']);
+                $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
+            }
+            
+            $condicion[]=["usuario_id"=>$usuario_caja];
+            $movimientos = $this->MovimientosCaja->find() 
+            ->where($condicion)
+            ->toArray(); 
+        }
+
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja'));
     }
 
     private function getNomina($sucursal) {

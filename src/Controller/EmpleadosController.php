@@ -25,11 +25,6 @@ class EmpleadosController extends AppController
 
         $condicion = ["empleados.status=true"];
 
-        /*if(!$usuario->admin)
-        {
-            $condicion[] = ["sucursal_id= '" .$usuario->suc. "'"];
-        }*/
-
     	$empleados=$this->Empleados->find()
     	->contain(['sucursales'])
     	->where($condicion)

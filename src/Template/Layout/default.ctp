@@ -67,8 +67,15 @@
                 <ul class="nav navbar-nav"> 
                     <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
                     <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
-                    <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
-                    <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
+                    <?php if($usuario->nominas){ ?>
+                        <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
+                    <?php } ?>
+                    <?php if($usuario->caja){ ?>
+                        <li><?= $this->Html->link('Movimientos de Caja', ['controller' =>'MovimientosCaja','action' => 'caja']); ?></li>
+                    <?php } ?>
+                    <?php if($usuario->checador){ ?>
+                        <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
+                    <?php } ?>
                 </ul> 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

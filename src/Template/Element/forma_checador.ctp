@@ -3,7 +3,7 @@
     <div class="col-sm-12 ">
         <table  class="table table-striped table table-bordered">
             <tr class="active">
-                <th colspan="3">ID</th>
+                <th colspan="1">ID</th>
                 <th colspan="2">Nombre</th>
                 <th >Lunes</th>
                 <th >Martes</th>
@@ -21,7 +21,7 @@
                 
                  ?> 
                     <tr>
-                        <td colspan="3"><?= $id ?></td>
+                        <td colspan="1"><?= $id ?></td>
                         <td colspan="2"><?= $reg["empleado"] ?></td>
                         <?php 
                         $contador=false;
