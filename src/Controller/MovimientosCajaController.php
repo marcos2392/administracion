@@ -55,6 +55,7 @@ class MovimientosCajaController extends AppController
     public function movimientos() {
 
         $usuario = $this->getUsuario();
+        $fecha=date('Y-m-d H:i');
 
         $descripcion = $this->request->getData('descripcion') ?? '';
         $tipo_movimiento = $this->request->getData('tipo_movimiento') ?? '';
@@ -75,6 +76,7 @@ class MovimientosCajaController extends AppController
             $movimiento_caja = $this->MovimientosCaja->newEntity();
 
             $movimiento_caja->usuario_id=$usuario->id;
+            $movimiento_caja->fecha=$fecha;
             $movimiento_caja->descripcion=$descripcion;
             $movimiento_caja->tipo_movimiento=$tipo_movimiento;
             $movimiento_caja->cantidad=$cantidad;
