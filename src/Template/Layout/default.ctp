@@ -70,7 +70,7 @@
                     <?php if($usuario->nominas){ ?>
                         <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
                     <?php } ?>
-                    <?php if($usuario->caja){ ?>
+                    <?php if($usuario->movimientos_caja){ ?>
                         <li><?= $this->Html->link('Movimientos de Caja', ['controller' =>'MovimientosCaja','action' => 'caja']); ?></li>
                     <?php } ?>
                     <?php if($usuario->checador){ ?>
