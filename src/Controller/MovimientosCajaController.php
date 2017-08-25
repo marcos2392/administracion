@@ -83,7 +83,7 @@ class MovimientosCajaController extends AppController
             $this->MovimientosCaja->save($movimiento_caja);
 
             $this->Flash->default("Se Guardo el Movimiento Correctamente.");
-            $this->redirect(['action' => 'movimientos']);
+            $this->redirect(['action' => 'caja']);
         }
     }
 
