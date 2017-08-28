@@ -77,18 +77,20 @@
                         <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
                     <?php } ?>
                 </ul> 
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            
-                            <li><?= $this->Html->link('Usuarios', ['controller' =>'Usuarios','action' => 'usuarios']); ?></li>
-                            <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
-                            <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
-                            
-                        </ul>
-                    </li>
-                </ul>
+                <?php if($usuario->admin){ ?>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><?= $this->Html->link('Usuarios', ['controller' =>'Usuarios','action' => 'usuarios']); ?></li>
+                                <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
+                                <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                <?php } ?>
             </div>
         <?php endif; ?>
     </div>

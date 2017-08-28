@@ -56,6 +56,11 @@ class UsuariosController extends AppController
         $password = $this->request->getData('password');
         $tipo = $this->request->getData('tipo') ?? 0;
 
+        $caja = $this->request->getData('caja') ?? 0;
+        $permiso_movimientos_caja = $this->request->getData('permiso_movimientos_caja') ?? 0;
+        $permiso_nomina = $this->request->getData('permiso_nomina') ?? 0;
+        $permiso_checador = $this->request->getData('permiso_checador') ?? 0;
+
         $nombre = ucwords(strtolower($nombre));
 
         $usuario_existente = $this->Usuarios->find()
@@ -74,6 +79,10 @@ class UsuariosController extends AppController
         $user->password=$password;
         $user->admin=$tipo;
         $user->activo=true;
+        $user->caja=$caja;
+        $user->nominas=$permiso_nomina;
+        $user->checador=$permiso_checador;
+        $user->movimientos_caja=$permiso_movimientos_caja;
 
         if($nombre=="" || $usuario=="" || $password=="")
         {
@@ -98,23 +107,41 @@ class UsuariosController extends AppController
 
     public function actualizar() {
 
-        $usuario = $this->Usuarios->get($this->request->getQuery('id'));
+        $user = $this->Usuarios->get($this->request->getQuery('id'));
 
         $nombres = $this->request->getData('nombre') ?? '';
-        $user = $this->request->getData('usuario') ?? '';
+        $usuario = $this->request->getData('usuario') ?? '';
         $password = $this->request->getData('password');
         $tipo = $this->request->getData('tipo');
+
+        $caja = $this->request->getData('caja') ?? 0;
+        $permiso_movimientos_caja = $this->request->getData('permiso_movimientos_caja') ?? 0;
+        $permiso_nomina = $this->request->getData('permiso_nomina') ?? 0;
+        $permiso_checador = $this->request->getData('permiso_checador') ?? 0;
         
         $nombres = ucwords(strtolower($nombres));
         
-        $usuario->nombre=$nombres;
-        $usuario->usuario=$user;
-        $usuario->password=$password;
-        $usuario->admin=$tipo;
+        $user->nombre=$nombres;
+        $user->usuario=$user;
+        $user->password=$password;
+        $user->admin=$tipo;
+
+        
+        $user->nombre=$nombres;
+        $user->usuario=$usuario;
+        $user->password=$password;
+        $user->admin=$tipo;
+        $user->activo=true;
+        $user->caja=$caja;
+        $user->nominas=$permiso_nomina;
+        $user->checador=$permiso_checador;
+        $user->movimientos_caja=$permiso_movimientos_caja;
+
+
 
         if ($this->request->is('post'))
         {
-            if($this->Usuarios->save($usuario))
+            if($this->Usuarios->save($user))
              {
                 $this->Flash->default("Se actualizo al usuario: ".$nombres." ,exitosamente.");
                 $this->redirect(['action' => 'usuarios']);
