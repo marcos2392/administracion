@@ -63,34 +63,44 @@
         </div>
         <br>
         <?php if (isset($usuario)): ?>
-            <div class="navbar navbar-inverse"> 
-                <ul class="nav navbar-nav"> 
-                    <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
-                    <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
-                    <?php if($usuario->nominas){ ?>
-                        <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
+            <div class="navbar navbar-inverse">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                </div>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="nav navbar-nav"> 
+                        <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
+                        <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
+                        <?php if($usuario->nominas){ ?>
+                            <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
+                        <?php } ?>
+                        <?php if($usuario->movimientos_caja){ ?>
+                            <li><?= $this->Html->link('Movimientos de Caja', ['controller' =>'MovimientosCaja','action' => 'caja']); ?></li>
+                        <?php } ?>
+                        <?php if($usuario->checador){ ?>
+                            <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
+                        <?php } ?>
+                    </ul> 
+                    <?php if($usuario->admin){ ?>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    
+                                    <li><?= $this->Html->link('Usuarios', ['controller' =>'Usuarios','action' => 'usuarios']); ?></li>
+                                    <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
+                                    <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
+                                    
+                                </ul>
+                            </li>
+                        </ul>
                     <?php } ?>
-                    <?php if($usuario->movimientos_caja){ ?>
-                        <li><?= $this->Html->link('Movimientos de Caja', ['controller' =>'MovimientosCaja','action' => 'caja']); ?></li>
-                    <?php } ?>
-                    <?php if($usuario->checador){ ?>
-                        <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
-                    <?php } ?>
-                </ul> 
-                <?php if($usuario->admin){ ?>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                
-                                <li><?= $this->Html->link('Usuarios', ['controller' =>'Usuarios','action' => 'usuarios']); ?></li>
-                                <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
-                                <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
-                                
-                            </ul>
-                        </li>
-                    </ul>
-                <?php } ?>
+                </div>
             </div>
         <?php endif; ?>
     </div>
