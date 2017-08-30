@@ -13,6 +13,8 @@
             <br><br>
         <?php } ?>
 
+        <a href="#">Inbox <span class="badge">7</span></a>
+
         <div class="col-md-4 radio">
             <label>
                 <input type="radio" name="filtro" value="dia" <?php if ($filtro == "dia") echo "checked" ?> /> Dia

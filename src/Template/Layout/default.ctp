@@ -40,14 +40,11 @@
     <br>
     <div class="container">
         <div class="row margenes">
-            <div class="col-md-7">
-                <div class="row">
-                    <?=$this->Html->link( $this->Html->image('logojmeza.jpg', ['class' => 'pull-left imagen-logo']), array('controller'=>'Principal','action'=>'inicio'), array('escape'=>false)); ?>
-                    <?= $this->Html->image('logojoyeriameza.jpg', ['class' => 'pull-left']) ?>
-                </div>
+            <div class="container clearfix">
+                    <?=$this->Html->link( $this->Html->image('jmeza_logo.jpg', ['class' => 'img-responsive']), array('controller'=>'Principal','action'=>'inicio'), array('escape'=>false)); ?>
             </div>
-
-            <div class="col-md-5 hidden-print">
+            <div style="float: right;"> 
+            <div class="col-md-12 hidden-print">
                 <?php if (isset($usuario)): ?>
                     <div class="der">
                         Usuario: <strong><?= $usuario->nombre ?></strong>
@@ -59,6 +56,7 @@
                         <?= $this->Html->link('Cerrar sesión', ['controller' => 'Usuarios', 'action' => 'logout']) ?>
                     </div>
                 <?php endif; ?>
+            </div>
             </div>
         </div>
         <br>
@@ -104,14 +102,13 @@
             </div>
         <?php endif; ?>
     </div>
-    <div class="container-fluid">
-
-        <?= $this->Flash->render() ?>
+    
+        
         <div class="container clearfix">
+            <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>
         <footer>
         </footer>
-    </div>
 </body>
 </html>

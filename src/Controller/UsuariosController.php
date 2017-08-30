@@ -143,7 +143,7 @@ class UsuariosController extends AppController
         {
             if($this->Usuarios->save($user))
              {
-                $this->Flash->default("Se actualizo al usuario: ".$nombres." ,exitosamente.");
+                $this->Flash->default("Se actualizo al usuario ".$nombres." exitosamente.");
                 $this->redirect(['action' => 'usuarios']);
              }
              else
