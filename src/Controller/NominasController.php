@@ -258,12 +258,12 @@ class NominasController extends AppController
         $comision=0;
         
         if($sucursal_info->comision==true)
-        {
+        { 
             if($sucursal_info->minimo_venta==true)
-            { 
+            {
                 if($venta_semanal<$sucursal_info->cantidad_minima_venta)
-                {
-                    $venta_semanal=$cantidad_minima_venta; 
+                { 
+                    $venta_semanal=$sucursal_info->cantidad_minima_venta;
                 } 
             }
 
