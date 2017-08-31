@@ -226,7 +226,8 @@ class NominasController extends AppController
 
                 foreach($empleados as $hrs)
                 {
-                    $suma_sueldos+=round($hrs["sueldo"]/48*($horas_trabajadas));
+                    $horas=($hrs["horas"]>48)? 48 : $this->HorasOperacion($hrs["horas"]);
+                    $suma_sueldos+=round($hrs["sueldo"]/48*($horas)); 
                 }  
 
                 $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
