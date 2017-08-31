@@ -243,6 +243,10 @@ class NominasController extends AppController
             $nomina->infonavit=$empleado["infonavit"];
             $nomina->joyeria=$pago_joyeria;
             $nomina->sueldo_final=$sueldo_final;
+            $nomina->prestamo=$empleado["prestamo"];
+            $nomina->extra=$empleado["extra"];
+            $nomina->isr=$empleado["isr"];
+            $nomina->deduccion=$empleado["deduccion"];
 
             $this->NominaEmpleadas->save($nomina); 
         } 
