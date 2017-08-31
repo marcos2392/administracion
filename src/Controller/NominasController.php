@@ -43,7 +43,17 @@ class NominasController extends AppController
         ->order('nombre');
 
         $sucursal=$this->request->getQuery('sucursal');
-        $sucursal_info=$this->Sucursales->get($sucursal);
+        
+        if($sucursal!='')
+        {
+            $sucursal_info=$this->Sucursales->get($sucursal);
+            $sucursal_nombre=$sucursal_info->nombre;
+        }
+        else
+        {
+            $sucursal_nombre='';
+        }
+
         $venta_semanal=$this->request->getQuery('venta_sucursal');
 
         $filtro = $this->request->getQuery('filtro') ?? 'semanal';
@@ -146,11 +156,11 @@ class NominasController extends AppController
                     }
                 } 
             }
+            $sucursal_nombre=$sucursal_info->nombre;
         }
 
-        $sucursal_nombre=$sucursal_info->nombre;
+        $sucursal_nombre=$sucursal_nombre;
         
-
         $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
         $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','termino_nomina','filtro','sucursal_nombre'));
     }
