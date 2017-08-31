@@ -116,7 +116,7 @@ class NominasController extends AppController
 
                         $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$reg["empleado"]->porcentaje_comision);
                         $bono=$this->Bono($sucursal_info,$horas_trabajadas_tope);
-                        $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->empleado_id);
+                        $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->joyeria,$reg["empleado"]->empleado_id);
                         $horas_extras=$this->HorasExtras($horas_trabajadas,$reg["empleado"]->sueldo);
 
 
@@ -215,7 +215,7 @@ class NominasController extends AppController
 
             $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$info_empleado->porcentaje_comision);
             $bono=$this->Bono($sucursal_info,$horas_trabajadas_tope);
-            $pago_joyeria=$this->PagoJoyeria($empleado["id"]);
+            $pago_joyeria=$this->PagoJoyeria($info_empleado->joyeria,$info_empleado->empleado_id);
             $horas_extras=$this->HorasExtras($horas_trabajadas,$info_empleado->sueldo);
 
             if($sucursal_info->comision_empleados==true)
@@ -306,20 +306,19 @@ class NominasController extends AppController
         return $sucursal_capturada;
     }
 
-    public function PagoJoyeria($id) { 
+    public function PagoJoyeria($joyeria,$id) { 
 
         $pago_joyeria=0;
 
-        $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
-        $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
-        $pago_joyeria=0;
-
-        $joyeria=$this->Transacciones->find()
-        ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0'"])
-        ->first();
-
-        if($pago_joyeria!=null)
+        if($joyeria)
         {
+            $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
+            $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
+
+            $joyeria=$this->Transacciones->find()
+            ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0'"])
+            ->first(); 
+
             $pago_joyeria=$joyeria->pago;
         }
 
