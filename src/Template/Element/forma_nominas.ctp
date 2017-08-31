@@ -20,6 +20,7 @@
                 foreach($sucursal_capturada as $reg):?> 
 
                     <?= $this->Form->hidden('empleados['.$reg->id.'][id]', ['value' => $reg->empleados_id]) ?>
+                    <?= $this->Form->hidden('empleados['.$reg->id.'][sueldo]', ['value' => $reg["empleado"]["sueldo"]]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_inicio]', ['value' => $reg->fecha_inicio]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_fin]', ['value' => $reg->fecha_fin]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][venta_sucursal]', ['value' => $venta]) ?>

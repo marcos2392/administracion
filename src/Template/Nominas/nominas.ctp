@@ -42,7 +42,7 @@
 
         <h4><b>Sucursal: </b><?= $sucursal_nombre ?></h4>
         <h4><b>Fecha: </b><?= $inicio_nomina," / ",$termino_nomina ?></h4>
-        <h4><b>Venta Sucursal: </b><?= $this->number->currency($venta_sucursal) ?></h4>
+        <h4><b>Venta Sucursal: </b><?= $this->number->currency($venta_semanal) ?></h4>
 
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Editar',['controller' =>'Nominas','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio_nomina]); ?></li>
