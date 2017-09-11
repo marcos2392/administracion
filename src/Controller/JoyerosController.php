@@ -39,8 +39,8 @@ class JoyerosController extends AppController
 	    	$joyero = ucwords(strtolower($this->request->getData('nombre') ?? ''));
 
 	    	$joyeros = $this->Joyeros->newEntity();
-	    	$joyeros->nombre=$joyero;
             $joyeros->fecha=$fecha;
+	    	$joyeros->nombre=$joyero;
 
 	    	$this->Joyeros->save($joyeros);
 
