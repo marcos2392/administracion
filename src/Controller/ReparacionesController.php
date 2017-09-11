@@ -61,7 +61,7 @@ class ReparacionesController extends AppController
         $fecha=date('Y-m-d');
 
         $recibos=$this->Reparaciones->find()
-        ->where(['date(fecha)'=>$fecha])
+        ->where(['date(Reparaciones.fecha)'=>$fecha])
         ->contain(['Joyeros','Sucursales'])
         ->order('Sucursales.nombre')
         ->toArray();
