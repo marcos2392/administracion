@@ -71,6 +71,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/reparaciones/:id/editar', ['controller' => 'Reparaciones', 'action' => 'editar']);
     $routes->connect('/reparaciones/:id/eliminar', ['controller' => 'Reparaciones', 'action' => 'eliminar']);
 
+    $routes->connect('/joyeros/:id/eliminar', ['controller' => 'Joyeros', 'action' => 'eliminar']);
+
 
     /**
      * Connect catchall routes for all controllers.

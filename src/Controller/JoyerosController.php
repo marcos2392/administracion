@@ -23,7 +23,8 @@ class JoyerosController extends AppController
 
     public function joyeros() {
 
-        $joyeros=$this->Joyeros->find();
+        $joyeros=$this->Joyeros->find()
+        ->where(['activo'=>true]);
 
         $this->set(compact('joyeros'));
 
@@ -49,7 +50,21 @@ class JoyerosController extends AppController
 	    }
 
 	    $this->set(compact('joyero'));
-        
+    }
+
+    public function eliminar() {
+
+        $id=$this->request->getParam('id');
+
+        $joyero=$this->Joyeros->get($id);
+        $joyero->activo=false;
+
+        $this->Joyeros->save($joyero);
+
+        $this->Flash->default("Se Elimino el Joyero Correctamente.");
+        $this->redirect(['action' => 'joyeros']);
+
+
     }
 
 }
