@@ -1,4 +1,4 @@
-<?= $this->element("menu_nominas") ?>
+<!--<?= $this->element("menu_nominas") ?>
 <h3>Pago Nominas</h3>
 <br>
 
@@ -32,4 +32,4 @@
     </div>
 
      <?= $this->Form->hidden('enviado', ['value' => true]) ?>
-<?= $this->Form->end() ?>
+<?= $this->Form->end() ?> -->
