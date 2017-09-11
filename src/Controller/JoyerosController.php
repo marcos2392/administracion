@@ -32,6 +32,7 @@ class JoyerosController extends AppController
     public function nuevo() {
 
     	$joyero='';
+        $fecha=date('Y-m-d');
 
     	if ($this->request->is('post'))
         {
@@ -39,6 +40,7 @@ class JoyerosController extends AppController
 
 	    	$joyeros = $this->Joyeros->newEntity();
 	    	$joyeros->nombre=$joyero;
+            $joyeros->fecha=$fecha;
 
 	    	$this->Joyeros->save($joyeros);
 
