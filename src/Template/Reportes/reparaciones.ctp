@@ -61,6 +61,7 @@
 
                     <?php 
                     $contador=1;
+                    $total=0;
                     foreach ($recibos as $recibo): ?>
                         <tr>
                             <td><?= $contador ?></td>
@@ -69,7 +70,14 @@
                         </tr>
                     <?php
                         $contador++;
+                        $total+=$recibo->cantidad;
                     endforeach; ?>
+
+                <tr class="active">
+                    <th></th>
+                    <th>Total: </th>
+                    <th><b> <?= $this->Number->currency($total) ?></b></th>
+                </tr>
                     
             </table>
         </div>
