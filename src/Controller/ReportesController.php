@@ -23,6 +23,8 @@ class ReportesController extends AppController
         $this->loadModel('NominaEmpleadas');
         $this->loadModel('Transacciones');
         $this->loadModel('MovimientosCaja');
+        $this->loadModel('Reparaciones');
+        $this->loadModel('Joyeros');
         
     }
 
@@ -122,6 +124,17 @@ class ReportesController extends AppController
         $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada'));
     }
 
+    public function PagoNominas(){
+
+        $filtro = $this->request->getQuery('filtro') ?? 'semanal';
+        $fechas = $this->setFechasReporte();
+
+        $enviado = $this->request->getQuery('enviado') ?? false;
+
+
+        $this->set(compact('inicio_nomina','termino_nomina','filtro'));
+    }
+
     public function caja(){
 
         $usuario=$this->getUsuario();
@@ -158,6 +171,53 @@ class ReportesController extends AppController
         }
 
         $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja'));
+    }
+
+    public function reparaciones(){
+
+        $usuario=$this->getUsuario();
+
+        $recibos=[];
+        $enviado = $this->request->getQuery('enviado') ?? false;
+        $fechas = $this->setFechasReporte();
+        $filtro = $this->request->getQuery('filtro') ?? 'dia';
+
+        $joyeros=$this->Joyeros->find();
+        $joyero = $this->request->getQuery('joyero')?? '';
+
+        if ($enviado!==false)
+        { 
+            if ($filtro == "dia") {
+                $fecha=date('Y-m-d');
+                $condicion = ["date(fecha)" => $fecha];
+            } 
+            else 
+            { 
+                $fecha_inicio=date('d-M-Y', $fechas['f1']);
+                $fecha_fin=date('d-M-Y', $fechas['f2']);
+                $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
+            }
+            
+            $info_joyero=$this->Joyeros->get($joyero);
+            $joyero_nombre=$info_joyero->nombre;
+
+            $condicion[]=["joyero_id"=>$joyero];
+            $recibos = $this->Reparaciones->find()
+            ->select([
+                'cantidad' => 'sum(Reparaciones.cantidad)','sucursal_nombre'=>'Sucursales.nombre'])
+            ->join([
+                'Sucursales' => [
+                    'table' => 'sucursales',
+                    'type' => 'inner',
+                    'conditions' => ['Sucursales.id = Reparaciones.sucursal_id']]])
+            ->where($condicion)
+            ->group('sucursal_id')
+            
+            ->toArray();
+        }
+
+        $this->set(compact('filtro','recibos','joyeros','joyero','joyero_nombre','fecha_inicio','fecha_fin','fecha'));
+
     }
 
     private function getNomina($sucursal) {

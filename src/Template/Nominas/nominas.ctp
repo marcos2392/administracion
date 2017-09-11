@@ -1,3 +1,4 @@
+<?= $this->element("menu_nominas") ?>
 <h3>Nominas</h3>
 <br>
 <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>

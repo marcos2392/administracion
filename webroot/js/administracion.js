@@ -32,5 +32,62 @@ jQuery(function($) {
 		}
 	});
 
-	
+/*
+	$("#cargar").click(function () {
+
+		var d = '';
+		var cantidad=document.getElementById("cantidad").value;
+		var sucursal=document.getElementById("sucursal");
+		var joyero=document.getElementById("joyero");
+
+
+		joyero = joyero.options[joyero.selectedIndex].text;
+		sucursal = sucursal.options[sucursal.selectedIndex].text;
+
+		 d+= '<tr>'+
+		 '<td>'+joyero+'</td>'+
+		 '<td>'+sucursal+'</td>'+
+		 '<td>'+cantidad+'</td>'+
+		 '</tr>';
+		 
+		 $("#tabla").append(d);
+		
+		var myArray = new Object(); // creamos un objeto
+
+		myArray['joyero'] = joyero;
+		myArray['sucursal'] = sucursal;
+		myArray['cantidad'] = cantidad;
+
+		var otroArray = jQuery.makeArray(myArray);
+
+		var myJSON = JSON.stringify(otroArray);
+
+		$('#forma_reparaciones').append('<input type="hidden" name="prueba[]" value='+ myJSON +'>');
+
+		document.getElementById("cantidad").focus();
+		document.getElementById("cantidad").value='';
+ 
+	});
+
+	$("#eliminar").click(function () {
+		
+		document.writeln(arre);
+
+	});
+
+
+	//parte que va en controlador
+	$prueba = $this->request->getData('prueba'); debug($prueba); die;
+
+            foreach($prueba as $id=>$p)
+            {
+                $pp=json_decode($p);
+                if($id==2)
+                {
+                    debug($pp[0]->cantidad); die;
+                }
+            }
+    //////
+*/
+
 })
