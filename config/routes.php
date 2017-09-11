@@ -72,6 +72,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/reparaciones/:id/eliminar', ['controller' => 'Reparaciones', 'action' => 'eliminar']);
 
     $routes->connect('/joyeros/:id/eliminar', ['controller' => 'Joyeros', 'action' => 'eliminar']);
+    $routes->connect('/joyeros/:id/editar', ['controller' => 'Joyeros', 'action' => 'editar']);
+    $routes->connect('/joyeros/:id/actualizar', ['controller' => 'Joyeros', 'action' => 'actualizar']);
 
 
     /**

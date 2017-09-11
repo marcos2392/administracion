@@ -52,6 +52,32 @@ class JoyerosController extends AppController
 	    $this->set(compact('joyero'));
     }
 
+    public function editar() {
+
+        $id=$this->request->getParam('id');
+
+        $joyeros=$this->Joyeros->get($id);
+        $joyero=$joyeros->nombre;
+
+        $this->set(compact('joyeros','joyero'));
+
+    }
+
+    public function actualizar() {
+
+        $id=$this->request->getParam('id');
+        $joyero = ucwords(strtolower($this->request->getData('nombre') ?? ''));
+
+        $joyeros=$this->Joyeros->get($id);
+        $joyeros->nombre=$joyero;
+
+        $this->Joyeros->save($joyeros);
+
+        $this->Flash->default("Se Modifico el Joyero Correctamente.");
+        $this->redirect(['action' => 'joyeros']);
+
+    }
+
     public function eliminar() {
 
         $id=$this->request->getParam('id');

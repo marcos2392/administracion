@@ -18,7 +18,7 @@
 			foreach ($joyeros as $joyero): ?>
 				<tr>
 					<td><?= $i+=1; ?></td>
-					<td><?= $this->Html->link($joyero->nombre, ['controller' => 'Joyeros', 'action' => 'editar', 'id' => $joyero->id], ['target' => '_blank']) ?></td>
+					<td><?= $this->Html->link($joyero->nombre, ['controller' => 'Joyeros', 'action' => 'editar', 'id' => $joyero->id], ['target' => '_self']) ?></td>
 					<td><?= $this->Html->link('Eliminar', ['action' => 'eliminar', 'id' => $joyero->id]) ?></td>
 				</tr>
 			<?php endforeach; ?>
