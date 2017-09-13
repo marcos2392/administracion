@@ -40,7 +40,7 @@ class ReportesController extends AppController
         ->where(['caja'=>true])
         ->order('nombre');
 
-        $usuario_caja=$this->request->getQuery('usuarios');
+        $usuario_caja=$this->request->getQuery('usuarios')?? $usuario->id;
         
         $movimientos=[];
 
@@ -60,6 +60,7 @@ class ReportesController extends AppController
             $condicion[]=["usuario_id"=>$usuario_caja]; 
             $movimientos = $this->MovimientosCaja->find() 
             ->where($condicion)
+            ->order('fecha')
             ->toArray();  
         }
 
