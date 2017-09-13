@@ -146,14 +146,16 @@ class MovimientosCajaController extends AppController
 
     private function RecalcularCantidades($id,$fecha){
 
+        $usuario = $this->getUsuario();
+
         $saldo_anterior=$this->MovimientosCaja->find()
-        ->where(['fecha <'=>$fecha])
-        ->first(); 
+        ->where(['fecha <'=>$fecha,'usuario_id'=>$usuario->id])
+        ->first();
 
         $saldo=$saldo_anterior->cantidad_existente;
 
         $recalcular=$this->MovimientosCaja->find()
-        ->where(['fecha > "'.$saldo_anterior->fecha->format('Y-m-d H:i:s').'"'])
+        ->where(['fecha > "'.$saldo_anterior->fecha->format('Y-m-d H:i:s').'" and usuario_id="'.$usuario->id.'"'])
         ->order('fecha asc')
         ->toArray();
 
