@@ -33,7 +33,7 @@ class MovimientosCajaController extends AppController
             {
                 $cantidad_actual=$this->MovimientosCaja->find()
                 ->where(['usuario_id'=>$user->id])
-                ->order('id desc')
+                ->order('fecha desc')
                 ->first();
 
                 $usuarios_caja[$user->nombre]=($cantidad_actual!=null)? $cantidad_actual->cantidad_existente : 0 ;
