@@ -63,6 +63,7 @@
                 <th>Descripcion</th>
                 <th width="15%">Tipo Movimiento</th>
                 <th width="15%">Cantidad</th>
+                <th width="15%">Cantidad Existente</th>
             </tr>
             <?php
             $total_ingresos=0;
@@ -84,6 +85,7 @@
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo_movimiento ?></td>
                     <td><?= $this->number->currency($mov->cantidad) ?></td>
+                    <td><?= $this->number->currency($mov->cantidad_existente) ?></td>
                     <?php if($mov->usuario_id==$usuario->id){ ?>
                         <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosCaja', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
                     <?php } ?>
