@@ -201,7 +201,7 @@ Inflector::rules('irregular', ['sucursal' => 'sucursales']);
  * inflection functions.
  */
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
-//Inflector::rules('irregular', ['red' => 'redlings']);
+Inflector::rules('irregular', ['proveedor' => 'proveedores']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 

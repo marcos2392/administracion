@@ -25,10 +25,18 @@ jQuery(function($) {
 		window.print();
 	});
 
-	$('#forma_movimientos_caja, .no_enter').on('keyup keypress', function(event) {
+	$('#forma_movimientos_caja,#forma_movimientos_proveedores .no_enter').on('keyup keypress', function(event) {
 		var codigo_tecla = event.keyCode || event.which;
 		if (codigo_tecla === 13) {
 			event.preventDefault();
+		}
+	});
+
+	$('form.disable').submit(function() {
+		var boton = $(this).find("[type='submit']");
+  		boton.prop('disabled',true);
+		if ($(this).data('disable-with')) {
+			boton.text($(this).data('disable-with'));
 		}
 	});
 

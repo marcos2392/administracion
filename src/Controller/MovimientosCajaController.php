@@ -137,6 +137,7 @@ class MovimientosCajaController extends AppController
 
         $this->RecalcularCantidades($id);
 
+        $this->Flash->default("Se Elimino el Movimiento Correctamente.");
         $this->redirect(['controller'=>'Reportes','action' => 'caja']);
 
     }

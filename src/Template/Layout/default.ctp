@@ -86,6 +86,9 @@
                         <?php if($usuario->reparaciones){ ?>
                             <li><?= $this->Html->link('Reparaciones', ['controller' =>'Reparaciones','action' => 'reparaciones']); ?></li>
                         <?php } ?>
+                        <?php if($usuario->proveedores){ ?>
+                            <li><?= $this->Html->link('Proveedores', ['controller' =>'MovimientosProveedores','action' => 'inicio']); ?></li>
+                        <?php } ?>
                     </ul> 
                     <?php if($usuario->admin){ ?>
                         <ul class="nav navbar-nav navbar-right">
@@ -97,6 +100,7 @@
                                     <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
                                     <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
                                     <li><?= $this->Html->link('Joyeros', ['controller' =>'Joyeros','action' => 'joyeros']); ?></li>
+                                    <li><?= $this->Html->link('Proveedores', ['controller' =>'Proveedores','action' => 'proveedores']); ?></li>
                                     
                                 </ul>
                             </li>
