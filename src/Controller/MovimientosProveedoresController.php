@@ -25,7 +25,7 @@ class MovimientosProveedoresController extends AppController
     public function movimientos(){
 
     	$usuario=$this->getUsuario();
-    	$fecha=date('Y-m-d H:i');
+    	$fecha=date('Y-m-d H:i:s');
 
     	$proveedores=$this->Proveedores->find()
     	->where(['activo'=>true])
@@ -41,7 +41,7 @@ class MovimientosProveedoresController extends AppController
 
         	$ultimo_movimiento=$this->MovimientosProveedores->find()
             ->where(['proveedor_id'=>$proveedor])
-            ->order('id desc')
+            ->order('fecha desc')
             ->first();
 
             $saldo_actual=($ultimo_movimiento!=null)? $ultimo_movimiento->saldo : 0;
@@ -85,10 +85,10 @@ class MovimientosProveedoresController extends AppController
         $proveedores=$this->Proveedores->find()
     	->where(['activo'=>true])
     	->toArray();
-
-    	$proveedor=$id;
         
         $movimiento=$this->MovimientosProveedores->get($id);
+
+        $proveedor=$movimiento->proveedor_id;
 
         $this->set(compact('movimiento','proveedores','proveedor'));
 
@@ -111,7 +111,7 @@ class MovimientosProveedoresController extends AppController
 
         $this->MovimientosProveedores->save($movimiento);
 
-        $this->RecalcularCantidades($id,$movimiento->proveedor_id);
+        $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha);
 
         $this->Flash->default("Se Modifico el Movimiento Correctamente.");
         $this->redirect(['action' => 'movimientos']);
@@ -128,24 +128,24 @@ class MovimientosProveedoresController extends AppController
 
         $this->MovimientosProveedores->delete($movimiento);
 
-        $this->RecalcularCantidades($id,$movimiento->proveedor_id);
+        $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha);
 
         $this->Flash->default("Se Elimino el Movimiento Correctamente.");
         $this->redirect(['controller'=>'Reportes','action' => 'movimientos_proveedores']);
 
     }
 
-    private function RecalcularCantidades($id,$proveedor){
+    private function RecalcularCantidades($proveedor,$fecha){
 
         $movimiento_anterior=$this->MovimientosProveedores->find()
-        ->where(['id <'=>$id,'proveedor_id'=>$proveedor])
+        ->where(['fecha <'=>$fecha,'proveedor_id'=>$proveedor])
         ->first();
 
         $saldo=$movimiento_anterior->saldo;
 
         $recalcular=$this->MovimientosProveedores->find()
-        ->where(['id > "'.$movimiento_anterior->id.'" and proveedor_id = "'.$proveedor.'" '])
-        ->order('id asc')
+        ->where(['fecha > "'.$movimiento_anterior->fecha->format('Y-m-d H:i:s').'" and proveedor_id = "'.$proveedor.'" '])
+        ->order('fecha')
         ->toArray();
 
         foreach($recalcular as $registro)

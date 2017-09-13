@@ -202,6 +202,7 @@ Inflector::rules('irregular', ['sucursal' => 'sucursales']);
  */
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
 Inflector::rules('irregular', ['proveedor' => 'proveedores']);
+Inflector::rules('irregular', ['movimientosproveedor' => 'movimientosproveedores']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 

@@ -118,7 +118,7 @@ class MovimientosCajaController extends AppController
 
         $this->MovimientosCaja->save($movimiento);
 
-        $this->RecalcularCantidades($id,$movimiento->fecha);
+        $this->RecalcularCantidades($movimiento->fecha);
 
         $this->Flash->default("Se Modifico el Movimiento Correctamente.");
         $this->redirect(['action' => 'movimientos']);
@@ -135,7 +135,7 @@ class MovimientosCajaController extends AppController
 
         $this->MovimientosCaja->delete($movimiento);
 
-        $this->RecalcularCantidades($id,$movimiento->fecha);
+        $this->RecalcularCantidades($movimiento->fecha);
 
         
 
@@ -144,7 +144,7 @@ class MovimientosCajaController extends AppController
 
     }
 
-    private function RecalcularCantidades($id,$fecha){
+    private function RecalcularCantidades($fecha){
 
         $usuario = $this->getUsuario();
 

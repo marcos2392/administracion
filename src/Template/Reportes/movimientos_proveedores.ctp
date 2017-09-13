@@ -1,5 +1,5 @@
 <?= $this->element("menu_proveedores") ?>
-<h3>Edicion Movimientos de Proveedores</h3>
+<h3>Reporte Movimientos de Proveedores</h3>
 <br>
 <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>
    
@@ -60,9 +60,11 @@
         <table  class="table table-striped">
             <tr class="active">
                 <th width="20%">Fecha</th>
+                <th>Usuario</th>
                 <th>Descripcion</th>
                 <th width="15%">Tipo Movimiento</th>
                 <th width="15%">Cantidad</th>
+                <th width="15%">Saldo</th>
             </tr>
             <?php
             $total_depositos=0;
@@ -81,9 +83,11 @@
                         <td><?= $mov->fecha->format('d-m-Y h:i'); ?></td>
                     <?php 
                     } ?>
+                    <td><?= $mov->usuario->nombre; ?></td>
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo ?></td>
                     <td><?= $this->number->currency($mov->cantidad) ?></td>
+                    <td><?= $this->number->currency($mov->saldo) ?></td>
                     <?php if($mov->usuario_id==$usuario->id){ ?>
                         <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
                     <?php } ?>

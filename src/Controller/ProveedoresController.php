@@ -37,7 +37,7 @@ class ProveedoresController extends AppController
     public function nuevo() {
 
     	$proveedor='';
-        $fecha=date('Y-m-d H:i');
+        $fecha=date('Y-m-d H:i:s');
 
     	if ($this->request->is('post'))
         {

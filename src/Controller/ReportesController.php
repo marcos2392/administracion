@@ -143,8 +143,10 @@ class ReportesController extends AppController
             }
             
             $condicion[]=["proveedor_id"=>$proveedor];
-            $movimientos = $this->MovimientosProveedores->find() 
+            $movimientos = $this->MovimientosProveedores->find()
+            ->contain('Usuarios') 
             ->where($condicion)
+            ->order('fecha')
             ->toArray();
         }
 
