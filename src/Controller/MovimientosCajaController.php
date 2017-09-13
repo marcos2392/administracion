@@ -55,7 +55,7 @@ class MovimientosCajaController extends AppController
     public function movimientos() {
 
         $usuario = $this->getUsuario();
-        $fecha=date('Y-m-d H:i');
+        $fecha=date('Y-m-d H:i:s');
 
         $descripcion = $this->request->getData('descripcion') ?? '';
         $tipo_movimiento = $this->request->getData('tipo_movimiento') ?? '';
@@ -68,7 +68,7 @@ class MovimientosCajaController extends AppController
         {
             $ultimo_movimiento=$this->MovimientosCaja->find()
             ->where(['usuario_id'=>$usuario->id])
-            ->order('id desc')
+            ->order('fecha desc')
             ->first();
 
             $cantidad_existente=($ultimo_movimiento!=null)? $ultimo_movimiento->cantidad_existente : 0;
@@ -118,7 +118,7 @@ class MovimientosCajaController extends AppController
 
         $this->MovimientosCaja->save($movimiento);
 
-        $this->RecalcularCantidades($id);
+        $this->RecalcularCantidades($id,$movimiento->fecha);
 
         $this->Flash->default("Se Modifico el Movimiento Correctamente.");
         $this->redirect(['action' => 'movimientos']);
@@ -135,24 +135,26 @@ class MovimientosCajaController extends AppController
 
         $this->MovimientosCaja->delete($movimiento);
 
-        $this->RecalcularCantidades($id);
+        $this->RecalcularCantidades($id,$movimiento->fecha);
+
+        
 
         $this->Flash->default("Se Elimino el Movimiento Correctamente.");
         $this->redirect(['controller'=>'Reportes','action' => 'caja']);
 
     }
 
-    private function RecalcularCantidades($id){
+    private function RecalcularCantidades($id,$fecha){
 
         $saldo_anterior=$this->MovimientosCaja->find()
-        ->where(['id <'=>$id])
-        ->first();
+        ->where(['fecha <'=>$fecha])
+        ->first(); 
 
-        $saldo=$saldo_anterior->cantidad_existente; 
+        $saldo=$saldo_anterior->cantidad_existente;
 
         $recalcular=$this->MovimientosCaja->find()
-        ->where(['id > "'.$saldo_anterior->id.'"'])
-        ->order('id asc')
+        ->where(['fecha > "'.$saldo_anterior->fecha->format('Y-m-d H:i:s').'"'])
+        ->order('fecha asc')
         ->toArray();
 
         foreach($recalcular as $registro)
