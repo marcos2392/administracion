@@ -29,6 +29,7 @@ class MovimientosProveedoresController extends AppController
 
     	$proveedores=$this->Proveedores->find()
     	->where(['activo'=>true])
+        ->order('nombre')
     	->toArray();
 
     	$proveedor = $this->request->getData('proveedor') ?? '';
@@ -44,7 +45,18 @@ class MovimientosProveedoresController extends AppController
             ->order('fecha desc')
             ->first();
 
-            $saldo_actual=($ultimo_movimiento!=null)? $ultimo_movimiento->saldo : 0;
+            if($ultimo_movimiento==null)
+            {
+                $saldo=$this->SaldoProveedores->find()
+                ->where(['proveedor_id'=>$proveedor])
+                ->first();
+
+                $saldo_actual=$saldo->saldo;
+            } 
+            else
+            {
+                $saldo_actual=$ultimo_movimiento->saldo;
+            } 
 
             $saldo_nuevo=($tipo_movimiento=="Deposito")? $saldo_actual-$cantidad : $saldo_actual+$cantidad;
 
@@ -56,6 +68,7 @@ class MovimientosProveedoresController extends AppController
             $movimientos_proveedores->tipo=$tipo_movimiento;
             $movimientos_proveedores->descripcion=$descripcion;
             $movimientos_proveedores->cantidad=$cantidad;
+            $movimientos_proveedores->saldo_anterior=$saldo_actual;
             $movimientos_proveedores->saldo=$saldo_nuevo;
 
             $this->MovimientosProveedores->save($movimientos_proveedores);
@@ -152,6 +165,7 @@ class MovimientosProveedoresController extends AppController
         {
             $movimiento=$this->MovimientosProveedores->get($registro->id);
 
+            $movimiento->saldo_anterior=$saldo;
             $movimiento->saldo=($movimiento->tipo=="Nota")? $saldo+=$movimiento->cantidad : $saldo-=$movimiento->cantidad;
 
             $this->MovimientosProveedores->save($movimiento);
