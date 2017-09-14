@@ -43,7 +43,7 @@ class MovimientosCajaController extends AppController
         {
             $cantidad_actual=$this->MovimientosCaja->find()
             ->where(['usuario_id'=>$usuario->id])
-            ->order('id desc')
+            ->order('fecha desc')
             ->first();
 
             $usuarios_caja[$usuario->nombre]=($cantidad_actual!=null)? $cantidad_actual->cantidad_existente : 0 ;
@@ -81,6 +81,7 @@ class MovimientosCajaController extends AppController
             $movimiento_caja->tipo_movimiento=$tipo_movimiento;
             $movimiento_caja->cantidad=$cantidad;
             $movimiento_caja->cantidad_existente=($tipo_movimiento=="Ingreso")? $cantidad_existente+$cantidad : $cantidad_existente-$cantidad;
+            $movimiento_caja->cantidad_existente_anterior=$cantidad_existente;
 
             $this->MovimientosCaja->save($movimiento_caja);
 
@@ -148,14 +149,14 @@ class MovimientosCajaController extends AppController
 
         $usuario = $this->getUsuario();
 
-        $saldo_anterior=$this->MovimientosCaja->find()
+        $movimiento_anterior=$this->MovimientosCaja->find()
         ->where(['fecha <'=>$fecha,'usuario_id'=>$usuario->id])
         ->first();
 
-        $saldo=$saldo_anterior->cantidad_existente;
+        $cantidad_anterior=$movimiento_anterior->cantidad_existente;
 
         $recalcular=$this->MovimientosCaja->find()
-        ->where(['fecha > "'.$saldo_anterior->fecha->format('Y-m-d H:i:s').'" and usuario_id="'.$usuario->id.'"'])
+        ->where(['fecha > "'.$movimiento_anterior->fecha->format('Y-m-d H:i:s').'" and usuario_id="'.$usuario->id.'"'])
         ->order('fecha asc')
         ->toArray();
 
@@ -163,7 +164,9 @@ class MovimientosCajaController extends AppController
         {
             $movimiento=$this->MovimientosCaja->get($registro->id);
 
-            $movimiento->cantidad_existente=($movimiento->tipo_movimiento=="Ingreso")? $saldo+=$movimiento->cantidad : $saldo-=$movimiento->cantidad;
+            $movimiento->cantidad_existente_anterior=$cantidad_anterior;
+            $movimiento->cantidad_existente=($movimiento->tipo_movimiento=="Ingreso")? $cantidad_anterior+=$movimiento->cantidad : $cantidad_anterior-=$movimiento->cantidad;
+
 
             $this->MovimientosCaja->save($movimiento);
         }
