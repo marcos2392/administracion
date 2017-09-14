@@ -13,9 +13,11 @@ class ChangeSaldoToSaldoProveedores extends AbstractMigration
     public function change()
     {
         $table = $this->table('saldo_proveedores');
-        $table->changeColumn('saldo', 'float', [
+        $table->changeColumn('saldo', 'decimal', [
             'null' => false,
-            'default' => 0
+            'default' => 0,
+            'precision'=> 10,
+            'scale'=>2
         ]);
     }
 }
