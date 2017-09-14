@@ -120,6 +120,7 @@ class ReportesController extends AppController
 
         $proveedores=$this->Proveedores->find()
         ->where(['activo'=>true])
+        ->order('nombre')
         ->toArray();
 
         $fechas = $this->setFechasReporte();
