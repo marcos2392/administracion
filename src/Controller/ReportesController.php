@@ -32,7 +32,7 @@ class ReportesController extends AppController
 
         $usuario=$this->getUsuario();
 
-        $cantidad_dia_anterior=[];
+        $cantidad_movimiento_anterior=0;
 
         $fechas = $this->setFechasReporte();
         $filtro = $this->request->getQuery('filtro') ?? 'dia';
@@ -69,16 +69,16 @@ class ReportesController extends AppController
             ->order('fecha desc')
             ->first();
 
-            $cantidad_dia_anterior=$cantidad_anterior->cantidad_existente;
+            if($cantidad_anterior!=null){ $cantidad_movimiento_anterior=$cantidad_anterior->cantidad_existente; }
             
             $condicion[]=["usuario_id"=>$usuario_caja]; 
             $movimientos = $this->MovimientosCaja->find() 
             ->where($condicion)
             ->order('fecha')
-            ->toArray();  
+            ->toArray();
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja','cantidad_dia_anterior'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja','cantidad_movimiento_anterior'));
     }
 
     public function reparaciones(){
