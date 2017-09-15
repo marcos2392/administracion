@@ -52,7 +52,8 @@
 <?php if(!empty($movimientos)){ ?>
 <div class="row">
     <div class="col-sm-10 ">
-        <h4>Fecha: <?= ($filtro=="dia")? $fecha : $fecha_inicio ." / ".$fecha_fin ?></h4>
+        <h4><b>Fecha: </b><?= ($filtro=="dia")? $fecha : $fecha_inicio ." / ".$fecha_fin ?></h4>
+        <?php  if($cantidad_dia_anterior!=[]){ echo '<h4><b>Cantidad Inicial : </b>'.$this->Number->currency($cantidad_dia_anterior).'</h4>'; } ?>
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
         </ol>

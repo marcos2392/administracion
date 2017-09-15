@@ -32,6 +32,8 @@ class ReportesController extends AppController
 
         $usuario=$this->getUsuario();
 
+        $cantidad_dia_anterior=[];
+
         $fechas = $this->setFechasReporte();
         $filtro = $this->request->getQuery('filtro') ?? 'dia';
         $enviado = $this->request->getQuery('enviado') ?? false;
@@ -49,6 +51,18 @@ class ReportesController extends AppController
             if ($filtro == "dia") {
                 $fecha=date('Y-m-d');
                 $condicion = ["date(fecha)" => $fecha];
+
+                $fecha_actual = date('Y-m-d H:i');
+                $nuevafecha = strtotime ( '-1 day' , strtotime ( $fecha_actual ) ) ;
+                $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+
+                $cantidad_anterior=$this->MovimientosCaja->find()
+                ->where(['date(fecha) = "'.$nuevafecha.'" and usuario_id="'.$usuario_caja.'"'])
+                ->order('fecha desc')
+                ->first();
+
+                $cantidad_dia_anterior=$cantidad_anterior->cantidad_existente;
+
             } 
             else 
             { 
@@ -64,7 +78,7 @@ class ReportesController extends AppController
             ->toArray();  
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja','cantidad_dia_anterior'));
     }
 
     public function reparaciones(){
