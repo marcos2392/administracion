@@ -53,7 +53,7 @@ class ReportesController extends AppController
                 $fecha=date('Y-m-d');
                 $condicion = ["date(fecha)" => $fecha];
 
-                $fecha_reporte = date('Y-m-d H:i');
+                $fecha_reporte = date('Y-m-d');
             } 
             else 
             { 
