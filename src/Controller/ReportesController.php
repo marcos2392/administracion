@@ -142,7 +142,7 @@ class ReportesController extends AppController
         $fechas = $this->setFechasReporte();
         $filtro = $this->request->getQuery('filtro') ?? 'dia';
         $enviado = $this->request->getQuery('enviado') ?? false;
-        $proveedor = $this->request->getQuery('proveedor')?? '';
+        $proveedor = $this->request->getQuery('proveedor')?? ''; 
         
         $movimientos=[];
 
@@ -150,20 +150,21 @@ class ReportesController extends AppController
         { 
             if ($filtro == "dia") {
                 $fecha=date('Y-m-d');
-                $condicion = ["date(fecha)" => $fecha];
+                $condicion = ["MovimientosProveedores.date(fecha)" => $fecha];
             } 
             else 
             { 
                 $fecha_inicio=date('d-M-Y', $fechas['f1']);
                 $fecha_fin=date('d-M-Y', $fechas['f2']);
-                $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
+                $condicion = ["date(MovimientosProveedores.fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
             
-            $condicion[]=["proveedor_id"=>$proveedor];
+            $condicion[]=($proveedor!=0)?["proveedor_id"=>$proveedor]: [];
+
             $movimientos = $this->MovimientosProveedores->find()
-            ->contain('Usuarios') 
+            ->contain(['Usuarios','Proveedores'])
             ->where($condicion)
-            ->order('fecha')
+            ->order('Proveedores.nombre','MovimientosProveedores.fecha')
             ->toArray();
         }
 

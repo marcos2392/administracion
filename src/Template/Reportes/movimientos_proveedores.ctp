@@ -7,8 +7,8 @@
 
         
         <?= $this->Form->label('proveedor', 'Proveedor:', ['class' => 'control-label col-md-1']) ?>
-        <div class="col-md-2">
-            <?= $this->Form->select('proveedor', $this->Select->options($proveedores, 'id', 'nombre', ['blank' => ['' => 'Seleccionar']]), ['value' => $proveedor, 'class' => 'form-control']) ?>
+        <div class="col-md-3">
+            <?= $this->Form->select('proveedor', $this->Select->options($proveedores, 'id', 'nombre', ['blank' => ['0' => 'Todos']]), ['value' => $proveedor, 'class' => 'form-control']) ?>
         </div>
         <br><br>
         
@@ -61,6 +61,7 @@
             <tr class="active">
                 <th width="20%">Fecha</th>
                 <th>Usuario</th>
+                <th>Proveedor</th>
                 <th>Descripcion</th>
                 <th width="15%">Tipo Movimiento</th>
                 <th width="15%">Cantidad</th>
@@ -84,6 +85,7 @@
                     <?php 
                     } ?>
                     <td><?= $mov->usuario->nombre; ?></td>
+                    <td><?= $mov->proveedor->nombre; ?></td>
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo ?></td>
                     <td><?= $this->number->currency($mov->cantidad) ?></td>
