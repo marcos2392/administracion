@@ -52,24 +52,26 @@ class ReportesController extends AppController
                 $fecha=date('Y-m-d');
                 $condicion = ["date(fecha)" => $fecha];
 
-                $fecha_actual = date('Y-m-d H:i');
-                $nuevafecha = strtotime ( '-1 day' , strtotime ( $fecha_actual ) ) ;
-                $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
-
-                $cantidad_anterior=$this->MovimientosCaja->find()
-                ->where(['date(fecha) = "'.$nuevafecha.'" and usuario_id="'.$usuario_caja.'"'])
-                ->order('fecha desc')
-                ->first();
-
-                $cantidad_dia_anterior=$cantidad_anterior->cantidad_existente;
-
+                $fecha_reporte = date('Y-m-d H:i');
             } 
             else 
             { 
                 $fecha_inicio=date('d-M-Y', $fechas['f1']);
                 $fecha_fin=date('d-M-Y', $fechas['f2']);
-                $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
+                $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"];
+
+                $fecha_reporte=date('Y-m-d H:i', $fechas['f1']);
             }
+
+            $nuevafecha = strtotime ( '-1 day' , strtotime ( $fecha_reporte ) ) ;
+            $nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+
+            $cantidad_anterior=$this->MovimientosCaja->find()
+            ->where(['date(fecha) = "'.$nuevafecha.'" and usuario_id="'.$usuario_caja.'"'])
+            ->order('fecha desc')
+            ->first();
+
+            $cantidad_dia_anterior=$cantidad_anterior->cantidad_existente;
             
             $condicion[]=["usuario_id"=>$usuario_caja]; 
             $movimientos = $this->MovimientosCaja->find() 
