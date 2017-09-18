@@ -1,4 +1,4 @@
-<?= $this->element("menu_proveedores") ?>
+<?= $this->element($menu) ?>
 
 <h3>Saldos Proveedores</h3>
 

@@ -1,4 +1,4 @@
-<?= $this->element("menu_caja") ?>
+<?= $this->element($menu) ?>
 <h3>Reporte Movimientos de Caja</h3>
 <br>
 <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>
@@ -46,6 +46,7 @@
         </div>
     </div>
      <?= $this->Form->hidden('enviado', ['value' => true]) ?>
+     <?= $this->Form->hidden('menu', ['value' => $menu]) ?>
 <?= $this->Form->end() ?>
 <br><br>
 

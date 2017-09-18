@@ -33,8 +33,6 @@ class NominasController extends AppController
     	$usuario=$this->getUsuario();
         $checadas='';
 
-        $pago_joyeria=0;
-
         $inicio_nomina=date("Y-m-d",strtotime('monday this week -7 days'));
         $termino_nomina=date("Y-m-d",strtotime('sunday this week -7 days'));
 
@@ -47,30 +45,17 @@ class NominasController extends AppController
         if($sucursal!='')
         {
             $sucursal_info=$this->Sucursales->get($sucursal);
-            $sucursal_nombre=$sucursal_info->nombre;
-        }
-        else
-        {
-            $sucursal_nombre='';
         }
 
         $venta_semanal=$this->request->getQuery('venta_sucursal');
-
-        $filtro = $this->request->getQuery('filtro') ?? 'semanal';
-        $fechas = $this->setFechasReporte();
 
         $enviado = $this->request->getQuery('enviado') ?? false;
 
         if ($enviado!==false) {
 
-            if ($filtro == "rango") {
-                $inicio_nomina=date('Y-m-d', $fechas['f1']);
-                $termino_nomina=date('Y-m-d', strtotime($inicio_nomina. ' + 6 days' ));
-            } 
-
             $sucursal = $usuario->admin ? ($this->request->getQuery('sucursal') ?? '0') : $usuario->sucursal->id;
 
-            $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
+            $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina);
 
             $venta_semanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sucursal_info->sistema_id);
 
@@ -156,13 +141,11 @@ class NominasController extends AppController
                     }
                 } 
             }
-            $sucursal_nombre=$sucursal_info->nombre;
         }
 
-        $sucursal_nombre=$sucursal_nombre;
-        
-        $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina); 
-        $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','termino_nomina','filtro','sucursal_nombre'));
+        $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina);
+
+        $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','termino_nomina','sucursal_info'));
     }
 
     public function editar() {
@@ -322,9 +305,12 @@ class NominasController extends AppController
 
             $joyeria=$this->Transacciones->find()
             ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0'"])
-            ->first(); 
+            ->first();
 
-            $pago_joyeria=$joyeria->pago;
+            if($joyeria!=null)
+            {
+                $pago_joyeria=$joyeria->pago;
+            }
         }
 
         return $pago_joyeria;

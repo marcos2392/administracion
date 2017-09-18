@@ -1,31 +1,10 @@
 
-<h3>Nominas</h3>
+<h3><b>Nominas</b></h3>
 <br>
 <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>
    
-    <div class="form-group form-inline col-md-12">
-        <div class="col-md-4 radio">
-            <label>
-                <input type="radio" name="filtro" value="semanal" <?php if ($filtro == "semanal") echo "checked" ?> /> Nomina Actual
-            </label>
-        </div>
-        <br><br>
-        <div class="col-md-3 radio">
-            <label>
-                <input type="radio" name="filtro" value="rango" <?php if ($filtro == "rango") echo "checked" ?> /> Fecha Inicio Nomina
-            </label>
-        </div>
-        <div class="col-md-9">
-            <?= $this->element('select_fecha', [
-                'prefijo' => 'fecha1',
-                'fecha' => $fechas['f1']
-            ])
-             ?>
-        </div>
-    </div>
-    <br><br>
     <div class="form-group form-inline control-label">
-        <?= $this->Form->label('sucursal', 'Sucursal:', ['class' => 'control-label col-md-1']) ?>
+        <h4><?= $this->Form->label('sucursal', 'Sucursal:', ['class' => 'control-label col-md-1']) ?></h4>
         <div class="col-md-2">
             <?= $this->Form->select('sucursal', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['' => 'Seleccionar']]), ['value' => $sucursal, 'class' => 'form-control']) ?>
         </div>
@@ -41,7 +20,7 @@
 <div class="row">
     <div class="col-sm-14 ">
 
-        <h4><b>Sucursal: </b><?= $sucursal_nombre ?></h4>
+        <h4><b>Sucursal: </b><?= $sucursal_info->nombre ?></h4>
         <h4><b>Fecha: </b><?= $inicio_nomina," / ",$termino_nomina ?></h4>
         <h4><b>Venta Sucursal: </b><?= $this->number->currency($venta_semanal) ?></h4>
 

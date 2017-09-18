@@ -23,9 +23,11 @@ class ChecadorController extends AppController
 
     }
 
-    public function reporte() {
+    public function reporte() { 
 
         $usuario = $this->getUsuario();
+
+        $menu = $this->request->getQuery('menu')?? 'menu_checador';
 
         $sucursales = $this->Sucursales->find()
             ->where(['id != 0'])
@@ -67,7 +69,7 @@ class ChecadorController extends AppController
 
             $registro=$this->checadas($registros);
         }
-        $this->set(compact('inicio','fin','registro','filtro','sucursales','sucursal','sucursal_nombre','empleados'));
+        $this->set(compact('inicio','fin','registro','filtro','sucursales','sucursal','sucursal_nombre','empleados','menu'));
     }
 
     public function editar() {

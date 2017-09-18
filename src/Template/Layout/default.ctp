@@ -89,6 +89,8 @@
                         <?php if($usuario->proveedores){ ?>
                             <li><?= $this->Html->link('Proveedores', ['controller' =>'MovimientosProveedores','action' => 'inicio']); ?></li>
                         <?php } ?>
+
+                        <li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'reportes']); ?></li>
                     </ul> 
                     <?php if($usuario->admin){ ?>
                         <ul class="nav navbar-nav navbar-right">

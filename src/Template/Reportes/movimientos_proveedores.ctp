@@ -1,4 +1,4 @@
-<?= $this->element("menu_proveedores") ?>
+<?= $this->element($menu) ?>
 <h3>Reporte Movimientos de Proveedores</h3>
 <br>
 <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>
@@ -46,6 +46,7 @@
         </div>
     </div>
      <?= $this->Form->hidden('enviado', ['value' => true]) ?>
+     <?= $this->Form->hidden('menu', ['value' => $menu]) ?>
 <?= $this->Form->end() ?>
 <br><br>
 
@@ -104,12 +105,12 @@
                 <td></td>
             </tr>
             <tr style="border: hidden">
-                <td colspan="2"></td>
+                <td colspan="4"></td>
                 <td><b>Total Depositos</b></td>
                 <td><?= $this->number->currency($total_depositos) ?></td>
             </tr>
             <tr style="border: hidden">
-                <td colspan="2"></td>
+                <td colspan="4"></td>
                 <td><b>Total Notas</b></td>
                 <td><?= $this->number->currency($total_notas) ?></td>
             </tr>

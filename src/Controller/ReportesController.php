@@ -28,9 +28,16 @@ class ReportesController extends AppController
         
     }
 
+    public function reportes()
+    {
+
+    }
+
     public function caja(){
 
         $usuario=$this->getUsuario();
+
+        $menu = $this->request->getQuery('menu')?? 'menu_caja';
 
         $cantidad_movimiento_anterior=0;
 
@@ -78,12 +85,14 @@ class ReportesController extends AppController
             ->toArray();
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja','cantidad_movimiento_anterior'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja','cantidad_movimiento_anterior','menu'));
     }
 
     public function reparaciones(){
 
         $usuario=$this->getUsuario();
+
+        $menu = $this->request->getQuery('menu')?? 'menu_reparaciones';
 
         $recibos=[];
         $enviado = $this->request->getQuery('enviado') ?? false;
@@ -124,13 +133,15 @@ class ReportesController extends AppController
             ->toArray();
         }
 
-        $this->set(compact('filtro','recibos','joyeros','joyero','joyero_nombre','fecha_inicio','fecha_fin','fecha'));
+        $this->set(compact('filtro','recibos','joyeros','joyero','joyero_nombre','fecha_inicio','fecha_fin','fecha','menu'));
 
     }
 
     public function movimientosProveedores(){
 
         $usuario=$this->getUsuario();
+
+        $menu = $this->request->getQuery('menu')?? 'menu_proveedores';
 
         $proveedores=$this->Proveedores->find()
         ->where(['activo'=>true])
@@ -148,7 +159,7 @@ class ReportesController extends AppController
         { 
             if ($filtro == "dia") {
                 $fecha=date('Y-m-d');
-                $condicion = ["MovimientosProveedores.date(fecha)" => $fecha];
+                $condicion= ["date(MovimientosProveedores.fecha)" => $fecha];
             } 
             else 
             { 
@@ -157,7 +168,7 @@ class ReportesController extends AppController
                 $condicion = ["date(MovimientosProveedores.fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
             
-            $condicion[]=($proveedor!=0)?["proveedor_id"=>$proveedor]: [];
+            $condicion[]=($proveedor!=0)?["proveedor_id"=>$proveedor]: []; 
 
             $movimientos = $this->MovimientosProveedores->find()
             ->contain(['Usuarios','Proveedores'])
@@ -166,11 +177,13 @@ class ReportesController extends AppController
             ->toArray();
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','proveedores','proveedor'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','proveedores','proveedor','menu'));
 
     }
 
     public function saldosProveedores(){
+
+        $menu = $this->request->getQuery('menu')?? 'menu_proveedores';
 
         $saldos=$this->SaldoProveedores->find()
         ->contain('Proveedores')
@@ -178,7 +191,7 @@ class ReportesController extends AppController
         ->order('Proveedores.nombre')
         ->toArray();
 
-        $this->set(compact('saldos'));
+        $this->set(compact('saldos','menu'));
 
     }
 }

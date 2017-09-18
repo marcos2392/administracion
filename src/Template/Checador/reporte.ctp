@@ -1,4 +1,4 @@
-<?= $this->element("menu_checador") ?>
+<?= $this->element($menu) ?>
 
 <h3><b>Reportes Checador</b></h3>
 
@@ -38,6 +38,9 @@
         <div class="col-md-5">
             <?= $this->Form->select('sucursal', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['' => 'Seleccionar']]), ['value' => $sucursal, 'class' => 'form-control']) ?>
         </div>
+
+        <?= $this->Form->hidden('menu', ['value' => $menu]) ?>
+        
         <div class=" col-md-2">
             <?= $this->Form->submit('Enviar', ['class' => 'btn btn-info']) ?>
         </div>

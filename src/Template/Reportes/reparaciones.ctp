@@ -1,4 +1,4 @@
-<?= $this->element("menu_reparaciones") ?>
+<?= $this->element($menu) ?>
 <h3>Reporte Reparaciones Joyeria</h3>
 <br>
 <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>
@@ -44,6 +44,8 @@
     </div>
 
     <?= $this->Form->hidden('enviado', ['value' => true]) ?>
+    <?= $this->Form->hidden('menu', ['value' => $menu]) ?>
+
 <?= $this->Form->end() ?>
 <br><br><br>
 <?php if($recibos!=[]) { ?>
