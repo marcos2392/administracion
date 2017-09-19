@@ -139,6 +139,7 @@ class EmpleadosController extends AppController
         $tipoextra = $this->request->getData('tipoextra')?? 0;
         $sueldo = $this->request->getData('sueldo')?? 0;
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
+        $bono = $this->request->getData('bono')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
         $tarjeta = $this->request->getData('tarjeta')?? 0;
         $lunes_entrada = $this->request->getData('lunes_entrada');
@@ -198,6 +199,7 @@ class EmpleadosController extends AppController
         $empleado->tipo_extra=$tipoextra;
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
+        $empleado->bono=$bono;
         $empleado->infonavit=$infonavit;
         $empleado->tarjeta=$tarjeta;
         $empleado->sucursal_id=$sucursal;

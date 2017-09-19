@@ -18,6 +18,12 @@
 	</div>
 </div>
 <div class="form-group">
+	<?= $this->Form->label('bono', 'Bono Empleado: ', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('bono', ['class' => 'focus form-control', 'value' => $bono=$empleado->bono]) ?>
+	</div>
+</div>
+<div class="form-group">
 	<?= $this->Form->label('porcentaje', 'Porcentaje comision: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
 		<?= $this->Form->text('porcentaje', ['class' => 'focus form-control', 'value' => $porcentaje=($empleado->porcentaje_comision==null)?0 :$empleado->porcentaje_comision ]) ?>

@@ -100,7 +100,7 @@ class NominasController extends AppController
                         $sueldo=$this->sueldo($horas_trabajadas_tope,$hrs_semana,$reg["empleado"]->sueldo,$inicio_nomina,$termino_nomina,$reg["empleado"]->id);
 
                         $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$reg["empleado"]->porcentaje_comision);
-                        $bono=$this->Bono($sucursal_info,$horas_trabajadas_tope);
+                        $bono=$this->Bono($sucursal_info,$horas_trabajadas_tope,$reg["empleado"]);
                         $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->joyeria,$reg["empleado"]->empleado_id);
                         $horas_extras=$this->HorasExtras($horas_trabajadas,$reg["empleado"]->sueldo);
 
@@ -197,7 +197,7 @@ class NominasController extends AppController
             $sueldo=round($info_empleado->sueldo/48*($horas_trabajadas_tope));
 
             $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$info_empleado->porcentaje_comision);
-            $bono=$this->Bono($sucursal_info,$horas_trabajadas_tope);
+            $bono=$this->Bono($sucursal_info,$horas_trabajadas_tope,$info_empleado);
             $pago_joyeria=$this->PagoJoyeria($info_empleado->joyeria,$info_empleado->empleado_id);
             $horas_extras=$this->HorasExtras($horas_trabajadas,$info_empleado->sueldo);
 
@@ -261,13 +261,17 @@ class NominasController extends AppController
         return $comision;
     }
 
-    private function Bono($sucursal_info,$horas_trabajadas){
+    private function Bono($sucursal_info,$horas_trabajadas,$info_empleado){
 
         $bono=0;
 
         if($sucursal_info->bono==true)
         { 
             $bono=round($sucursal_info->cantidad_bono/48*($horas_trabajadas)); 
+        }
+        else
+        {
+            $bono=$info_empleado->bono/48*($horas_trabajadas);
         }
         
         return $bono; 
