@@ -21,21 +21,6 @@
     </div>
 </div>
 <div class="form-group">
-    <?= $this->Form->label('bono', 'Bono: ', ['class' => 'col-md-2 control-label']) ?>
-    <div class="col-md-3">
-        <?= $this->Form->text('bono', ['class' => 'focus form-control', 'value' => ($sucursal->bono==false)? 0 : 1]) ?>
-    </div>
-    <div class="col-md-6">
-        <span class="help-block">0=N/A, 1=Aplica</span>
-    </div>
-</div>
-<div class="form-group">
-    <?= $this->Form->label('cantidad_bono', 'Cantidad Bono: ', ['class' => 'col-md-2 control-label']) ?>
-    <div class="col-md-3">
-        <?= $this->Form->text('cantidad_bono', ['class' => 'focus form-control', 'value' => $sucursal->cantidad_bono]) ?>
-    </div>
-</div>
-<div class="form-group">
     <?= $this->Form->label('venta_minima', 'Venta Minima: ', ['class' => 'col-md-2 control-label']) ?>
     <div class="col-md-3">
         <?= $this->Form->text('venta_minima', ['class' => 'focus form-control', 'value' => ($sucursal->minimo_venta==false)? 0 : $sucursal->minimo_venta]) ?>
