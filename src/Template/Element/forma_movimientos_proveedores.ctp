@@ -19,7 +19,10 @@
 		    		echo '<option value="">--Seleccionar--</option>';
 		    	}  
 
-		        echo '<option value="Deposito">Deposito</option>';
+		    	if($usuario->admin)
+		    	{
+			        echo '<option value="Deposito">Deposito</option>';
+			    }
 		        echo '<option value="Nota">Nota</option>';
 		    ?>
 		</select>
