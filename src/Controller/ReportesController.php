@@ -207,19 +207,21 @@ class ReportesController extends AppController
         $menu = $this->request->getQuery('menu')?? 'menu_nominas';
 
         $sucursales=$this->Sucursales->find()
+        ->where(['nombre <> "oficinas" '])
+        ->order('nombre')
         ->toArray();
 
         if ($enviado!==false)
         { 
-            if ($filtro == "dia") {
-                $fecha=date('Y-m-d');
-                $condicion = ["date(fecha)" => $fecha];
+            if ($filtro == "nomina_actual") {
+                $fecha=date("Y-m-d",strtotime('monday this week -7 days'));
+                $condicion = ["date(fecha_inicio)" => $fecha];
             } 
             else 
             { 
                 $fecha_inicio=date('d-M-Y', $fechas['f1']);
                 $fecha_fin=date('d-M-Y', $fechas['f2']);
-                $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
+                $condicion = ["date(fecha_inicio) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
 
             foreach($sucursales as $suc)
@@ -236,7 +238,7 @@ class ReportesController extends AppController
                         'table' => 'empleados',
                         'type' => 'inner',
                         'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
-                ->where(['Empleados.tarjeta'=>false,'NominaEmpleadas.sucursal_id'=>$suc->id])
+                ->where([$condicion,'Empleados.tarjeta'=>0,'NominaEmpleadas.sucursal_id'=>$suc->id])
                 ->group('NominaEmpleadas.sucursal_id')
                 ->toArray();
 
@@ -251,7 +253,7 @@ class ReportesController extends AppController
                         'table' => 'empleados',
                         'type' => 'inner',
                         'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
-                ->where(['Empleados.tarjeta'=>true,'NominaEmpleadas.sucursal_id'=>$suc->id])
+                ->where([$condicion,'Empleados.tarjeta'=>true,'NominaEmpleadas.sucursal_id'=>$suc->id])
                 ->group('NominaEmpleadas.sucursal_id')
                 ->toArray();
 
@@ -266,17 +268,17 @@ class ReportesController extends AppController
                         'table' => 'empleados',
                         'type' => 'inner',
                         'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
-                ->where(['NominaEmpleadas.sucursal_id'=>$suc->id])
+                ->where([$condicion,'NominaEmpleadas.sucursal_id'=>$suc->id])
                 ->group('NominaEmpleadas.sucursal_id')
                 ->toArray();
 
-                $pagos_nomina["sucursal"][$suc->id]["efectivo"]=$pagos_efectivo;
-                $pagos_nomina["sucursal"][$suc->id]["tarjeta"]=$pagos_tarjeta;
-                $pagos_nomina["sucursal"][$suc->id]["mixto"]=$pagos_mixto;
+                $pagos_nomina[$suc->nombre]["efectivo"]=$pagos_efectivo;
+                $pagos_nomina[$suc->nombre]["tarjeta"]=$pagos_tarjeta;
+                $pagos_nomina[$suc->nombre]["mixto"]=$pagos_mixto;
 
             }
         }
-
+         
         $this->set(compact('pagos_nomina','fechas','filtro','menu'));
 
     }
