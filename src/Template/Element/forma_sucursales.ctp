@@ -6,9 +6,12 @@
     </div>
 </div>
 <div class="form-group">
-    <?= $this->Form->label('horas', 'Horas Trabajo: ', ['class' => 'col-md-2 control-label']) ?>
+    <?= $this->Form->label('generar_nomina', 'Generar Nomina: ', ['class' => 'col-md-2 control-label']) ?>
     <div class="col-md-3">
-        <?= $this->Form->text('horas', ['class' => 'focus form-control', 'value' => $sucursal->horas]) ?>
+        <?= $this->Form->text('generar_nomina', ['class' => 'focus form-control', 'value' => ($sucursal->generar)? 0 : 1]) ?>
+    </div>
+    <div class="col-md-6">
+        <span class="help-block">0=N/A, 1=Aplica</span>
     </div>
 </div>
 <div class="form-group">

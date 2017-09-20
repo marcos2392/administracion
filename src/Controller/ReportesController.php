@@ -207,7 +207,7 @@ class ReportesController extends AppController
         $menu = $this->request->getQuery('menu')?? 'menu_nominas';
 
         $sucursales=$this->Sucursales->find()
-        ->where(['nombre <> "oficinas" '])
+        ->where(['generar_nomina'=>true])
         ->order('nombre')
         ->toArray();
 

@@ -47,7 +47,7 @@ class SucursalesController extends AppController
         $nombre = $this->request->getData('nombre') ?? '';
         $nombre = ucwords(strtolower($nombre));
         $comision= $this->request->getData('comision') ?? '';
-        $horas_trabajo = $this->request->getData('horas') ?? '';
+        $generar_nomina = $this->request->getData('generar_nomina') ?? '';
         $venta_minima= $this->request->getData('venta_minima') ?? '';
         $cantidad_venta_minima= $this->request->getData('cantidad_venta_minima')==''? 0: $this->request->getData('cantidad_venta_minima');
         $comision_venta= $this->request->getData('comision_venta') ?? '';
@@ -56,7 +56,7 @@ class SucursalesController extends AppController
 
         $sucursal->nombre=$nombre;
         $sucursal->comision=$comision;
-        $sucursal->horas=$horas_trabajo;
+        $sucursal->generar_nomina=$generar_nomina;
         $sucursal->minimo_venta=$venta_minima;
         $sucursal->cantidad_minima_venta=$cantidad_venta_minima;
         $sucursal->comision_empleados=$comision_venta;
@@ -94,7 +94,7 @@ class SucursalesController extends AppController
         $nombre = $this->request->getData('nombre') ?? '';
         $nombre = ucwords(strtolower($nombre));
         $comision= $this->request->getData('comision') ?? '';
-        $horas_trabajo = $this->request->getData('horas') ?? '';
+        $generar_nomina = $this->request->getData('generar_nomina') ?? '';
         $venta_minima= $this->request->getData('venta_minima') ?? '';
         $cantidad_venta_minima= $this->request->getData('cantidad_venta_minima') ?? '';
         $comision_venta= $this->request->getData('comision_venta') ?? '';
@@ -102,7 +102,7 @@ class SucursalesController extends AppController
 
         $sucursal->nombre=$nombre;
         $sucursal->comision=$comision;
-        $sucursal->horas=$horas_trabajo;
+        $sucursal->generar_nomina=$generar_nomina;
         $sucursal->minimo_venta=$venta_minima;
         $sucursal->cantidad_minima_venta=$cantidad_venta_minima;
         $sucursal->comision_empleados=$comision_venta;

@@ -38,6 +38,7 @@ class NominasController extends AppController
 
     	$suc='';
         $sucursales=$this->Sucursales->find()
+        ->where(['generar_nomina'=>true])
         ->order('nombre');
 
         $sucursal=$this->request->getQuery('sucursal');
