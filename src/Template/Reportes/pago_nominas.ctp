@@ -45,11 +45,14 @@
     <?= $this->Form->hidden('menu', ['value' => $menu]) ?>
 
 <?= $this->Form->end() ?>
-<br><br><br>
+<br><br>
 
 <?php if($pagos_nomina!=null){ ?>
+
     <div class="row" >
-        <div class="col-sm-5 col-sm-offset-3">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h4><b>Fecha Nomina : </b><?= $fecha_inicio.' / '.$fecha_fin ?></h4>
+            <br>
             <table  class="table table-striped">
                     <tr class="active">
                         <th>Sucursal</th>
@@ -59,7 +62,7 @@
                     </tr>
                     <tr>
                     <?php
-                    
+
                     $efectivo=0;
                     $tarjeta=0;
                     $mixto=0;

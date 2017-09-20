@@ -200,6 +200,9 @@ class ReportesController extends AppController
 
         $pagos_nomina=[];
 
+        $fecha_inicio=date("d-M-Y",strtotime('monday this week -7 days'));
+        $fecha_fin=date("d-M-Y",strtotime('sunday this week -7 days'));
+
         $fechas = $this->setFechasReporte();
         $filtro = $this->request->getQuery('filtro') ?? 'nomina_actual';
         $enviado = $this->request->getQuery('enviado') ?? false;
@@ -279,7 +282,7 @@ class ReportesController extends AppController
             }
         }
          
-        $this->set(compact('pagos_nomina','fechas','filtro','menu'));
+        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin'));
 
     }
 }
