@@ -63,6 +63,8 @@ class UsuariosController extends AppController
         $permiso_movimientos_caja = $this->request->getData('permiso_movimientos_caja') ?? 0;
         $permiso_nomina = $this->request->getData('permiso_nomina') ?? 0;
         $permiso_checador = $this->request->getData('permiso_checador') ?? 0;
+        $permiso_proveedores = $this->request->getData('permiso_proveedores') ?? 0;
+        $permiso_reparaciones = $this->request->getData('permiso_reparaciones') ?? 0; 
 
         $nombre = ucwords(strtolower($nombre));
 
@@ -86,6 +88,8 @@ class UsuariosController extends AppController
         $user->nominas=$permiso_nomina;
         $user->checador=$permiso_checador;
         $user->movimientos_caja=$permiso_movimientos_caja;
+        $user->proveedores=$permiso_proveedores;
+        $user->reparaciones=$permiso_reparaciones;
 
         if($nombre=="" || $usuario=="" || $password=="")
         {
