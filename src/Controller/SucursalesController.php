@@ -26,7 +26,8 @@ class SucursalesController extends AppController
 
     	$usuario=$this->getUsuario();
         $sucursales=$this->Sucursales->find()
-        ->order('nombre');
+        ->order('nombre')
+        ->toArray();
 
         $this->set(compact('sucursales'));
     }

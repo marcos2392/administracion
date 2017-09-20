@@ -8,7 +8,7 @@
 <div class="form-group">
     <?= $this->Form->label('generar_nomina', 'Generar Nomina: ', ['class' => 'col-md-2 control-label']) ?>
     <div class="col-md-3">
-        <?= $this->Form->text('generar_nomina', ['class' => 'focus form-control', 'value' => ($sucursal->generar)? 0 : 1]) ?>
+        <?= $this->Form->text('generar_nomina', ['class' => 'focus form-control', 'value' => ($sucursal->generar_nomina==false)? 0 : $sucursal->generar_nomina]) ?>
     </div>
     <div class="col-md-6">
         <span class="help-block">0=N/A, 1=Aplica</span>
