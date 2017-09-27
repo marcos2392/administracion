@@ -78,7 +78,7 @@
                 <th colspan="2">Hrs</th>
                 </tr>
                 <?php
-                foreach($registro as $id=>$reg): ?> 
+                foreach($registro as $id=>$reg):  ?> 
                     <tr>
                         <td colspan="3"><?= $id ?></td>
                         <td colspan="3"><?= $reg["empleado"] ?></td>
@@ -95,12 +95,12 @@
                             $entrada="";
                             $salida="";
 
-                            foreach($reg["checadas"] as $r): 
+                            foreach($reg["checadas"] as $r):
                                 if($contador==false)
                                 {
                                     if($r->retardo): $retardos++; endif;
                                     if($r->falta): $faltas++; endif;
-                                    if($r->horas!=NULL): $minutos+=$r->minutos(); endif;
+                                    if($r->hrs_finales!=NULL): $minutos+=$r->minutos(); endif;
                                 }
                                 if($r->dia==$dia)
                                 { 

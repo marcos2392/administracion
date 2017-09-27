@@ -37,7 +37,7 @@ class Checada extends Entity
 
     public function minutos()
     {
-        $hora=$this->horas;
+        $hora=$this->hrs_finales;
         
         return $hora;
     }
