@@ -23,7 +23,7 @@ class ChecadorController extends AppController
 
     }
 
-    public function reporte() { 
+    public function reporte() {
 
         $usuario = $this->getUsuario();
 
@@ -33,7 +33,7 @@ class ChecadorController extends AppController
             ->where(['id != 0'])
             ->order(['nombre']);
 
-        $sucursal = $usuario->admin ? ($this->request->getQuery('sucursal') ?? '0') : $usuario->sucursal_id;
+        $sucursal = $usuario->admin || $usuario->checador ? ($this->request->getQuery('sucursal') ?? '0') : $usuario->sucursal_id;
 
         if($sucursal!=0)
         {
@@ -45,11 +45,6 @@ class ChecadorController extends AppController
 
         $inicio = date("Y-m-d", strtotime('monday this week -7 days'));
         $fin = date("Y-m-d", strtotime('sunday this week - 7 days'));
-
-        if(!$usuario->admin)
-        {
-            $sucursal=$usuario->sucursal_id;
-        }
 
         if ($filtro == "semanal") {
             $condicion = ["sucursal= '". $sucursal ."' and fecha between '" . $inicio . "' and '" . $fin . "'"];
@@ -153,13 +148,13 @@ class ChecadorController extends AppController
                                 $registro->dia=$dia;
                                 $registro->fecha=$fecha_checada;
 
-                                if($horas["entrada"]=='0')
-                                { 
+                                if($horas["entrada"]=='f')
+                                {
                                     $registro->hrs_dia=$horas["salida"];
                                     $registro->falta=true;
                                 }
                                 else
-                                {
+                                { debug($dia); die;
                                     $salida=FormatoHora($horas["salida"]);
                                     $entrada=FormatoHora($horas["entrada"]); 
 
