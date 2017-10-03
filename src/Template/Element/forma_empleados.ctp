@@ -20,7 +20,7 @@
 <div class="form-group">
 	<?= $this->Form->label('bono', 'Bono Empleado: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
-		<?= $this->Form->text('bono', ['class' => 'focus form-control', 'value' => $bono=$empleado->bono]) ?>
+		<?= $this->Form->text('bono', ['class' => 'focus form-control', 'value' => $bono=($empleado->bono==null)?0 :$empleado->bono]) ?>
 	</div>
 </div>
 <div class="form-group">
@@ -42,119 +42,104 @@
 	</div>
 </div>
 
-<?php if($usuario->admin): ?>
-<div class="form-group">
-	<?= $this->Form->label('descanso', 'Descanso: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('descanso', ['class' => 'focus form-control', 'value' => $empleado->descanso]) ?>
-	</div>
-	<div class="col-md-6">
-        <span class="help-block">Dia de la semana</span>
-    </div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('diaextra', 'Dia Extra: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('diaextra', ['class' => 'focus form-control', 'value' => $diaextra=($empleado->dia_extra!=null)?$empleado->dia_extra: 0]) ?>
-	</div>
-	<div class="col-md-6">
-        <span class="help-block">Dia de la semana</span>
-    </div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('tipoextra', 'Tipo Extra: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('tipoextra', ['class' => 'focus form-control', 'value' => $tipoextra=($empleado->tipo_extra!=null)?$empleado->tipo_extra: 0 ]) ?>
-	</div>
-	<div class="col-md-6">
-        <span class="help-block">1=Entrada, 2=Salida, 3=Descanso</span>
-    </div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Lunes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('lunes entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->lunes_entrada!="")? $empleado->lunes_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Lunes Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('lunes_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->lunes_salida!="")? $empleado->lunes_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Martes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('martes_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->martes_entrada!="")? $empleado->martes_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Martes Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('martes_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->martes_salida!="")? $empleado->martes_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Miercoles Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('miercoles_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->miercoles_entrada!="")? $empleado->miercoles_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Miercoles Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('miercoles_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->miercoles_salida!="")? $empleado->miercoles_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Jueves Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('jueves_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->jueves_entrada!="")? $empleado->jueves_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Jueves Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('jueves_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->jueves_salida!="")? $empleado->jueves_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Viernes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('viernes_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->viernes_entrada!="")? $empleado->viernes_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Viernes Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('viernes_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->viernes_salida!="")? $empleado->viernes_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Sabado Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('sabado_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->sabado_entrada!="")? $empleado->sabado_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Sabado Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('sabado_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->sabado_salida!="")? $empleado->sabado_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('entrada', 'Domingo Entrada: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('domingo_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->domingo_entrada!="")? $empleado->domingo_entrada->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('salida', 'Domingo Salida: ', ['class' => 'col-md-2 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('domingo_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->domingo_salida!="")? $empleado->domingo_salida->format("h:i"): "00:00" ]) ?>
-	</div>
-</div>
-<?php endif;
+<?php if($empleado->toArray()!=[])
+	{ ?>
+		<?php if($usuario->admin): ?>
+		<div class="form-group">
+			<?= $this->Form->label('descanso', 'Descanso: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('descanso', ['class' => 'focus form-control', 'value' => $empleado->descanso]) ?>
+			</div>
+			<div class="col-md-6">
+		        <span class="help-block">Dia de la semana</span>
+		    </div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Lunes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('lunes entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->lunes_entrada!="")? $empleado->lunes_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Lunes Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('lunes_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->lunes_salida!="")? $empleado->lunes_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Martes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('martes_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->martes_entrada!="")? $empleado->martes_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Martes Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('martes_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->martes_salida!="")? $empleado->martes_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Miercoles Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('miercoles_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->miercoles_entrada!="")? $empleado->miercoles_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Miercoles Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('miercoles_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->miercoles_salida!="")? $empleado->miercoles_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Jueves Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('jueves_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->jueves_entrada!="")? $empleado->jueves_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Jueves Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('jueves_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->jueves_salida!="")? $empleado->jueves_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Viernes Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('viernes_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->viernes_entrada!="")? $empleado->viernes_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Viernes Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('viernes_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->viernes_salida!="")? $empleado->viernes_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Sabado Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('sabado_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->sabado_entrada!="")? $empleado->sabado_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Sabado Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('sabado_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->sabado_salida!="")? $empleado->sabado_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('entrada', 'Domingo Entrada: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('domingo_entrada', ['class' => 'focus form-control', 'value' =>$entrada=($empleado->domingo_entrada!="")? $empleado->domingo_entrada->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->label('salida', 'Domingo Salida: ', ['class' => 'col-md-2 control-label']) ?>
+			<div class="col-md-3">
+				<?= $this->Form->text('domingo_salida', ['class' => 'focus form-control', 'value' =>$salida=($empleado->domingo_salida!="")? $empleado->domingo_salida->format("h:i"): "00:00" ]) ?>
+			</div>
+		</div>
+		<?php endif;
+	}
 
 if($usuario->admin)
 { ?>

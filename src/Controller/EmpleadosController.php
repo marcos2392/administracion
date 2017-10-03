@@ -51,6 +51,8 @@ class EmpleadosController extends AppController
 
     	$usuario = $this->getUsuario();
 
+        $dias=["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+
         if($usuario->admin)
         {
             $sucursal = $this->request->getData('sucursal');
@@ -60,13 +62,15 @@ class EmpleadosController extends AppController
             $sucursal = $usuario->sucursal_id;
         }
 
+        $info_sucursal=$this->Sucursales->get($sucursal);
+
+        $hora_entrada=$info_sucursal->hora_entrada;
+        $hora_salida=$info_sucursal->hora_salida;
+
 		$nombre = $this->request->getData('nombre');
 		$apellidos = $this->request->getData('apellidos');
         $empleado_id = $this->request->getData('empleado');
         $descanso = $this->request->getData('descanso')?? 0;
-        $diaextra = $this->request->getData('diaextra')?? 0;
-        $tipoextra = $this->request->getData('tipoextra')?? 0;
-        $horario_mixto = $this->request->getData('horario_mixto')?? 0;
         $sueldo = $this->request->getData('sueldo')?? 0;
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
@@ -81,6 +85,7 @@ class EmpleadosController extends AppController
         $empleado_existente = $this->Empleados->find()
         ->where(['nombre' => $nombre,'apellidos'=>$apellidos])
         ->first();
+        
         if ($empleado_existente) 
         {
             $this->Flash->error('Ya existe un Empleado con ese nombre: ' . $nombre.' '. $apellidos);
@@ -94,16 +99,19 @@ class EmpleadosController extends AppController
         $empleado->status=true;
         $empleado->sucursal_id=$sucursal;
         $empleado->descanso=$descanso;
-        $empleado->dia_extra=$diaextra;
-        $empleado->tipo_extra=$tipoextra;
         $empleado->empleado_id=$empleado_id;
-        $empleado->horario_mixto=$horario_mixto;
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->infonavit=$infonavit;
         $empleado->tarjeta=$tarjeta;
 
-        if($nombre=="" || $apellidos=="" || $descanso=="" || $sucursal=="")
+        foreach($dias as $d)
+        {
+            $empleado->{$d."_entrada"}=$hora_entrada;
+            $empleado->{$d."_salida"}=$hora_salida; 
+        }
+
+        if($nombre=="" || $apellidos=="" || $sucursal=="")
         {
             $this->Flash->default("Necesita llenar todos los campos");
             $this->redirect(['action' => 'nuevo']); 
@@ -111,7 +119,7 @@ class EmpleadosController extends AppController
         else
         {
             $this->Empleados->save($empleado);
-
+            
             $this->Flash->default("Se creó el Empleado: ".$nombre.' '.$apellidos." , Exitosamente.");
             $this->redirect(['action' => 'empleados']); 
         }
