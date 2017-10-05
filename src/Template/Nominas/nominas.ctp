@@ -55,8 +55,8 @@
                 else {
                      ?> <tr>
                  <?php } ?>
-
-                <th><?= $reg->empleado->ncompleto ?></th>
+                <td class="hidden-print"><?= $this->Html->link($reg->empleado->ncompleto, ['controller'=>'Empleados','action' => 'editar', 'id' => $reg->empleado->id],['target'=>'_blank']) ?></td>
+                <td class="visible-print-block"><?= $reg->empleado->ncompleto ?></td>
                 <td><?= $horas=Horas($reg->horas); ?></td>
                 <td><?= $this->Number->currency($reg->sueldo) ?></td>
                 <th><?= $reg->empleado->porcentaje_comision ?></th> 
@@ -77,7 +77,7 @@
             }
             endforeach; ?>
             </tr>
-            <tr>
+            <tr> 
                 <td colspan="11"></td>
                 <th><b>Total Nomina</b></th>
                 <th><?= $this->Number->currency($total_nomina) ?></th>
