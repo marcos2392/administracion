@@ -301,13 +301,16 @@ class NominasController extends AppController
             $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
             $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
 
-            $joyeria=$this->Transacciones->find()
-            ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0'"])
-            ->first();
+            $joyerias=$this->Transacciones->find()
+            ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0' and sistema_id <>'14'"])
+            ->toArray();
 
-            if($joyeria!=null)
+            if($joyerias!=[])
             {
-                $pago_joyeria=$joyeria->pago;
+                foreach($joyerias as $j)
+                {
+                    $pago_joyeria+=$j->pago;
+                }
             }
         }
 
@@ -323,13 +326,13 @@ class NominasController extends AppController
             $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
             $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
 
-            $prestamo=$this->Transacciones->find()
+            $prestamos=$this->Transacciones->find()
             ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0' and sistema_id='14'"])
             ->toArray();
 
-            if($prestamo!=[])
+            if($prestamos!=[])
             {
-                foreach($prestamo as $p)
+                foreach($prestamos as $p)
                 {
                     $pago_prestamo+=$p->pago;
                 }
