@@ -103,6 +103,7 @@
                                     <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
                                     <li><?= $this->Html->link('Joyeros', ['controller' =>'Joyeros','action' => 'joyeros']); ?></li>
                                     <li><?= $this->Html->link('Proveedores', ['controller' =>'Proveedores','action' => 'proveedores']); ?></li>
+                                    <li><?= $this->Html->link('Cobradores', ['controller' =>'Cobradores','action' => 'cobradores']); ?></li>
                                     
                                 </ul>
                             </li>

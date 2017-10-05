@@ -33,7 +33,7 @@
                         <td><?= $this->Number->currency($reg->comision) ?></td>
                         <td><?= $this->Number->currency($reg->bono) ?></td>
                         <td><?= $this->Number->currency($reg->joyeria) ?></td>
-                        <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][prestamo]', ['class' => 'focus form-control', 'value' => $reg->prestamo]) ?></td>
+                        <td><?= $this->Number->currency($reg->prestamo) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][infonavit]', ['class' => 'focus form-control', 'value' => $reg->infonavit]) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][deduccion]', ['class' => 'focus form-control', 'value' => $reg->deduccion]) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][isr]', ['class' => 'focus form-control', 'value' => $reg->isr]) ?></td>

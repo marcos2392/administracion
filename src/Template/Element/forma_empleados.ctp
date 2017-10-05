@@ -41,6 +41,30 @@
 		<?= $this->Form->text('tarjeta', ['class' => 'focus form-control', 'value' => $tarjeta=($empleado->tarjeta==null)?0 :$empleado->tarjeta]) ?>
 	</div>
 </div>
+<div class="form-group">
+	<?= $this->Form->label('cliente_id', 'ID Cliente', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('cliente_id', ['class' => 'focus form-control', 'value' => $cliente_id=($empleado->empleado_id==0)?0 :$empleado->empleado_id]) ?>
+	</div>
+</div>
+<div class="form-group">
+	<?= $this->Form->label('joyeria', 'Joyeria', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('joyeria', ['class' => 'focus form-control', 'value' => $joyeria=($empleado->joyeria==0)?0 :$empleado->joyeria ]) ?>
+	</div>
+	<div class="col-md-6">
+        <span class="help-block">0= Sin Credito Joyeria / 1= Con Credito Joyeria</span>
+    </div>
+</div>
+<div class="form-group">
+	<?= $this->Form->label('prestamo', 'Prestamo', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('prestamo', ['class' => 'focus form-control', 'value' => $prestamo=($empleado->prestamo==0)?0 :$empleado->prestamo]) ?>
+	</div>
+	<div class="col-md-6">
+        <span class="help-block">0= Sin Prestamo / 1= Con Prestamo</span>
+    </div>
+</div>
 
 <?php if($empleado->toArray()!=[])
 	{ ?>

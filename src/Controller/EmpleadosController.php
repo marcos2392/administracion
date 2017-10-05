@@ -150,6 +150,11 @@ class EmpleadosController extends AppController
         $bono = $this->request->getData('bono')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
         $tarjeta = $this->request->getData('tarjeta')?? 0;
+        $cliente_id = $this->request->getData('cliente_id')?? 0;
+        $joyeria = $this->request->getData('joyeria')?? 0;
+        $prestamo = $this->request->getData('prestamo')?? 0;
+
+
         $lunes_entrada = $this->request->getData('lunes_entrada');
         $lunes_salida = $this->request->getData('lunes_salida');
         $martes_entrada = $this->request->getData('martes_entrada');
@@ -210,6 +215,9 @@ class EmpleadosController extends AppController
         $empleado->bono=$bono;
         $empleado->infonavit=$infonavit;
         $empleado->tarjeta=$tarjeta;
+        $empleado->empleado_id=$cliente_id;
+        $empleado->joyeria=$joyeria;
+        $empleado->prestamo=$prestamo;
         $empleado->sucursal_id=$sucursal;
         
 

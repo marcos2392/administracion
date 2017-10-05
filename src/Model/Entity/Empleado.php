@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * Empleado Entity
@@ -51,6 +52,42 @@ class Empleado extends Entity
         return $this->extra($tipoextra);
     }
 
+    public function Joyeria() {
+        
+        $joyeria=0;
+        $cliente_id=$this->_properties['empleado_id'];
+
+        if($cliente_id!=0)
+        { 
+            $saldo_joyeria=TableRegistry::get("CuentasJoyeria")->find()
+            ->select(['saldo'=>'sum(saldo)'])
+            ->where(["cliente_id"=>$cliente_id])
+            ->first();
+
+            $joyeria=$saldo_joyeria->saldo;
+        }
+
+        return $joyeria;
+    }
+
+    public function prestamo() {
+
+        $prestamo=0;
+        $cliente_id=$this->_properties['empleado_id'];
+
+        if($cliente_id!=0)
+        { 
+            $saldo_prestamo=TableRegistry::get("CuentasPrestamo")->find()
+            ->select(['saldo'=>'sum(saldo)'])
+            ->where(["cliente_id"=>$cliente_id])
+            ->first();
+
+            $prestamo=$saldo_prestamo->saldo;
+        }
+
+        return $prestamo;
+    }
+
     protected function nombreDia($dia){
         switch ($dia) {
 
@@ -85,22 +122,4 @@ class Empleado extends Entity
         return $dia;
     }
 
-    protected function extra($tipo){
-        switch ($tipo) {
-
-            case 0:
-                $tipo= "";
-                break;
-            case 1:
-                $tipo= "Entrada";
-                break;
-            case 2:
-                $tipo= "Salida";
-                break;
-            case 3:
-                $tipo= "Descanso";
-                break;
-        }
-        return $tipo;
-    }
 }

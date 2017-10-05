@@ -100,6 +100,7 @@ class NominasController extends AppController
                         $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$reg["empleado"]->porcentaje_comision);
                         $bono=$this->Bono($horas_trabajadas_tope,$reg["empleado"]);
                         $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->joyeria,$reg["empleado"]->empleado_id);
+                        $prestamo=$this->Prestamo($reg["empleado"]->prestamo,$reg["empleado"]->empleado_id);
                         $horas_extras=$this->HorasExtras($horas_trabajadas,$reg["empleado"]->sueldo);
 
 
@@ -119,7 +120,7 @@ class NominasController extends AppController
                             $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
                         }
                         
-                        $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras);
+                        $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo);
 
                         $nomina->fecha=$fecha;
                         $nomina->fecha_inicio=$inicio_nomina;
@@ -133,6 +134,7 @@ class NominasController extends AppController
                         $nomina->horas=$horas_trabajadas;
                         $nomina->infonavit=$reg["empleado"]->infonavit;
                         $nomina->joyeria=$pago_joyeria;
+                        $nomina->prestamo=$prestamo;
                         $nomina->sueldo_final=$sueldo_final;
                         $nomina->venta_id=$venta_id;
                         $this->NominaEmpleadas->save($nomina); 
@@ -197,6 +199,7 @@ class NominasController extends AppController
             $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$info_empleado->porcentaje_comision);
             $bono=$this->Bono($horas_trabajadas_tope,$info_empleado);
             $pago_joyeria=$this->PagoJoyeria($info_empleado->joyeria,$info_empleado->empleado_id);
+            $prestamo=$this->Prestamo($info_empleado->prestamo,$info_empleado->empleado_id);
             $horas_extras=$this->HorasExtras($horas_trabajadas,$info_empleado->sueldo);
 
             if($sucursal_info->comision_empleados==true)
@@ -214,7 +217,7 @@ class NominasController extends AppController
                 $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
             }
 
-            $sueldo_final=round($sueldo+$comision+$bono-$empleado["infonavit"]-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$empleado["prestamo"]+$empleado["extra"]);
+            $sueldo_final=round($sueldo+$comision+$bono-$empleado["infonavit"]-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$prestamo+$empleado["extra"]);
 
             
             $nomina->sueldo=$sueldo;
@@ -225,7 +228,7 @@ class NominasController extends AppController
             $nomina->infonavit=$empleado["infonavit"];
             $nomina->joyeria=$pago_joyeria;
             $nomina->sueldo_final=$sueldo_final;
-            $nomina->prestamo=$empleado["prestamo"];
+            $nomina->prestamo=$prestamo;
             $nomina->extra=$empleado["extra"];
             $nomina->isr=$empleado["isr"];
             $nomina->deduccion=$empleado["deduccion"];
@@ -309,6 +312,31 @@ class NominasController extends AppController
         }
 
         return $pago_joyeria;
+    }
+
+    public function Prestamo($prestamo,$id) {
+
+        $pago_prestamo=0;
+
+        if($prestamo)
+        {
+            $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
+            $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
+
+            $prestamo=$this->Transacciones->find()
+            ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0' and sistema_id='14'"])
+            ->toArray();
+
+            if($prestamo!=[])
+            {
+                foreach($prestamo as $p)
+                {
+                    $pago_prestamo+=$p->pago;
+                }
+            }
+        }
+
+        return $pago_prestamo;
     }
 
     private function ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sistema_id){
