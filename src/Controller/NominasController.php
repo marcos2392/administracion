@@ -60,86 +60,107 @@ class NominasController extends AppController
 
             $venta_semanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sucursal_info->sistema_id);
 
-            
             if($sucursal_capturada->isEmpty())
             {
-                $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal);
-
-                if($info_checadas!="")
+                if($sucursal!=12)
                 {
-                    $registros=[];
+                    $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal);
 
-                    foreach($info_checadas as $ht)
+                    if($info_checadas!="")
                     {
-                        $nombre=$this->Empleados->get($ht["empleados_id"]); 
-                        $registros[$ht["empleados_id"]]["hrs"]=$ht; 
-                        $registros[$ht["empleados_id"]]["empleado"]=$nombre;
-                    }
+                        $registros=[];
 
-                    $save = $this->VentasSucursales->newEntity();
-                    $venta_semanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sucursal_info->sistema_id);
-                    $save->venta=$venta_semanal;
-                    $this->VentasSucursales->save($save);
-
-                    $venta_id=$this->IdVenta();
-        
-                    foreach($registros as $id=>$reg)
-                    {
-                        $comision=0;
-                        $pago_joyeria=0;
-                        $extra=0;
-
-                        $nomina = $this->NominaEmpleadas->newEntity();
-
-                        $horas_trabajadas=$reg["hrs"]["hrs_finales"];
-
-                        $horas_trabajadas_tope=($horas_trabajadas>48)? 48 : $horas_trabajadas;
-
-                        $sueldo=$this->sueldo($horas_trabajadas_tope,$reg["empleado"]->sueldo,$reg["empleado"]->id);
-
-                        $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$reg["empleado"]->porcentaje_comision);
-                        $bono=$this->Bono($horas_trabajadas_tope,$reg["empleado"]);
-                        $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->joyeria,$reg["empleado"]->empleado_id);
-                        $prestamo=$this->Prestamo($reg["empleado"]->prestamo,$reg["empleado"]->empleado_id);
-                        $horas_extras=$this->HorasExtras($horas_trabajadas,$reg["empleado"]->sueldo);
-
-
-                       if($sucursal_info->comision_empleados==true)
-                        { 
-                            $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
-
-                            $suma_sueldos=0;
-
-                            foreach($registros as $registro)
-                            {
-                                $horas=48-($registro["hrs"]["hrs_semana"]-$registro["hrs"]["horas_totales"]);
-
-                                $suma_sueldos+=round($registro["empleado"]["sueldo"]/48*($horas));
-                            }  
-
-                            $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
+                        foreach($info_checadas as $ht)
+                        {
+                            $nombre=$this->Empleados->get($ht["empleados_id"]); 
+                            $registros[$ht["empleados_id"]]["hrs"]=$ht; 
+                            $registros[$ht["empleados_id"]]["empleado"]=$nombre;
                         }
-                        
-                        $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo);
 
+                        $save = $this->VentasSucursales->newEntity();
+                        $venta_semanal=$this->ventasemanal($sucursal,$inicio_nomina,$termino_nomina,$sucursal_info->sistema_id);
+                        $save->venta=$venta_semanal;
+                        $this->VentasSucursales->save($save);
+
+                        $venta_id=$this->IdVenta();
+            
+                        foreach($registros as $id=>$reg)
+                        {
+                            $comision=0;
+                            $pago_joyeria=0;
+                            $extra=0;
+
+                            $nomina = $this->NominaEmpleadas->newEntity();
+
+                            $horas_trabajadas=$reg["hrs"]["hrs_finales"];
+
+                            $horas_trabajadas_tope=($horas_trabajadas>48)? 48 : $horas_trabajadas;
+
+                            $sueldo=$this->sueldo($horas_trabajadas_tope,$reg["empleado"]->sueldo,$reg["empleado"]->id);
+
+                            $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$reg["empleado"]->porcentaje_comision);
+                            $bono=$this->Bono($horas_trabajadas_tope,$reg["empleado"]);
+                            $pago_joyeria=$this->PagoJoyeria($reg["empleado"]->joyeria,$reg["empleado"]->empleado_id);
+                            $prestamo=$this->Prestamo($reg["empleado"]->prestamo,$reg["empleado"]->empleado_id);
+                            $horas_extras=$this->HorasExtras($horas_trabajadas,$reg["empleado"]->sueldo);
+
+
+                           if($sucursal_info->comision_empleados==true)
+                            { 
+                                $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
+
+                                $suma_sueldos=0;
+
+                                foreach($registros as $registro)
+                                {
+                                    $horas=48-($registro["hrs"]["hrs_semana"]-$registro["hrs"]["horas_totales"]);
+
+                                    $suma_sueldos+=round($registro["empleado"]["sueldo"]/48*($horas));
+                                }  
+
+                                $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
+                            }
+                            
+                            $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo);
+
+                            $nomina->fecha=$fecha;
+                            $nomina->fecha_inicio=$inicio_nomina;
+                            $nomina->fecha_fin=$termino_nomina;
+                            $nomina->sueldo=$sueldo;
+                            $nomina->comision=$comision;
+                            $nomina->bono=$bono;
+                            $nomina->pago_extras=$horas_extras;
+                            $nomina->empleados_id=$reg["empleado"]->id;
+                            $nomina->sucursal_id=$sucursal;
+                            $nomina->horas=$horas_trabajadas;
+                            $nomina->infonavit=$reg["empleado"]->infonavit;
+                            $nomina->joyeria=$pago_joyeria;
+                            $nomina->prestamo=$prestamo;
+                            $nomina->sueldo_final=$sueldo_final;
+                            $nomina->venta_id=$venta_id;
+                            $this->NominaEmpleadas->save($nomina); 
+                        }
+                    }
+                }
+                else
+                {
+                    $empleados=$this->Empleados->find()
+                    ->where(['sucursal_id'=>$sucursal])
+                    ->toArray();
+
+                    foreach($empleados as $emp)
+                    {
+                        $nomina = $this->NominaEmpleadas->newEntity();
                         $nomina->fecha=$fecha;
+                        $nomina->empleados_id=$emp->id;
                         $nomina->fecha_inicio=$inicio_nomina;
                         $nomina->fecha_fin=$termino_nomina;
-                        $nomina->sueldo=$sueldo;
-                        $nomina->comision=$comision;
-                        $nomina->bono=$bono;
-                        $nomina->pago_extras=$horas_extras;
-                        $nomina->empleados_id=$reg["empleado"]->id;
+                        $nomina->sueldo=$emp->sueldo;
                         $nomina->sucursal_id=$sucursal;
-                        $nomina->horas=$horas_trabajadas;
-                        $nomina->infonavit=$reg["empleado"]->infonavit;
-                        $nomina->joyeria=$pago_joyeria;
-                        $nomina->prestamo=$prestamo;
-                        $nomina->sueldo_final=$sueldo_final;
-                        $nomina->venta_id=$venta_id;
-                        $this->NominaEmpleadas->save($nomina); 
+                        $this->NominaEmpleadas->save($nomina);
                     }
-                } 
+
+                }
             }
         }
 
@@ -179,7 +200,7 @@ class NominasController extends AppController
         $this->redirect(['action' => 'nominas', 'sucursal' => $sucursal,'venta_sucursal'=>$venta_sucursal]);
     }
 
-    private function calcular($sucursal,$empleados){ 
+    private function calcular($sucursal,$empleados){
 
         $sucursal_info=$this->Sucursales->get($sucursal);
 
