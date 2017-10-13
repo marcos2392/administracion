@@ -200,6 +200,18 @@ class NominasController extends AppController
         $this->redirect(['action' => 'nominas', 'sucursal' => $sucursal,'venta_sucursal'=>$venta_sucursal]);
     }
 
+    public function eliminar(){
+
+        $id=$this->request->getParam('id');
+        $venta = $this->request->getQuery('venta');
+
+        $registro=$this->NominaEmpleadas->get($id);
+
+        $this->NominaEmpleadas->delete($registro);
+
+        $this->redirect(['action' => 'nominas', 'sucursal' => $registro->sucursal_id,'venta_sucursal'=>$venta]);
+    }
+
     private function calcular($sucursal,$empleados){
 
         $sucursal_info=$this->Sucursales->get($sucursal);
