@@ -21,8 +21,8 @@
 
                     <?= $this->Form->hidden('empleados['.$reg->id.'][id]', ['value' => $reg->empleados_id]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][sueldo]', ['value' => $reg["empleado"]["sueldo"]]) ?>
-                    <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_inicio]', ['value' => $reg->fecha_inicio]) ?>
-                    <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_fin]', ['value' => $reg->fecha_fin]) ?>
+                    <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_inicio]', ['value' => $reg->fecha_inicio->format('Y-m-d')]) ?>
+                    <?= $this->Form->hidden('empleados['.$reg->id.'][fecha_fin]', ['value' => $reg->fecha_fin->format('Y-m-d')]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][venta_sucursal]', ['value' => $venta]) ?>
                     <?= $this->Form->hidden('empleados['.$reg->id.'][joyeria]', ['value' => $reg->joyeria]) ?>
 
@@ -34,7 +34,7 @@
                         <td><?= $this->Number->currency($reg->bono) ?></td>
                         <td><?= $this->Number->currency($reg->joyeria) ?></td>
                         <td><?= $this->Number->currency($reg->prestamo) ?></td>
-                        <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][infonavit]', ['class' => 'focus form-control', 'value' => $reg->infonavit]) ?></td>
+                        <td><?= $this->Number->currency($reg->infonavit) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][deduccion]', ['class' => 'focus form-control', 'value' => $reg->deduccion]) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][isr]', ['class' => 'focus form-control', 'value' => $reg->isr]) ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][extra]', ['class' => 'focus form-control', 'value' => $reg->extra]) ?></td>
