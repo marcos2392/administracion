@@ -76,7 +76,7 @@
             {
                 ?>
                 <tr>
-                    <?php if($mov->usuario_id==$usuario->id){ ?>
+                    <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){ ?>
                     <td><?= $this->Html->link($mov->fecha->format('d-m-Y h:i'), ['controller' => 'MovimientosProveedores', 'action' => 'editar', 'id' => $mov->id], ['target' => '_blank']) ?></td>
                     <?php 
                     } 
@@ -91,7 +91,7 @@
                     <td><?= $mov->tipo ?></td>
                     <td><?= $this->number->currency($mov->cantidad) ?></td>
                     <td><?= $this->number->currency($mov->saldo) ?></td>
-                    <?php if($mov->usuario_id==$usuario->id){ ?>
+                    <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){ ?>
                         <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
                     <?php } ?>
                 </tr>
