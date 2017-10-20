@@ -55,6 +55,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->connect('/', ['controller' => 'Principal', 'action' => 'inicio']);
     $routes->connect('/nominas/nominas', ['controller' => 'Nominas', 'action' => 'nominas']);
+    $routes->connect('/nominas/:id/eliminar', ['controller' => 'Nominas', 'action' => 'eliminar']);
 
     $routes->connect('/sucursales/:id/editar', ['controller' => 'Sucursales', 'action' => 'editar']);
     $routes->connect('/sucursales/:id/actualizar', ['controller' => 'Sucursales', 'action' => 'actualizar']);
