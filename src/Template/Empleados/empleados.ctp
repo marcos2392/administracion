@@ -1,6 +1,24 @@
 <h2>Empleados</h2>
 <?php if($usuario->admin): ?><h4><?=$this->Html->link('Nuevo',['controller' =>'Empleados','action' => 'nuevo']); ?></h4> <?php endif; ?>
 <br>
+
+    <?= $this->Form->create(false, ['class' => 'form-horizontal hidden-print','method'=>'get']) ?>
+   
+    <div class="form-group form-inline control-label">
+        <h4><?= $this->Form->label('sucursal', 'Sucursal:', ['class' => 'control-label col-md-1']) ?></h4>
+        <div class="col-md-2">
+            <?= $this->Form->select('sucursal', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['0' => 'Todos']]), ['value' => $sucursal, 'class' => 'form-control']) ?>
+        </div>
+        <div class=" col-md-1">
+            <?= $this->Form->submit('Enviar', ['class' => 'btn btn-info']) ?>
+        </div>
+    </div>
+
+     <?= $this->Form->hidden('enviado', ['value' => true]) ?>
+<?= $this->Form->end() ?>
+
+<br><br>
+<?php if($empleados!=[]){ ?>
 <div class="row">
     <div class="col-sm-12 ">
         <table  class="table table-striped">
@@ -33,8 +51,7 @@
                         <?php $tipo_pago=($empleado->tarjeta)? "Tarjeta" : "Efectivo" ; ?>
                         <td><?= $tipo_pago ?></td>
                         <td><?= $empleado->desc() ?></td>
-                        <td><?= $this->number->currency($empleado->joyeria()) ?></td>
-                        <td><?= $this->number->currency($empleado->prestamo()) ?></td>
+                        
                         <td><?= $this->Html->link('Editar', ['action' => 'editar', 'id' => $empleado->id]) ?></td>
                         <td><?= $this->Html->link('Eliminar', ['action' => 'eliminar', 'id' => $empleado->id]) ?></td>
                     </tr>
@@ -45,3 +62,4 @@
         </table>
     </div>
 </div>
+<?php } ?>

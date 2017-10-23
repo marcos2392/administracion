@@ -22,15 +22,27 @@ class EmpleadosController extends AppController
     public function empleados() {
 
     	$usuario = $this->getUsuario();
+        $sucursal=$this->request->getQuery('sucursal');
+        $enviado = $this->request->getQuery('enviado') ?? false;
+        $empleados=[];
 
-        $condicion = ["empleados.status=true"];
+        $sucursales=$this->Sucursales->find()
+        ->where(['status'=>true])
+        ->order('nombre')
+        ->toArray();
+        
+        if ($enviado!==false) 
+        {
+            $condicion[]=($sucursal!=0)?["empleados.sucursal_id"=>$sucursal]: []; 
 
-    	$empleados=$this->Empleados->find()
-    	->contain(['sucursales'])
-    	->where($condicion)
-        ->order('sucursales.nombre,empleados.nombre');
+            $empleados=$this->Empleados->find()
+            ->contain(['sucursales'])
+            ->where($condicion)
+            ->order('sucursales.nombre,empleados.nombre')
+            ->toArray(); 
+        }
 
-        $this->set(compact('empleados'));
+        $this->set(compact('sucursales','empleados','sucursal'));
     }
 
     public function nuevo() {
@@ -143,8 +155,6 @@ class EmpleadosController extends AppController
         $apellidos = $this->request->getData('apellidos') ?? '';
         $sucursal = $this->request->getData('sucursal') ?? '';
         $descanso = $this->request->getData('descanso')?? 0;
-        $diaextra = $this->request->getData('diaextra')?? 0;
-        $tipoextra = $this->request->getData('tipoextra')?? 0;
         $sueldo = $this->request->getData('sueldo')?? 0;
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
         $bono = $this->request->getData('bono')?? 0;
@@ -208,8 +218,6 @@ class EmpleadosController extends AppController
         $empleado->nombre=$nombres;
         $empleado->apellidos=$apellidos;
         $empleado->descanso=$descanso;
-        $empleado->dia_extra=$diaextra;
-        $empleado->tipo_extra=$tipoextra;
         $empleado->sueldo=$sueldo;
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->bono=$bono;
