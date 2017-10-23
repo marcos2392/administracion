@@ -33,7 +33,7 @@ class EmpleadosController extends AppController
         
         if ($enviado!==false) 
         {
-            $condicion[]=($sucursal!=0)?["empleados.sucursal_id"=>$sucursal]: []; 
+            $condicion[]=($sucursal!=0)?["empleados.sucursal_id"=>$sucursal,"empleados.status"=>true]: []; 
 
             $empleados=$this->Empleados->find()
             ->contain(['sucursales'])
