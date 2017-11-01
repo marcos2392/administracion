@@ -33,7 +33,7 @@ class EmpleadosController extends AppController
         
         if ($enviado!==false) 
         {
-            $condicion[]=($sucursal!=0)?["empleados.sucursal_id"=>$sucursal,"empleados.status"=>true]: []; 
+            $condicion[]=($sucursal!=0)?["empleados.sucursal_id"=>$sucursal,"empleados.status"=>true]: [];
 
             $empleados=$this->Empleados->find()
             ->contain(['sucursales'])
@@ -234,7 +234,7 @@ class EmpleadosController extends AppController
             if($this->Empleados->save($empleado))
              {
                 $this->Flash->default("Se actualizo al empleado: ".$nombres.' '.$apellidos." ,exitosamente.");
-                $this->redirect(['action' => 'empleados']);
+                $this->redirect(['action' => 'empleados','sucursal'=>$sucursal,'enviado'=>true]);
              }
              else
              {
