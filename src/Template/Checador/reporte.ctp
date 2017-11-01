@@ -12,6 +12,14 @@
     </div>
 </div>
 <br><br>
+<div class="form-group ">
+    <div class="radio">
+        <label >
+            <input type="radio" name="filtro" value="actual" <?php if ($filtro == "actual") echo "checked" ?> /> Actual
+        </label>
+    </div>
+</div>
+<br><br>
 <div class="form-group  ">
     <div class="radio">
         <label>
@@ -56,7 +64,9 @@
 <br>
 
 <ol class="breadcrumb center hidden-print">
-    <li><?=$this->Html->link('Editar',['controller' =>'Checador','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio,'fin'=>$fin]); ?></li>
+    <?php if($filtro!="rango"){ ?>
+        <li><?=$this->Html->link('Editar',['controller' =>'Checador','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio,'fin'=>$fin,'filtro'=>$filtro]); ?></li>
+    <?php } ?>
     <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
 </ol>
 
@@ -76,6 +86,7 @@
                 <th colspan="2">R</th>
                 <th colspan="2">F</th>
                 <th colspan="2">Hrs</th>
+                <th colspan="2">Hrs Finales</th>
                 </tr>
                 <?php
                 foreach($registro as $id=>$reg):  ?> 
@@ -147,6 +158,18 @@
                         <td colspan="2"><?=  $retardos ?></td>
                         <td colspan="2"><?=  $faltas ?></td>
                         <td colspan="2"><?= $hrs_t=Horas($minutos); ?></td>
+                        <?php
+                        $horas=0;
+
+                        foreach($horas_editables as $he)
+                        {
+                            if($he->empleado_id==$id)
+                            {
+                                $horas=$he->hrs_editadas; 
+                            }
+
+                        }?>
+                        <td colspan="2"><?= $horas=Horas($horas); ?></td>
                     </tr>
                 <?php endforeach; ?>
         </table>

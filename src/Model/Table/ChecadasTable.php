@@ -42,6 +42,7 @@ class ChecadasTable extends Table
         ]);
 
         $this->belongsTo('Sucursales');
+        $this->belongsTo('HorasChecadas');
     }
 
     /**

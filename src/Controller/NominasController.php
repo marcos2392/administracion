@@ -437,7 +437,7 @@ class NominasController extends AppController
 
         $conn = ConnectionManager::get('checador');
 
-        $query = $conn->execute('SELECT id,empleados_id,SUM(horas) AS horas_totales,sum(hrs_dia) as hrs_semana,sum(hrs_finales) as hrs_finales,sum(hrs_nomina) as hrs_nomina FROM checadas  where fecha between "'.$inicio_nomina.'" and "'.$termino_nomina.'" and sucursal= "'.$sucursal.'"  group by(empleados_id)');
+        $query = $conn->execute('SELECT id,empleados_id,SUM(horas) AS horas_totales,sum(hrs_dia) as hrs_semana,sum(hrs_finales) as hrs_finales,sum(hrs_nomina) as hrs_nomina FROM checadas  where fecha between "'.$inicio_nomina.'" and "'.$termino_nomina.'" and sucursal_id= "'.$sucursal.'"  group by(empleados_id)');
         $horast = $query ->fetchAll('assoc');
         
         return $horast;

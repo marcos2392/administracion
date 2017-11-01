@@ -15,10 +15,12 @@
                 <th >R</th>
                 <th >F</th>
                 <th >Hrs</th>
+                <th width="100px">Hrs Editadas</th>
                 </tr>
                 <?php
                 foreach($registro as $id=>$reg):
                 
+                    $horas_checadas_semanales=Horas($reg["hrs_semanales"]);
                  ?> 
                     <tr>
                         <td colspan="1"><?= $id ?></td>
@@ -30,6 +32,7 @@
                         $minutos=0; 
 
                         $i=1;
+                        $fecha=$desde_fecha;
 
                         foreach(range(1,7) as $dia):
                             $descanso=false;
@@ -38,7 +41,7 @@
                             $entrada="";
                             $salida="";
                             //$fecha=null;
-
+                            
                             foreach($reg["checadas"] as $r):
                                 if($contador==false)
                                 {
@@ -47,8 +50,7 @@
                                     if($r->horas!=NULL): $minutos+=$r->minutos(); endif;
                                 }
                                 if($r->dia==$dia)
-                                { 
-                                    $fecha=$r->fecha->format("Y-m-d");
+                                {
                                     $asistio=true;
                                     if($r->entrada!= NULL)
                                     {
@@ -75,14 +77,14 @@
                             if($asistio)
                             { 
                                 if($dia==1)
-                                { 
-                                    $fecha = date("Y-m-d",strtotime('monday this week -7 days'));
+                                {
+                                    $fecha = $fecha;
                                 }
 
                                 if($descanso==true || $falta==true)
                                 { 
-                                    if($descanso==true): ?><td width="80px"><?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => 'D']) ?>
-                                    <?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => 'D']) ?></td><?php endif;
+                                    if($descanso==true): ?><td width="80px"><?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => '']) ?>
+                                    <?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => '']) ?></td><?php endif;
                                     if($falta==true): ?><td>Falta</td><?php endif;
                                 }
                                 else
@@ -93,29 +95,25 @@
                             }
                             else
                             {  
-                                if($dia==1)
-                                { 
-                                    $fecha = date("Y-m-d",strtotime('monday this week -7 days'));
-                                }
-                                else
-                                {
-                                    $fecha=date("Y-m-d",strtotime('+1 day',strtotime($fecha)));
-                                }
                                 
-                                $fecha=date($fecha);?>
+                                ?>
                                 <td width="80px"><?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][entrada]', ['class' => 'focus form-control', 'value' => $entrada]) ?>
                                 <?= $this->Form->text('empleados['.$id.']['.$i.']['.$fecha.'][salida]', ['class' => 'focus form-control', 'value' => $salida]) ?></td>
-                            <?php }
+                                
+                            <?php } 
+                            $fecha=date("Y-m-d",strtotime('+1 day',strtotime($fecha)));
                             $i++;
                         endforeach; ?>
                         <td><?=  $retardos ?></td>
                         <td><?=  $faltas ?></td>
                         <td><?= $hrs_t=Horas($minutos); ?></td>
+                        <td><?= $this->Form->text('horas_finales_total['.$id.'][horas_finales_total]', ['class' => 'focus form-control', 'value' => $horas_checadas_semanales]) ?></td></td>
                     </tr>
                 <?php endforeach; ?>
         </table>
     </div>
 </div>
+
 <div class="form-group">
     <div class="col-md-6 col-md-offset-5">
         <?= $this->Form->button($submit, ['class' => 'btn btn-primary']) ?>

@@ -202,8 +202,12 @@ Inflector::rules('irregular', ['sucursal' => 'sucursales']);
  */
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
 Inflector::rules('irregular', ['proveedor' => 'proveedores']);
-Inflector::rules('irregular', ['movimientosproveedor' => 'movimientosproveedores']);
+Inflector::rules('irregular', ['movimientosproveedor' => 'movimientosproveedores']); 
 Inflector::rules('irregular', ['cobrador' => 'cobradores']);
+Inflector::rules('irregular', ['CobranzaCobrador' => 'cobranzascobradores']);
+Inflector::rules('irregular', ['cobranza_cobrador' => 'cobranzas_cobradores']);
+Inflector::rules('irregular', ['CorteCobranza' => 'cortescobranzas']);
+Inflector::rules('irregular', ['corte_cobranza' => 'cortes_cobranzas']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 
@@ -244,53 +248,65 @@ function Horas($horas){
     return sprintf("%02d:%02d",$hrs,$min);
 }
 
-function Calcular($hora1,$hora2,$entrada_horario,$salida_horario,$tipo_extra){ 
+function HoraDecimal($hora){
 
-    $salida=explode(':',$hora1); 
-    $entrada=explode(':',$hora2);
-    $entrada_horario=explode(':',$entrada_horario);
-    $salida_horario=explode(':',$salida_horario);
+    $hora=explode(':',$hora);
+    $hr=$hora[0]+($hora[1]/60);
 
-    $minutos_horario_salida=$salida_horario[0]*60+$salida_horario[1]; 
-    $minutos_salida=$salida[0]*60+$salida[1];
+    return $hr;
+}
 
-    $hrs_diferencia=$entrada[0]-$entrada_horario[0];
-    $minutos_diferencia=$entrada[1]-$entrada_horario[1];
+function Calcular($salida,$entrada,$registro){
+
+    $salida_hora=explode(':',$salida);
+    $entrada_horario=$registro->entrada_horario->format("H:i");
+    $salida_horario=explode(':',$registro->salida_horario->format("H:i"));
+
+    $minutos_horario_salida=$salida_horario[0]*60+$salida_horario[1];
+    $minutos_salida=$salida_hora[0]*60+$salida_hora[1];
+
+    $hora_retardo=CalcularHoras($entrada,$entrada_horario);
     
-    if($hrs_diferencia<1)
+    if($hora_retardo>.17)
     {
-        if($minutos_diferencia>10)
-        {
-            $entrada[0]=$entrada[0]+1;
-            $entrada[1]=$entrada_horario[1];
-        }
-        else
-        {
-            if($tipo_extra!=1)
-            {
-                $entrada=$entrada_horario;
-            }
-        }
+        $entrada=$entrada;
+    }
+    else
+    {
+        $entrada=$entrada_horario;
     }
 
-    if($tipo_extra!=2)
-    { 
-        if($minutos_salida>$minutos_horario_salida)
-        {
-            $salida=$salida_horario; 
-        }
+    $salida_horario_minutos=($salida_horario[0]*60)+$salida_horario[1];
+    $salida_real_minutos=($salida_hora[0]*60)+$salida_hora[1];
+
+    if($salida_real_minutos>$salida_horario_minutos)
+    {
+        $salida_hora=$registro->salida_horario->format("H:i");
     }
+    else
+    {
+        $salida_hora=$salida;
+    }
+
+    $horas=CalcularHoras($salida_hora,$entrada);
+
+    return $horas;
+}
+
+function CalcularHoras($hora1,$hora2){
+
+    $salida=explode(':',$hora1);
+    $entrada=explode(':',$hora2);
 
     $total_minutos_transcurridos[1] = ($salida[0]*60)+$salida[1];
     $total_minutos_transcurridos[2] = ($entrada[0]*60)+$entrada[1];
     $total_minutos_transcurridos = $total_minutos_transcurridos[1]-$total_minutos_transcurridos[2];
 
-    $total_minutos_transcurridos=$total_minutos_transcurridos/60;
+    $total_minutos_transcurridos=$total_minutos_transcurridos/60; 
     $hrs=floor($total_minutos_transcurridos);
     $minutos=($total_minutos_transcurridos*60)%60;
 
     return ($hrs+$minutos/60);
-    
 } 
 
 function FormatoHora($hora) { 
