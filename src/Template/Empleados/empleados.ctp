@@ -31,8 +31,6 @@
                     <th>% Comision</th>
                     <th>Infonavit</th>
                     <th>Tipo Pago</th>
-                    <th>Descanso</th>
-                    <th>Joyeria</th>
                     <th colspan="2"></th>
                 </tr>
 
@@ -49,8 +47,6 @@
                         <td><?= $this->number->currency($empleado->infonavit) ?></td>
                         <?php $tipo_pago=($empleado->tarjeta)? "Tarjeta" : "Efectivo" ; ?>
                         <td><?= $tipo_pago ?></td>
-                        <td><?= $empleado->desc() ?></td>
-                        <td><?= $this->Number->currency($empleado->joyeria()) ?></td>
                         <td><?= $this->Html->link('Editar', ['action' => 'editar', 'id' => $empleado->id]) ?></td>
                         <td><?= $this->Html->link('Eliminar', ['action' => 'eliminar', 'id' => $empleado->id]) ?></td>
                     </tr>

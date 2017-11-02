@@ -42,17 +42,7 @@ class Empleado extends Entity
         return $this->nombredia($descanso);
     }
 
-    public function diaExtra() {
-        $diaextra=$this->_properties['dia_extra'];
-        return $this->nombredia($diaextra);
-    }
-
-    public function tipoExtra() {
-        $tipoextra=$this->_properties['tipo_extra'];
-        return $this->extra($tipoextra);
-    }
-
-    public function Joyeria() {
+    /*public function joyeria() {
         
         $joyeria=0;
         $cliente_id=$this->_properties['empleado_id'];
@@ -68,9 +58,9 @@ class Empleado extends Entity
         }
 
         return $joyeria;
-    }
+    }*/
 
-    public function prestamo() {
+    /*public function prestamo() {
 
         $prestamo=0;
         $cliente_id=$this->_properties['empleado_id'];
@@ -86,7 +76,7 @@ class Empleado extends Entity
         }
 
         return $prestamo;
-    }
+    }*/
 
     protected function nombreDia($dia){
         switch ($dia) {
