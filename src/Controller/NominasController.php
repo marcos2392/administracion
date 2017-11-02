@@ -216,6 +216,7 @@ class NominasController extends AppController
 
         $sucursal_info=$this->Sucursales->get($sucursal);
 
+	$i = 0;
         foreach($empleados as $id=>$empleado)
         {
             $venta_semanal=$empleado["venta_sucursal"];
@@ -268,6 +269,7 @@ class NominasController extends AppController
             $nomina->infonavit=$infonavit;
 
             $this->NominaEmpleadas->save($nomina); 
+	    $i++;
         } 
     }
 
@@ -326,7 +328,7 @@ class NominasController extends AppController
         return $sucursal_capturada;
     }
 
-    public function PagoJoyeria($joyeria,$id) { 
+    public function PagoJoyeria($joyeria,$id) {
 
         $pago_joyeria=0;
 
@@ -357,12 +359,14 @@ class NominasController extends AppController
 
         if($prestamo)
         {
-            $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
-            $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
-
             $prestamos=$this->Transacciones->find()
-            ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0' and sistema_id='14'"])
-            ->toArray();
+		    ->where(function ($exp) {
+			$inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
+			$termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
+			return $exp->between('convert(date, fecha)', $inicio_semana_actual, $termino_semana_actual);
+		    })
+		    ->where(["cliente_id" => $id, "sucursal_id" => 0, "sistema_id" => 14])
+		    ->toArray();
 
             if($prestamos!=[])
             {
