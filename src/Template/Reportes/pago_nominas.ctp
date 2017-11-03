@@ -53,6 +53,9 @@
         <div class="col-sm-6 col-sm-offset-3">
             <h4><b>Fecha Nomina : </b><?= date("d-M-Y",$fecha_inicio).' / '.date("d-M-Y",$fecha_fin) ?></h4>
             <br>
+            <ol class="breadcrumb center hidden-print">
+                <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
+            </ol>
             <table  class="table table-striped">
                     <tr class="active">
                         <th>Sucursal</th>
@@ -70,7 +73,8 @@
                     foreach ($pagos_nomina as $id_sucursal=>$info):?>
                         
                     <?php  foreach($info as $sucursal_nombre=>$pagos): ?>
-                        <td><?= $this->Html->link($sucursal_nombre, ['controller'=>'Reportes','action' => 'detalle_nomina','id' => $id_sucursal,"fecha_inicio"=>date("Y-m-d",$fecha_inicio),"fecha_fin"=>date("Y-m-d",$fecha_fin)],['target'=>'_blank']) ?></td> <?php
+                        <td class="hidden-print"><?= $this->Html->link($sucursal_nombre, ['controller'=>'Reportes','action' => 'detalle_nomina','id' => $id_sucursal,"fecha_inicio"=>date("Y-m-d",$fecha_inicio),"fecha_fin"=>date("Y-m-d",$fecha_fin)],['target'=>'_blank']) ?></td>
+                        <td class="visible-print-block"><?= $sucursal_nombre ?></td> <?php
                                 foreach($pagos as $tipo=>$datos):
                                     if($datos!=[]) 
                                     {
