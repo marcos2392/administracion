@@ -55,7 +55,7 @@
                 else {
                      ?> <tr>
                  <?php } ?>
-                <td class="hidden-print"><?= $this->Html->link($reg->empleado->ncompleto, ['controller'=>'Empleados','action' => 'editar', 'id' => $reg->empleado->id],['target'=>'_blank']) ?></td>
+                <td class="hidden-print"><?= $this->Html->link($reg->empleado->nombre, ['controller'=>'Empleados','action' => 'editar', 'id' => $reg->empleado->id],['target'=>'_blank']) ?></td>
                 <td class="visible-print-block"><?= $reg->empleado->ncompleto ?></td>
                 <td><?= $horas=Horas($reg->horas); ?></td>
                 <td><?= $this->Number->currency($reg->sueldo) ?></td>

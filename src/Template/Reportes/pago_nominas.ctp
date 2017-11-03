@@ -51,7 +51,7 @@
 
     <div class="row" >
         <div class="col-sm-6 col-sm-offset-3">
-            <h4><b>Fecha Nomina : </b><?= $fecha_inicio.' / '.$fecha_fin ?></h4>
+            <h4><b>Fecha Nomina : </b><?= date("d-M-Y",$fecha_inicio).' / '.date("d-M-Y",$fecha_fin) ?></h4>
             <br>
             <table  class="table table-striped">
                     <tr class="active">
@@ -65,32 +65,35 @@
 
                     $efectivo=0;
                     $tarjeta=0;
-                    $mixto=0;
+                    $mixto=0; 
 
-                    foreach ($pagos_nomina as $sucursal=>$pago):?>
-                        <td><?= $sucursal ?></td> 
-                    <?php  foreach($pago as $tipo=>$p):
-                                if($p!=[])
-                                {
-                                    foreach($p as $info): 
-                                        if($tipo=='efectivo'){ ?>
-                                            <td><b><?= $this->Number->currency($info->cantidad_pago) ?></b></td> <?php
-                                        }
-                                        else
-                                        { ?>
-                                            <td><?= $this->Number->currency($info->cantidad_pago) ?></td>
-                                    <?php    }
+                    foreach ($pagos_nomina as $id_sucursal=>$info):?>
+                        
+                    <?php  foreach($info as $sucursal_nombre=>$pagos): ?>
+                        <td><?= $this->Html->link($sucursal_nombre, ['controller'=>'Reportes','action' => 'detalle_nomina','id' => $id_sucursal,"fecha_inicio"=>date("Y-m-d",$fecha_inicio),"fecha_fin"=>date("Y-m-d",$fecha_fin)],['target'=>'_blank']) ?></td> <?php
+                                foreach($pagos as $tipo=>$datos):
+                                    if($datos!=[]) 
+                                    {
+                                        foreach($datos as $info): 
+                                            if($tipo=='efectivo'){ ?>
+                                                <td><b><?= $this->Number->currency($info->cantidad_pago) ?></b></td> <?php
+                                            }
+                                            else
+                                            { ?>
+                                                <td><?= $this->Number->currency($info->cantidad_pago) ?></td>
+                                        <?php    }
 
-                                        if($tipo=='efectivo'){ $efectivo+=$info->cantidad_pago; }
-                                        if($tipo=='tarjeta'){ $tarjeta+=$info->cantidad_pago; }
-                                        if($tipo=='mixto'){ $mixto+=$info->cantidad_pago; }
+                                            if($tipo=='efectivo'){ $efectivo+=$info->cantidad_pago; }
+                                            if($tipo=='tarjeta'){ $tarjeta+=$info->cantidad_pago; }
+                                            if($tipo=='mixto'){ $mixto+=$info->cantidad_pago; }
 
-                                    endforeach;
-                                }
-                                else
-                                { ?>
-                                    <td>$ 0</td> <?php
-                                }
+                                        endforeach;
+                                    }
+                                    else
+                                    { ?>
+                                        <td>$ 0</td> <?php
+                                    }
+                                endforeach;
                             endforeach; ?>
                     </tr> <?php
                     endforeach; ?>

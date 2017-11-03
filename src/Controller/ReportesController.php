@@ -26,6 +26,8 @@ class ReportesController extends AppController
         $this->loadModel('MovimientosProveedores');
         $this->loadModel('SaldoProveedores');
         $this->loadModel('NominaEmpleadas');
+        $this->loadModel('VentasSucursales');
+        $this->loadModel('Empleados');
         
     }
 
@@ -199,9 +201,10 @@ class ReportesController extends AppController
     public function pagoNominas(){
 
         $pagos_nomina=[];
+        $info_sucursal=[];
 
-        $fecha_inicio=date("d-M-Y",strtotime('monday this week -7 days'));
-        $fecha_fin=date("d-M-Y",strtotime('sunday this week -7 days'));
+        $fecha_inicio=strtotime('monday this week -7 days');
+        $fecha_fin=strtotime('sunday this week -7 days');
 
         $fechas = $this->setFechasReporte();
         $filtro = $this->request->getQuery('filtro') ?? 'nomina_actual';
@@ -222,8 +225,8 @@ class ReportesController extends AppController
             } 
             else 
             { 
-                $fecha_inicio=date('d-M-Y', $fechas['f1']);
-                $fecha_fin=date('d-M-Y', $fechas['f2']);
+                $fecha_inicio=$fechas['f1'];
+                $fecha_fin=$fechas['f2'];
                 $condicion = ["date(fecha_inicio) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
 
@@ -275,14 +278,44 @@ class ReportesController extends AppController
                 ->group('NominaEmpleadas.sucursal_id')
                 ->toArray();
 
-                $pagos_nomina[$suc->nombre]["efectivo"]=$pagos_efectivo;
-                $pagos_nomina[$suc->nombre]["tarjeta"]=$pagos_tarjeta;
-                $pagos_nomina[$suc->nombre]["mixto"]=$pagos_mixto;
+                $pagos_nomina[$suc->id][$suc->nombre]["efectivo"]=$pagos_efectivo;
+                $pagos_nomina[$suc->id][$suc->nombre]["tarjeta"]=$pagos_tarjeta;
+                $pagos_nomina[$suc->id][$suc->nombre]["mixto"]=$pagos_mixto;
 
             }
         }
          
-        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin'));
+        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin','info_sucursal'));
+
+    }
+
+    public function detalleNomina(){
+
+        $venta_sucursal=0;
+        $fecha_inicio = $this->request->getQuery('fecha_inicio');
+        $fecha_fin = $this->request->getQuery('fecha_fin');
+        $sucursal_id=$this->request->getParam('id');
+
+        $sucursal_info=$this->Sucursales->get($sucursal_id);
+
+        $nomina=$this->NominaEmpleadas->find()
+        ->contain('Empleados')
+        ->where(["nominaempleadas.sucursal_id"=>$sucursal_id,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio])
+        ->order('Empleados.nombre')
+        ->toArray();
+
+
+        foreach($nomina as $nom)
+        { 
+            if($nom->venta_id!=null)
+            {
+                $venta_semanal=$this->VentasSucursales->get($nom->venta_id);
+            
+                $venta_sucursal=$venta_semanal->venta;
+            }
+        }
+
+        $this->set(compact('sucursal_info','nomina','venta_sucursal','fecha_inicio','fecha_fin'));
 
     }
 }
