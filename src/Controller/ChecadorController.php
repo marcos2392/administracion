@@ -21,10 +21,6 @@ class ChecadorController extends AppController
         $this->loadModel('HorariosNomina');
     }
 
-    public function inicio() {
-
-    }
-
     public function reporte() {
 
         $usuario = $this->getUsuario();

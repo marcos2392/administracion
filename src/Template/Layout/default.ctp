@@ -81,7 +81,7 @@
                             <li><?= $this->Html->link('Movimientos de Caja', ['controller' =>'MovimientosCaja','action' => 'caja']); ?></li>
                         <?php } ?>
                         <?php if($usuario->checador){ ?>
-                            <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'inicio']); ?></li>
+                            <li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'reporte']); ?></li>
                         <?php } ?>
                         <?php if($usuario->reparaciones){ ?>
                             <li><?= $this->Html->link('Reparaciones', ['controller' =>'Reparaciones','action' => 'reparaciones']); ?></li>
@@ -89,6 +89,9 @@
                         <?php if($usuario->proveedores){ ?>
                             <li><?= $this->Html->link('Proveedores', ['controller' =>'MovimientosProveedores','action' => 'inicio']); ?></li>
                         <?php } ?>
+                        <!--<?php if($usuario->cobranzas){ ?>
+                            <li><?= $this->Html->link('Cobranzas', ['controller' =>'Cobranzas','action' => 'inicio']); ?></li>
+                        <?php } ?> -->
 
                         <li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'reportes']); ?></li>
                     </ul> 

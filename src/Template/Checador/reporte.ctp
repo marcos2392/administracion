@@ -1,7 +1,6 @@
-<?= $this->element($menu) ?>
 
 <h3><b>Reportes Checador</b></h3>
-
+<br>
 <?= $this->Form->create(null, ['class' => ' form-inline hidden-print', 'id' => 'reporte_checador_forma','method'=>'get']) ?>
 
 <div class="form-group ">
