@@ -24,6 +24,7 @@ class NominasController extends AppController
         $this->loadModel('NominaEmpleadas');
         $this->loadModel('Transacciones');
         $this->loadModel('VentasSucursales');
+        $this->loadModel('HorasChecadas');
         
     }
 
@@ -90,9 +91,11 @@ class NominasController extends AppController
                             $pago_joyeria=0;
                             $extra=0;
 
+                            $horas_trabajadas=$this->horasSemanales($inicio_nomina,$id);
+
                             $nomina = $this->NominaEmpleadas->newEntity();
 
-                            $horas_trabajadas=$reg["hrs"]["hrs_finales"];
+                            //$horas_trabajadas=$reg["hrs"]["hrs_finales"];
 
                             $horas_trabajadas_tope=($horas_trabajadas>48)? 48 : $horas_trabajadas;
 
@@ -111,14 +114,8 @@ class NominasController extends AppController
 
                                 $suma_sueldos=0;
 
-                                foreach($registros as $registro)
-                                {
-                                    $horas=48-($registro["hrs"]["hrs_semana"]-$registro["hrs"]["horas_totales"]);
+                                $comision=$this->HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo,$comision_empleados_venta,$horas_trabajadas);
 
-                                    $suma_sueldos+=round($registro["empleado"]["sueldo"]/48*($horas));
-                                }  
-
-                                $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
                             }
                             
                             $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo);
@@ -241,15 +238,7 @@ class NominasController extends AppController
             { 
                 $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
 
-                $suma_sueldos=0;
-
-                foreach($empleados as $hrs)
-                {
-                    $horas=($hrs["horas"]>48)? 48 : $this->HorasOperacion($hrs["horas"]);
-                    $suma_sueldos+=round($hrs["sueldo"]/48*($horas)); 
-                }  
-
-                $comision=round(($sueldo/$suma_sueldos)*$comision_empleados_venta);
+                $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$empleado["sueldo"],$comision_empleados_venta);
             }
 
             $sueldo_final=round($sueldo+$comision+$bono-$infonavit-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$prestamo+$empleado["extra"]);
@@ -435,6 +424,52 @@ class NominasController extends AppController
         $horas=$separar[1][0]+($separar[1][1]/60);
 
         return $horas;
+    }
+
+    function horasSemanales($inicio_nomina,$empleado_id){
+
+        $hrs_semanales=0;
+
+        $conn = ConnectionManager::get('checador');
+
+        $query = $conn->execute('SELECT hrs_editadas  FROM horas_checadas  where fecha_inicio= "'.$inicio_nomina.'" and empleado_id= "'.$empleado_id.'" ');
+        $horast = $query ->fetchAll('assoc');
+
+        foreach($horast as $hrs)
+        {
+            $hrs_semanales=$hrs["hrs_editadas"];
+        }
+        
+        return $hrs_semanales;
+
+    }
+
+    function HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo_empleado,$comision_sucursal){
+
+        $suma_sueldos=0;
+
+        $conn = ConnectionManager::get('checador');
+
+        $query = $conn->execute('SELECT *  FROM horas_checadas  where fecha_inicio = "'.$inicio_nomina.'" and sucursal_id= "'.$sucursal.'" ');
+        $horas = $query ->fetchAll('assoc');
+
+        foreach($horas as $hrs)
+        { 
+            $info_empleado=$this->Empleados->get($hrs["empleado_id"]);
+
+            $horas_empleado=$hrs["hrs_editadas"];
+
+            if($horas_empleado>48)
+            {
+                $horas_empleado=48;
+            }
+
+            $suma_sueldos+=round($info_empleado->sueldo/48*($horas_empleado));
+        }  
+
+        $comision=round(($sueldo_empleado/$suma_sueldos)*$comision_sucursal);
+        
+        return $comision;
     }
 
     function infochecada($inicio_nomina,$termino_nomina,$sucursal){
