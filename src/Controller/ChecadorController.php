@@ -42,7 +42,6 @@ class ChecadorController extends AppController
         $fechas = $this->setFechasReporte();
 
         if ($filtro == "semanal") {
-
             $inicio = date("Y-m-d", strtotime('monday this week -7 days'));
             $fin = date("Y-m-d", strtotime('sunday this week - 7 days'));
 
@@ -66,15 +65,19 @@ class ChecadorController extends AppController
 
         if ($this->request->is('get')) {
 
-            $registros=$this->Checadas->find()
-            ->where($condicion)
-            ->order('empleados_id, fecha,checadas.entrada');
+            if($sucursal!=0)
+            {
+               $registros=$this->Checadas->find()
+                ->where($condicion)
+                ->order('empleados_id, fecha,checadas.entrada');
 
-            $registro=$this->checadas($registros,$inicio,$fin);
+                $registro=$this->checadas($registros,$inicio,$fin); 
 
-            $horas_editables=$this->HorasChecadas->find()
-            ->where(['sucursal_id'=>$sucursal,'fecha_inicio'=>$inicio,'fecha_termino'=>$fin])
-            ->toArray();
+                $horas_editables=$this->HorasChecadas->find()
+                ->where(['sucursal_id'=>$sucursal,'fecha_inicio'=>$inicio,'fecha_termino'=>$fin])
+                ->toArray();
+            }
+            
         }
 
         $this->set(compact('inicio','fin','registro','filtro','sucursales','sucursal','sucursal_nombre','empleados','menu','horas_editables'));
