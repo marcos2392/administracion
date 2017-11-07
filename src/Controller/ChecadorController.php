@@ -113,7 +113,7 @@ class ChecadorController extends AppController
         $sucursal_info=$this->Sucursales->get($sucursal_id);
 
         foreach($empleados as $id=>$emp)
-        { 
+        {
             $hrs_checadas_semanal=$this->checarRegistroHoras($id,$fecha_inicio,$fecha_termino,$sucursal_id);
 
             foreach($emp as $dia=>$e)
@@ -173,10 +173,14 @@ class ChecadorController extends AppController
                                 $registro->entrada_nomina=$entrada_nomina;
                                 $registro->retardo=$retardo;
                             }
+                            else
+                            {
+                                $registro->entrada=$horas["entrada"];
+                            }
 
                             $registro->salida=null;
                             $registro->hrs_finales=0;
-                            $registro->horas=null;          
+                            $registro->horas=null;         
                         }
 
                         if($horas["entrada"]=='' and $horas["salida"]=='')
