@@ -6,7 +6,7 @@
     <div class="form-group form-inline col-md-12">
 
         <?php if($usuario->admin){ ?>
-            <?= $this->Form->label('sucursal', 'Usuario:', ['class' => 'control-label col-md-1']) ?>
+            <?= $this->Form->label('sucursal', 'Sucursal:', ['class' => 'control-label col-md-1']) ?>
             <div class="col-md-2">
                 <?= $this->Form->select('usuarios', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['' => 'Seleccionar']]), ['value' => $usuario_caja, 'class' => 'form-control']) ?>
             </div>
