@@ -120,7 +120,7 @@ class EmpleadosController extends AppController
         foreach($dias as $d)
         {
             $empleado->{$d."_entrada"}=$hora_entrada;
-            $empleado->{$d."_salida"}=$hora_salida; 
+            $empleado->{$d."_salida"}=$hora_salida;
         }
 
         if($nombre=="" || $apellidos=="" || $sucursal=="")

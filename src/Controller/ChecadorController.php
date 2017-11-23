@@ -260,7 +260,7 @@ class ChecadorController extends AppController
                         if($horas["entrada"]!='')
                         {
                             $salida=FormatoHora($horas["salida"]);
-                            $entrada=FormatoHora($horas["entrada"]); 
+                            $entrada=FormatoHora($horas["entrada"]);
 
                             $registro = $this->Checadas->newEntity();
 

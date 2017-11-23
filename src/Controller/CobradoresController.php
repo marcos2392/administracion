@@ -18,6 +18,7 @@ class CobradoresController extends AppController
     public function beforeFilter(Event $event) {
 
         $this->loadModel('Cobradores');
+        $this->loadModel('Cobranzas');
         
     }
 
@@ -32,49 +33,58 @@ class CobradoresController extends AppController
 
     public function nuevo() {
 
-    	$cobrador='';
-        $fecha=date('Y-m-d');
+    	$cobrador = $this->Cobradores->newEntity();
+
+        $cobranzas=$this->Cobranzas->find()
+        ->toArray();
 
     	if ($this->request->is('post'))
         {
-	    	$cobrador = ucwords(strtolower($this->request->getData('nombre') ?? ''));
+            $cobrador=$this->Cobradores->patchEntity($cobrador,$this->request->getData());
 
-	    	$cobradores = $this->Cobradores->newEntity();
-            $cobradores->fecha=$fecha;
-	    	$cobradores->nombre=$cobrador;
+            $cobrador->fecha=date('Y-m-d');
+            $cobrador->activo=true;
 
-	    	$this->Cobradores->save($cobradores);
-
-	    	$this->Flash->default("Se Creo el Crobador Correctamente.");
-	    	$this->redirect(['action' => 'cobradores']);
+            if($this->Cobradores->save($cobrador))
+            {
+	    	  $this->Flash->default("Se Creo el Crobador Correctamente.");
+              return $this->redirect(['action' => 'cobradores']);
+            }
+            else
+            {
+               $this->Flash->error("No se creo el Cobrador"); 
+            }
 	    }
 
-	    $this->set(compact('cobrador'));
+	    $this->set(compact('cobrador','cobranzas'));
     }
 
     public function editar() {
 
         $id=$this->request->getParam('id');
 
-        $cobradores=$this->Cobradores->get($id);
-        $cobrador=$cobradores->nombre;
+        $cobranzas=$this->Cobranzas->find()
+        ->toArray();
 
-        $this->set(compact('cobradores','cobrador'));
+        $cobrador=$this->Cobradores->get($id,["contain"=>["CobranzasCobradores"]]);
 
-    }
 
-    public function actualizar() {
+        if ($this->request->is(['post','put','patch']))
+        {
+            $cobrador=$this->Cobradores->patchEntity($cobrador,$this->request->getData());
 
-        $id=$this->request->getParam('id');
-        $cobrador = ucwords(strtolower($this->request->getData('nombre') ?? ''));
+            if($this->Cobradores->save($cobrador))
+            {
+              $this->Flash->default("Se Actualizo el Crobador Correctamente.");
+              return $this->redirect(['action' => 'cobradores']);
+            }
+            else
+            {
+               $this->Flash->error("No se modifico el Cobrador"); 
+            }
+        }
 
-        $cobradores=$this->Cobradores->get($id);
-        $cobradores->nombre=$cobrador;
-
-        $this->Cobradores->save($cobradores);
-
-        $this->Flash->default("Se Modifico el Cobrador Correctamente.");
-        $this->redirect(['action' => 'cobradores']);
+        $this->set(compact('cobrador','cobranzas'));
 
     }
 
@@ -85,9 +95,15 @@ class CobradoresController extends AppController
         $cobrador=$this->Cobradores->get($id);
         $cobrador->activo=false;
 
-        $this->Cobradores->save($cobrador);
+        if($this->Cobradores->save($cobrador))
+        {
+            $this->Flash->default("Se Elimino el Crobador Correctamente.");
+        }
+        else
+        {
+            $this->Flash->default("No Se Elimino el Crobador.");
+        }
 
-        $this->Flash->default("Se Elimino el Crobador Correctamente.");
         $this->redirect(['action' => 'cobradores']);
 
 

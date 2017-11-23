@@ -235,7 +235,7 @@ class NominasController extends AppController
             $infonavit=$info_empleado->infonavit;
 
             if($sucursal_info->comision_empleados==true)
-            { 
+            {
                 $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
 
                 $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$empleado["sueldo"],$comision_empleados_venta);
@@ -310,6 +310,7 @@ class NominasController extends AppController
     }
 
     private function Nomina($sucursal,$fecha_inicio) {
+        
         $sucursal_capturada=$this->NominaEmpleadas->find() 
             ->contain('Empleados')
             ->where(["nominaempleadas.sucursal_id"=>$sucursal,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio])

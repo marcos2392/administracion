@@ -33,6 +33,8 @@ class CobradoresTable extends Table
         $this->setTable('cobradores');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('CobranzasCobradores',["saveStrategy"=>"replace"]);
     }
 
     /**
@@ -58,7 +60,6 @@ class CobradoresTable extends Table
 
         $validator
             ->boolean('activo')
-            ->requirePresence('activo', 'create')
             ->notEmpty('activo');
 
         return $validator;

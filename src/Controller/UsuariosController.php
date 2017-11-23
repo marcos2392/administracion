@@ -15,6 +15,7 @@ class UsuariosController extends AppController
     public function beforeFilter(Event $event) {
         $this->Auth->allow('login');
         $this->loadModel('Usuarios');
+        $this->loadModel('Sucursales');
     }
 
     public function login() {
@@ -47,12 +48,23 @@ class UsuariosController extends AppController
 
         $user = $this->Usuarios->newEntity();
 
-        $this->set(compact('user'));
+        $sucursales=$this->Sucursales->find()
+        ->where(['status'=>true])
+        ->order('nombre')
+        ->toArray();
+
+        $user->admin=false;
+
+        $sucursal='';
+
+        $this->set(compact('user','sucursales','sucursal'));
     }
 
     public function crear() {
 
         $usuario=$this->getusuario();
+
+        $sucursal = $this->request->getData('sucursal');
 
         $nombre = $this->request->getData('nombre');
         $us = $this->request->getData('usuario');
@@ -65,6 +77,7 @@ class UsuariosController extends AppController
         $permiso_checador = $this->request->getData('permiso_checador') ?? 0;
         $permiso_proveedores = $this->request->getData('permiso_proveedores') ?? 0;
         $permiso_reparaciones = $this->request->getData('permiso_reparaciones') ?? 0; 
+        $permiso_cobranzas = $this->request->getData('permiso_cobranzas') ?? 0; 
 
         $nombre = ucwords(strtolower($nombre));
 
@@ -90,6 +103,8 @@ class UsuariosController extends AppController
         $user->movimientos_caja=$permiso_movimientos_caja;
         $user->proveedores=$permiso_proveedores;
         $user->reparaciones=$permiso_reparaciones;
+        $user->cobranzas=$permiso_cobranzas;
+        $user->sucursal_id=$sucursal;
 
         if($nombre=="" || $usuario=="" || $password=="")
         {
@@ -108,13 +123,22 @@ class UsuariosController extends AppController
     public function editar() {
 
         $user = $this->Usuarios->get($this->request->getQuery('id'));
+
+        $sucursales=$this->Sucursales->find()
+        ->where(['status'=>true])
+        ->order('nombre')
+        ->toArray();
+
+        $sucursal=$user->sucursal_id;
         
-        $this->set(compact('user'));
+        $this->set(compact('user','sucursales','sucursal'));
     }
 
     public function actualizar() {
 
         $user = $this->Usuarios->get($this->request->getQuery('id'));
+
+        $sucursal = $this->request->getData('sucursal');
 
         $nombres = $this->request->getData('nombre') ?? '';
         $usuario = $this->request->getData('usuario') ?? '';
@@ -125,6 +149,9 @@ class UsuariosController extends AppController
         $permiso_movimientos_caja = $this->request->getData('permiso_movimientos_caja') ?? 0;
         $permiso_nomina = $this->request->getData('permiso_nomina') ?? 0;
         $permiso_checador = $this->request->getData('permiso_checador') ?? 0;
+        $permiso_cobranzas = $this->request->getData('permiso_cobranzas') ?? 0;
+        $permiso_proveedores = $this->request->getData('permiso_proveedores') ?? 0;
+        $permiso_reparaciones = $this->request->getData('permiso_reparaciones') ?? 0;
         
         $nombres = ucwords(strtolower($nombres));
         
@@ -143,6 +170,10 @@ class UsuariosController extends AppController
         $user->nominas=$permiso_nomina;
         $user->checador=$permiso_checador;
         $user->movimientos_caja=$permiso_movimientos_caja;
+        $user->cobranzas=$permiso_cobranzas;
+        $user->reparaciones=$permiso_reparaciones;
+        $user->proveedores=$permiso_proveedores;
+        $user->sucursal_id=$sucursal;
 
 
 

@@ -19,7 +19,7 @@
 </div>
 <?php
 	$tipo;
-	$tipo=($user->tipo_usuario==1)?$tipo=1 :$tipo=0;
+	$tipo=($user->admin==true)?$tipo=1 :$tipo=0;
 ?>
 <div class="form-group">
 	<?= $this->Form->label('tipo', 'Tipo Usuario: ', ['class' => 'col-md-3 control-label']) ?>
@@ -28,15 +28,6 @@
 	</div>
 	<div class="col-md-6">
         <span class="help-block">0= Usuario Normal, 1= Administrador  </span>
-    </div>
-</div>
-<div class="form-group">
-	<?= $this->Form->label('movimientos', 'Modulo Movimientos Caja: ', ['class' => 'col-md-3 control-label']) ?>
-	<div class="col-md-3">
-		<?= $this->Form->text('caja', ['class' => 'focus form-control', 'value' => ($user->caja)? $user->caja : 0]) ?>
-	</div>
-	<div class="col-md-6">
-        <span class="help-block">0= Usuario sin Caja, 1= Usuario con Caja </span>
     </div>
 </div>
 <div class="form-group">
@@ -85,7 +76,23 @@
     </div>
 </div>
 <div class="form-group">
-	<div class="col-md-3 col-md-offset-3">
+	<?= $this->Form->label('permiso_cobranzas', 'Permiso Cobranzas: ', ['class' => 'col-md-3 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('permiso_cobranzas', ['class' => 'focus form-control', 'value' => ($user->cobranzas)? $user->cobranzas : 0]) ?>
+	</div>
+	<div class="col-md-6">
+        <span class="help-block">0= Sin Permiso, 1= Permiso </span>
+    </div>
+</div>
+<div class="form-group">
+	<?= $this->Form->label('sucursal', 'Sucursal: ', ['class' => 'col-md-2 col-md-offset-1 control-label']) ?>
+		<div class="col-md-3">
+			<?= $this->Form->select('sucursal', $this->Select->options($sucursales, 'id', 'nombre', ['blank' => ['' => '--Seleccionar--']]), ['value' => $sucursal, 'class' => 'form-control']) ?>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<div class="col-md-3 col-md-offset-5">
 		<?= $this->Form->button($submit, ['class' => 'btn btn-primary']) ?>
 	</div>
 </div>

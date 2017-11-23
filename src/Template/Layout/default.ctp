@@ -71,9 +71,8 @@
                   </button>
                 </div>
                 <div class="collapse navbar-collapse" id="menu">
-                    <ul class="nav navbar-nav"> 
+                    <ul class="nav navbar-nav">
                         <li><?= $this->Html->link('Inicio', ['controller' =>'Principal','action' => 'inicio']); ?></li>
-                        <!--<li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'inicio']); ?></li> -->
                         <?php if($usuario->nominas){ ?>
                             <li><?= $this->Html->link('Nominas', ['controller' =>'Nominas','action' => 'nominas']); ?></li>
                         <?php } ?>
@@ -89,9 +88,9 @@
                         <?php if($usuario->proveedores){ ?>
                             <li><?= $this->Html->link('Proveedores', ['controller' =>'MovimientosProveedores','action' => 'inicio']); ?></li>
                         <?php } ?>
-                        <!--<?php if($usuario->cobranzas){ ?>
-                            <li><?= $this->Html->link('Cobranzas', ['controller' =>'Cobranzas','action' => 'inicio']); ?></li>
-                        <?php } ?> -->
+                        <?php if($usuario->cobranzas){ ?>
+                            <li><?= $this->Html->link('Cobranzas', ['controller' =>'Cobranzas','action' => 'cobranzas']); ?></li>
+                        <?php } ?>
 
                         <li><?= $this->Html->link('Reportes', ['controller' =>'Reportes','action' => 'reportes']); ?></li>
                     </ul> 

@@ -40,6 +40,8 @@ class ReportesController extends AppController
 
         $usuario=$this->getUsuario();
 
+        $sucursal=$this->Sucursales->get($usuario->sucursal_id);
+
         $menu = $this->request->getQuery('menu')?? 'menu_caja';
 
         $cantidad_movimiento_anterior=0;
@@ -48,11 +50,11 @@ class ReportesController extends AppController
         $filtro = $this->request->getQuery('filtro') ?? 'dia';
         $enviado = $this->request->getQuery('enviado') ?? false;
 
-        $usuarios=$this->Usuarios->find()
+        $sucursales=$this->Sucursales->find()
         ->where(['caja'=>true])
         ->order('nombre');
 
-        $usuario_caja=$this->request->getQuery('usuarios')?? $usuario->id;
+        $usuario_caja=$this->request->getQuery('usuarios')?? $sucursal->id;
         
         $movimientos=[];
 
@@ -75,20 +77,20 @@ class ReportesController extends AppController
             }
 
             $cantidad_anterior=$this->MovimientosCaja->find()
-            ->where(['date(fecha) < "'.$fecha_reporte.'" and usuario_id="'.$usuario_caja.'"'])
+            ->where(['date(fecha) < "'.$fecha_reporte.'" and sucursal_id="'.$usuario_caja.'"'])
             ->order('fecha desc')
             ->first();
 
             if($cantidad_anterior!=null){ $cantidad_movimiento_anterior=$cantidad_anterior->cantidad_existente; }
             
-            $condicion[]=["usuario_id"=>$usuario_caja]; 
+            $condicion[]=["sucursal_id"=>$usuario_caja]; 
             $movimientos = $this->MovimientosCaja->find() 
             ->where($condicion)
             ->order('fecha')
             ->toArray();
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','usuarios','usuario_caja','cantidad_movimiento_anterior','menu'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','sucursales','usuario_caja','cantidad_movimiento_anterior','menu'));
     }
 
     public function reparaciones(){

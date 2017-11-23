@@ -2,17 +2,17 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use \Cake\ORM\TableRegistry;
 
 /**
- * Cobrador Entity
+ * Cobranza Entity
  *
  * @property int $id
- * @property \Cake\I18n\Time $fecha
- * @property string $nombre
- * @property bool $activo
+ * @property string $descripcion
+ *
+ * @property \App\Model\Entity\Cobrador[] $cobradores
+ * @property \App\Model\Entity\Corte[] $cortes
  */
-class Cobrador extends Entity
+class Cobranza extends Entity
 {
 
     /**
@@ -28,15 +28,4 @@ class Cobrador extends Entity
         '*' => true,
         'id' => false
     ];
-
-    public function tieneCobranza($cobranza_id) {
-
-        $cobrador_id=$this->_properties['id'];
-
-        $tiene_cobranza=TableRegistry::get('CobranzasCobradores')->find()
-        ->where(['cobranza_id'=>$cobranza_id, 'cobrador_id'=>$cobrador_id])
-        ->first();
-
-        return $tiene_cobranza;
-    }
 }

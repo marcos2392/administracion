@@ -25,7 +25,7 @@ jQuery(function($) {
 		window.print();
 	});
 
-	$('#forma_movimientos_caja,#forma_movimientos_proveedores .no_enter').on('keyup keypress', function(event) {
+	$('#forma_movimientos_caja,#forma_movimientos_proveedores,#forma_corte, .no_enter').on('keyup keypress', function(event) {
 		var codigo_tecla = event.keyCode || event.which;
 		if (codigo_tecla === 13) {
 			event.preventDefault();
@@ -33,6 +33,7 @@ jQuery(function($) {
 	});
 
 	$('form.disable').submit(function() {
+		
 		var boton = $(this).find("[type='submit']");
   		boton.prop('disabled',true);
 		if ($(this).data('disable-with')) {
@@ -40,62 +41,86 @@ jQuery(function($) {
 		}
 	});
 
-/*
-	$("#cargar").click(function () {
+	$('.checkbox_cobranza').click(function() {
 
-		var d = '';
-		var cantidad=document.getElementById("cantidad").value;
-		var sucursal=document.getElementById("sucursal");
-		var joyero=document.getElementById("joyero");
+		var target=$(this).data("target");
+		$("."+target).toggleClass("hidden");
 
+		$("."+target).each(function(){
 
-		joyero = joyero.options[joyero.selectedIndex].text;
-		sucursal = sucursal.options[sucursal.selectedIndex].text;
-
-		 d+= '<tr>'+
-		 '<td>'+joyero+'</td>'+
-		 '<td>'+sucursal+'</td>'+
-		 '<td>'+cantidad+'</td>'+
-		 '</tr>';
-		 
-		 $("#tabla").append(d);
-		
-		var myArray = new Object(); // creamos un objeto
-
-		myArray['joyero'] = joyero;
-		myArray['sucursal'] = sucursal;
-		myArray['cantidad'] = cantidad;
-
-		var otroArray = jQuery.makeArray(myArray);
-
-		var myJSON = JSON.stringify(otroArray);
-
-		$('#forma_reparaciones').append('<input type="hidden" name="prueba[]" value='+ myJSON +'>');
-
-		document.getElementById("cantidad").focus();
-		document.getElementById("cantidad").value='';
- 
-	});
-
-	$("#eliminar").click(function () {
-		
-		document.writeln(arre);
+			if($(this).attr("disabled")){
+				$(this).removeAttr("disabled");
+			}
+			else{
+				$(this).attr("disabled",true);
+			}
+		})
 
 	});
 
+	$(".prueba").keyup(function(){
 
-	//parte que va en controlador
-	$prueba = $this->request->getData('prueba'); debug($prueba); die;
+		var suma_cobranzas=0;
+		var comisiones=0;
+		var cobranza=0;
+		var cobranza_entregado=0;
+		var ingreso_caja=0;
+		var extra=0;
 
-            foreach($prueba as $id=>$p)
-            {
-                $pp=json_decode($p);
-                if($id==2)
-                {
-                    debug($pp[0]->cantidad); die;
-                }
-            }
-    //////
-*/
+		$(".prueba").each(function() {
+
+			if (isNaN(parseFloat($(this).val())))
+		    {
+		      suma_cobranzas += 0 ;
+		    } 
+		    else 
+		    {
+		    	if($(this).attr("id")==5 || $(this).attr("id")==6)
+		    	{
+		      		comisiones+=Math.round(parseFloat($(this).val())*$(this).data("porcentaje"));
+		    	}
+		    	else
+		    	{
+		    		if($(this).attr("id")=='extra')
+			    	{
+			      		extra+=parseFloat($(this).val());
+			    	}
+			    	else
+			    	{
+			    		extra+=0;
+			    		suma_cobranzas += parseFloat($(this).val());
+			      		comisiones+=Math.round(parseFloat($(this).val())*$(this).data("porcentaje"));
+			      	}
+		    	}
+		    }
+		})
+
+        if (isNaN(parseFloat($("#2").val())))
+	    {
+	     	cobranza_entregado+=0;
+	    }
+	    else
+	    {
+	    	cobranza_entregado+=parseFloat($("#2").val());
+	    }
+
+	    if (isNaN(parseFloat($("#4").val())))
+	    {
+	     	cobranza_entregado+=0;
+	    }
+	    else
+	    {
+	    	cobranza_entregado+=parseFloat($("#4").val());
+	    }
+
+	    ingreso_caja=Math.round(cobranza_entregado-comisiones-extra);
+
+	    $(".cobranzas").val(suma_cobranzas);
+        $(".comisiones").val(comisiones);
+        $(".cobranza_entregado").val(cobranza_entregado);
+        $(".extras").val(extra);
+        $(".ingreso").val(ingreso_caja);
+
+    });
 
 })
