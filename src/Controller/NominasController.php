@@ -31,13 +31,13 @@ class NominasController extends AppController
     public function nominas() {
 
         $fecha=date("Y-m-d");
-    	$usuario=$this->getUsuario();
+        $usuario=$this->getUsuario();
         $checadas='';
 
         $inicio_nomina=date("Y-m-d",strtotime('monday this week -7 days'));
         $termino_nomina=date("Y-m-d",strtotime('sunday this week -7 days'));
 
-    	$suc='';
+        $suc='';
         $sucursales=$this->Sucursales->find()
         ->where(['generar_nomina'=>true])
         ->order('nombre');
@@ -114,7 +114,7 @@ class NominasController extends AppController
 
                                 $suma_sueldos=0;
 
-                                $comision=$this->HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo,$comision_empleados_venta,$horas_trabajadas);
+                                $comision=$this->HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo,$comision_empleados_venta,$horas_trabajadas,$reg["empleado"]->id);
 
                             }
                             
@@ -213,7 +213,7 @@ class NominasController extends AppController
 
         $sucursal_info=$this->Sucursales->get($sucursal);
 
-	$i = 0;
+    $i = 0;
         foreach($empleados as $id=>$empleado)
         {
             $venta_semanal=$empleado["venta_sucursal"];
@@ -225,7 +225,7 @@ class NominasController extends AppController
             $nomina=$this->NominaEmpleadas->get($id);
 
             $info_empleado=$this->Empleados->get($empleado["id"]);
-            $sueldo=round($info_empleado->sueldo/48*($horas_trabajadas_tope));
+            $sueldo=round($info_empleado->sueldo/48*($horas_trabajadas_tope)); //if($info_empleado->id==60){ debug($sueldo); die;}
 
             $comision=$this->Comision($sucursal_info,$venta_semanal,$horas_trabajadas_tope,$info_empleado->porcentaje_comision);
             $bono=$this->Bono($horas_trabajadas_tope,$info_empleado);
@@ -235,10 +235,10 @@ class NominasController extends AppController
             $infonavit=$info_empleado->infonavit;
 
             if($sucursal_info->comision_empleados==true)
-            {
+            {  
                 $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
 
-                $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$empleado["sueldo"],$comision_empleados_venta);
+                $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$sueldo,$comision_empleados_venta,$empleado["id"]);
             }
 
             $sueldo_final=round($sueldo+$comision+$bono-$infonavit-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$prestamo+$empleado["extra"]);
@@ -258,7 +258,7 @@ class NominasController extends AppController
             $nomina->infonavit=$infonavit;
 
             $this->NominaEmpleadas->save($nomina); 
-	    $i++;
+        $i++;
         } 
     }
 
@@ -310,7 +310,6 @@ class NominasController extends AppController
     }
 
     private function Nomina($sucursal,$fecha_inicio) {
-        
         $sucursal_capturada=$this->NominaEmpleadas->find() 
             ->contain('Empleados')
             ->where(["nominaempleadas.sucursal_id"=>$sucursal,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio])
@@ -350,13 +349,13 @@ class NominasController extends AppController
         if($prestamo)
         {
             $prestamos=$this->Transacciones->find()
-		    ->where(function ($exp) {
-			$inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
-			$termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
-			return $exp->between('convert(date, fecha)', $inicio_semana_actual, $termino_semana_actual);
-		    })
-		    ->where(["cliente_id" => $id, "sucursal_id" => 0, "sistema_id" => 14])
-		    ->toArray();
+            ->where(function ($exp) {
+            $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
+            $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
+            return $exp->between('convert(date, fecha)', $inicio_semana_actual, $termino_semana_actual);
+            })
+            ->where(["cliente_id" => $id, "sucursal_id" => 0, "sistema_id" => 14])
+            ->toArray();
 
             if($prestamos!=[])
             {
@@ -445,7 +444,7 @@ class NominasController extends AppController
 
     }
 
-    function HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo_empleado,$comision_sucursal){
+    function HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo_empleado,$comision_sucursal,$id_empleado){
 
         $suma_sueldos=0;
 
@@ -456,7 +455,7 @@ class NominasController extends AppController
 
         foreach($horas as $hrs)
         { 
-            $info_empleado=$this->Empleados->get($hrs["empleado_id"]);
+            $info_empleado=$this->Empleados->get($hrs["empleado_id"]); 
 
             $horas_empleado=$hrs["hrs_editadas"];
 
@@ -465,8 +464,8 @@ class NominasController extends AppController
                 $horas_empleado=48;
             }
 
-            $suma_sueldos+=round($info_empleado->sueldo/48*($horas_empleado));
-        }  
+            $suma_sueldos+=round($info_empleado->sueldo/48*($horas_empleado)); 
+        }
 
         $comision=round(($sueldo_empleado/$suma_sueldos)*$comision_sucursal);
         
