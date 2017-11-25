@@ -58,7 +58,7 @@ class CobranzasController extends AppController
         $cobrador=$this->request->getQuery('cobrador');
         $fecha_inicio=$this->request->getQuery('fecha_inicio');
         $fecha_termino=$this->request->getQuery('fecha_termino');
-        $fecha=date("Y-m-d");
+        $fecha=date("Y-m-d H:i");
 
         if ($this->request->is('post'))
         {
@@ -137,7 +137,7 @@ class CobranzasController extends AppController
 
                 switch ($nombre) {
 
-                    case "cobranza_sucursal": 
+                    case "cobranza_sucursal":
                         
                         $cobranza_sucursal=$this->DetallesCuentaCobranza->find()
                         ->where(['cobrador_id'=>$info_cobrador->id_cobrador_sistema,'pago'=>true,"convert(date,fecha) between '".$fecha_inicio."' and '".$fecha_termino."' ","usuario_id <> 3"])
@@ -146,7 +146,6 @@ class CobranzasController extends AppController
                         foreach($cobranza_sucursal as $cobranza)
                         {
                             $total+=$cobranza->saldo_antes-$cobranza->saldo_despues;
-
                         }
 
                         $totales["cobranza_sucursal"]=$total;
