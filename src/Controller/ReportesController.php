@@ -64,7 +64,7 @@ class ReportesController extends AppController
             if ($filtro == "dia") 
             {
                 $fecha=date('Y-m-d');
-                $condicion = ["movimientoscaja.date(fecha)" => $fecha];
+                $condicion = ["date(fecha)" => $fecha];
 
                 $fecha_reporte = date('Y-m-d');
             } 
