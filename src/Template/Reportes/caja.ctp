@@ -62,7 +62,8 @@
         <table  class="table table-striped">
             <tr class="active">
                 <th width="20%">Fecha</th>
-                <th>Descripcion</th>
+                <th width="20%">Usuario</th>
+                <th width="30%">Descripcion</th>
                 <th width="15%">Tipo Movimiento</th>
                 <th width="15%">Cantidad</th>
                 <th width="15%">Cantidad Existente</th>
@@ -84,6 +85,7 @@
                         <td><?= $mov->fecha->format('d-m-Y h:i'); ?></td>
                     <?php 
                     } ?>
+                    <td><?= $mov["usuario"]["nombre"]; ?></td>
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo_movimiento ?></td>
                     <td><?= $this->number->currency($mov->cantidad) ?></td>

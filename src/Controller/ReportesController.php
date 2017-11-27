@@ -64,7 +64,7 @@ class ReportesController extends AppController
             if ($filtro == "dia") 
             {
                 $fecha=date('Y-m-d');
-                $condicion = ["date(fecha)" => $fecha];
+                $condicion = ["movimientoscaja.date(fecha)" => $fecha];
 
                 $fecha_reporte = date('Y-m-d');
             } 
@@ -84,8 +84,9 @@ class ReportesController extends AppController
 
             if($cantidad_anterior!=null){ $cantidad_movimiento_anterior=$cantidad_anterior->cantidad_existente; }
             
-            $condicion[]=["sucursal_id"=>$usuario_caja]; 
-            $movimientos = $this->MovimientosCaja->find() 
+            $condicion[]=["movimientoscaja.sucursal_id"=>$usuario_caja]; 
+            $movimientos = $this->MovimientosCaja->find()
+            ->contain('Usuarios')
             ->where($condicion)
             ->order('fecha')
             ->toArray();
