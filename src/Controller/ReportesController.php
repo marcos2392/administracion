@@ -28,7 +28,8 @@ class ReportesController extends AppController
         $this->loadModel('NominaEmpleadas');
         $this->loadModel('VentasSucursales');
         $this->loadModel('Empleados');
-        
+        $this->loadModel('Cortes');
+        $this->loadModel('Cobradores');
     }
 
     public function reportes()
@@ -318,6 +319,20 @@ class ReportesController extends AppController
         }
 
         $this->set(compact('sucursal_info','nomina','venta_sucursal','fecha_inicio','fecha_fin'));
+
+    }
+
+    public function cortes(){
+
+        $menu = $this->request->getQuery('menu')?? 'menu_cortes';
+
+        $cortes=$this->Cortes->find()
+        ->contain('Cobradores')
+        ->where(['Cobradores.activo'=>true])
+        ->order('Cobradores.nombre')
+        ->toArray();
+
+        $this->set(compact('cortes','menu'));
 
     }
 }

@@ -2,6 +2,9 @@
 	<?php if($usuario->checador or $usuario->admin){ ?>
 		<li><?= $this->Html->link('Checador', ['controller' =>'Checador','action' => 'reporte','menu'=>'menu_reportes']); ?></li>
 	<?php } ?>
+	<?php if($usuario->cobranzas or $usuario->admin){ ?>
+		<li><?= $this->Html->link('Cortes', ['controller' =>'Reportes','action' => 'cortes','menu'=>'menu_reportes']); ?></li>
+	<?php } ?>
 	<?php if($usuario->movimientos_caja or $usuario->admin){ ?>
 		<li><?= $this->Html->link('Movimientos de Caja', ['controller' =>'Reportes','action' => 'caja','menu'=>'menu_reportes']); ?></li>
 	<?php } ?>
