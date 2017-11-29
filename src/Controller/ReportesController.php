@@ -331,10 +331,11 @@ class ReportesController extends AppController
         $fechas = $this->setFechasReporte();
         $enviado = $this->request->getQuery('enviado') ?? false;
         $cobrador_id=$this->request->getQuery("cobrador")?? 0;
-        $info_cobrador=$this->Cobradores->get($cobrador_id);
 
         if ($enviado!==false)
         {
+            $info_cobrador=$this->Cobradores->get($cobrador_id);
+            
             $fecha_inicio = date('Y-m-d', $fechas['f1']);
             $fecha_termino = date('Y-m-d', $fechas['f2']);
 
