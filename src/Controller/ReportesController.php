@@ -61,15 +61,15 @@ class ReportesController extends AppController
 
         if ($enviado!==false)
         {
-            if ($filtro == "dia") 
+            if ($filtro == "dia")
             {
                 $fecha=date('Y-m-d');
                 $condicion = ["date(fecha)" => $fecha];
 
                 $fecha_reporte = date('Y-m-d');
-            } 
-            else 
-            { 
+            }
+            else
+            {
                 $fecha_inicio=date('d-M-Y', $fechas['f1']);
                 $fecha_fin=date('d-M-Y', $fechas['f2']);
                 $condicion = ["date(fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"];
@@ -158,7 +158,7 @@ class ReportesController extends AppController
         $fechas = $this->setFechasReporte();
         $filtro = $this->request->getQuery('filtro') ?? 'dia';
         $enviado = $this->request->getQuery('enviado') ?? false;
-        $proveedor = $this->request->getQuery('proveedor')?? ''; 
+        $proveedor = $this->request->getQuery('proveedor')?? '';
         
         $movimientos=[];
 
@@ -325,15 +325,26 @@ class ReportesController extends AppController
 
     public function cortes(){
 
-        $menu = $this->request->getQuery('menu')?? 'menu_cortes';
+        $cobradores=$this->Cobradores->find()->order('nombre');
+        $menu = $this->request->getQuery('menu')?? 'menu_reportes';
+        $cortes=[];
+        $fechas = $this->setFechasReporte();
+        $enviado = $this->request->getQuery('enviado') ?? false;
+        $cobrador_id=$this->request->getQuery("cobrador")?? 0;
+        $info_cobrador=$this->Cobradores->get($cobrador_id);
 
-        $cortes=$this->Cortes->find()
-        ->contain('Cobradores')
-        ->where(['Cobradores.activo'=>true])
-        ->order('Cobradores.nombre')
-        ->toArray();
+        if ($enviado!==false)
+        {
+            $fecha_inicio = date('Y-m-d', $fechas['f1']);
+            $fecha_termino = date('Y-m-d', $fechas['f2']);
 
-        $this->set(compact('cortes','menu'));
-
+            $cortes=$this->Cortes->find()
+            ->contain('Cobradores')
+            ->where(["date(cortes.fecha) between '".$fecha_inicio."' and '".$fecha_termino."'",'cobrador_id'=>$cobrador_id])
+            ->order('Cobradores.nombre')
+            ->toArray();
+        }
+        
+        $this->set(compact('cortes','menu','cobradores','cobrador_id','fechas','info_cobrador')); 
     }
 }

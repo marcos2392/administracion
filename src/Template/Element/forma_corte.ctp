@@ -64,7 +64,7 @@
 	</div>
 	<br>
 	<div class="form-group">
-		<?= $this->Form->label('ingresos','Ingreso a Caja', ['class' => 'col-md-4 control-label']) ?>
+		<?= $this->Form->label('ingresos','Dinero a Entregar', ['class' => 'col-md-4 control-label']) ?>
 		<div class="col-md-3">
 			<?= $this->Form->text('ingreso', ['class' => 'focus form-control ingreso', 'readonly'=>'readonly']) ?>
 		</div>
