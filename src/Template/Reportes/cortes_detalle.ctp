@@ -22,7 +22,7 @@
 						    <tr>
 						    	 <td align="left"><?= $this->Form->label($det->cobranza_descripcion, $det->cobranza_descripcion,['class' => 'control-label']) ?></td>
 						    	 <td width="30%"><?= $this->Form->text('det['.$det->cobranza_nombre.']['.$corte->id.']', ['class' => 'focus form-control prueba','value'=>$det->cantidad, 'readonly'=>'readonly']) ?></td>
-						    	 <td><?= $this->Form->label('porcentaje', '% '.$det->porcentaje_comision,['class' => 'control-label']) ?></td>
+						    	 <td><?= $this->Form->label('porcentaje', '% '.$det->porcentaje_comision*100,['class' => 'control-label']) ?></td>
 						    </tr>
 						<?php $comisiones+=$det->comision; }}  ?>
 						<tr>
