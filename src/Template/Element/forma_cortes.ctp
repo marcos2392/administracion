@@ -62,8 +62,7 @@
 					<tr>
 						<td><?= $i+=1; ?></td>
 						<td><?= $corte->fecha->format('d-M-Y h:i') ?></td>
-						<!-- <td><?= $this->Html->link($corte->id, ['controller' => 'Reportes', 'action' => 'cortes', 'corte_id' => $corte->id], ['target' => '_self']) ?></td> -->
-						<td><?= $corte->id ?></td>
+						<td><?= $this->Html->link($corte->id, ['controller' => 'Reportes', 'action' => 'cortes_detalle','id'=>$corte->id], ['target' => '_blank']) ?></td>
 						<td><?= $corte["cobrador"]["nombre"] ?></td>
 						<td><?= $this->number->currency($corte->total) ?></td>
 						<td><?= $this->number->currency($corte->total_sucursales) ?></td>

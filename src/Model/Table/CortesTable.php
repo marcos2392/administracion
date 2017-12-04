@@ -41,6 +41,12 @@ class CortesTable extends Table
             'foreignKey' => 'cobrador_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('CortesCobranzas', [
+            'foreignKey' => 'corte_id',
+            'joinType' => 'INNER'
+        ]);
+
         $this->belongsToMany('Cobranzas', [
             'foreignKey' => 'corte_id',
             'targetForeignKey' => 'cobranza_id',

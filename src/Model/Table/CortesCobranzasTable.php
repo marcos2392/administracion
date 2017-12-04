@@ -41,6 +41,12 @@ class CortesCobranzasTable extends Table
             'foreignKey' => 'corte_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('CobranzasCobradores', [
+            'foreignKey' => 'cobranza_cobrador_id',
+            'joinType' => 'INNER'
+        ]);
+
         $this->belongsTo('CobranzasCobradores', [
             'foreignKey' => 'cobranza_cobrador_id',
             'joinType' => 'INNER'

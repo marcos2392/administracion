@@ -101,7 +101,7 @@ class CobranzasController extends AppController
             $ingreso_caja=$this->MovimientosCaja->newEntity();
             $ingreso_caja->fecha=$fecha;
             $ingreso_caja->usuario_id=$usuario->id;
-            $ingreso_caja->descripcion="Cobranza ".$info_cobrador->nombre ;
+            $ingreso_caja->descripcion="Cobranza ".$info_cobrador->nombre;
             $ingreso_caja->tipo_movimiento=($ingreso>0)?"Ingreso" : "Gasto";
             $ingreso_caja->cantidad=($ingreso>0)?$ingreso : $ingreso*(-1);
             $ingreso_caja->cantidad_existente=$cantidad_existente+$ingreso;

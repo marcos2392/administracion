@@ -29,6 +29,9 @@ class ReportesController extends AppController
         $this->loadModel('VentasSucursales');
         $this->loadModel('Empleados');
         $this->loadModel('Cortes');
+        $this->loadModel('CortesCobranzas');
+        $this->loadModel('Cobranzas');
+        $this->loadModel('CobranzasCobradores');
         $this->loadModel('Cobradores');
     }
 
@@ -347,5 +350,34 @@ class ReportesController extends AppController
         }
         
         $this->set(compact('cortes','menu','cobradores','cobrador_id','fechas','info_cobrador')); 
+    }
+
+    public function cortesDetalle(){
+
+        $corte_id=$this->request->getParam('id');
+        $detalles=[];
+
+        $corte=$this->Cortes->get($corte_id);
+
+        $cortes_cobranzas=$this->CortesCobranzas->find()
+        ->contain('CobranzasCobradores','Cobranzas')
+        ->where(['corte_id'=>$corte_id])
+        ->toArray(); 
+
+        $cobrador=$this->Cobradores->get($corte->cobrador_id);
+
+        $corte->cobrador_nombre=$cobrador->nombre;
+
+        foreach($cortes_cobranzas as $corte_cobranza)
+        {
+            $cobranzas=$this->Cobranzas->get($corte_cobranza["cobranza_cobrador"]["cobranza_id"]);
+            $corte_cobranza->cobranza_descripcion=$cobranzas->descripcion;
+            $corte_cobranza->cobranza_nombre=$cobranzas->nombre;
+        }
+
+        $detalles["cobranzas"]=$cortes_cobranzas;
+
+        $this->set(compact('detalles','corte')); 
+        
     }
 }

@@ -7,12 +7,12 @@
 	<br>
 	<table>
 		<tr>
-			<td width="50%" >
+			<td width="50%">
 				<table class="table table-striped">
 				<?php
 					foreach($cobranzas as $cobranza)
 					{?> 
-					    <tr >
+					    <tr>
 					    	 <td align="left"><?= $this->Form->label($cobranza["cobranza"]["descripcion"], $cobranza["cobranza"]["descripcion"],['class' => 'control-label']) ?></td>
 					    	 <td width="20%"><?= $this->Form->text('cobranza['.$cobranza["cobranza"]["nombre"].']['.$cobranza["id"].']', ['class' => 'focus form-control prueba','value'=>$totales[$cobranza["cobranza"]["nombre"]],'data-porcentaje'=>$cobranza["porcentaje_comision"],'id'=>$cobranza["cobranza"]["id"],['class' => 'col-md-1']]) ?></td>
 					    	 <td><?= $this->Form->label('porcentaje', '% '.$cobranza["porcentaje_comision"],['class' => 'control-label']) ?></td>
@@ -31,10 +31,10 @@
 			<td>
 				<td width="5%"></td>
 				<td>
-				<table   class="table">
+				<table class="table">
 				    <tr>
 			    	 <td><?= $this->Form->label('suma_cobranzas','Suma Cobranzas', ['class' => 'control-label']) ?></td>
-			    	 <td><?= $this->Form->text('suma_cobranzas', ['class' => 'focus form-control cobranzas', 'readonly'=>'readonly']) ?>
+			    	 <td><?= $this->Form->text('suma_cobranzas', ['class' => 'focus form-control cobranzas', 'readonly'=>'readonly']) ?></td>
 				    </tr>
 				    <tr>
 			    	 <td><?= $this->Form->label('cobranza_entregada','Cobranza Entregado', ['class' => 'control-label']) ?></td>

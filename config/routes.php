@@ -69,6 +69,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->connect('/reportes/pagonominas', ['controller' => 'Reportes', 'action' => 'PagoNominas']);
     $routes->connect('/reportes/:id/detalle_nomina', ['controller' => 'Reportes', 'action' => 'detalle_nomina']);
+    $routes->connect('/reportes/:id/cortes_detalle', ['controller' => 'Reportes', 'action' => 'cortes_detalle']);
 
     $routes->connect('/reparaciones/:id/editar', ['controller' => 'Reparaciones', 'action' => 'editar']);
     $routes->connect('/reparaciones/:id/eliminar', ['controller' => 'Reparaciones', 'action' => 'eliminar']);
