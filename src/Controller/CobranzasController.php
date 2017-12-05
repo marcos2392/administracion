@@ -26,6 +26,7 @@ class CobranzasController extends AppController
         $this->loadModel('PagosCuentaPrestamo');
         $this->loadModel('CortesCobranzas');
         $this->loadModel('MovimientosCaja');
+        $this->loadModel('NominaEmpleadas');
     }
 
     public function cobranzas(){
@@ -69,6 +70,7 @@ class CobranzasController extends AppController
             $extra=$this->request->getData('extra');
             $suma_cobranzas=$this->request->getData('suma_cobranzas');
             $cobranza_entregado=$this->request->getData('cobranza_entregada');
+            $nomina=$this->request->getData('nomina');
 
             $info_cobrador=$this->Cobradores->get($cobrador);
 
@@ -87,6 +89,10 @@ class CobranzasController extends AppController
             $corte->fecha_termino=$fecha_termino;
             $corte->ingreso_caja=$ingreso;
 
+            {
+                $corte->nomina=$nomina;
+            }
+            
             $this->Cortes->save($corte);
 
             $corte_id=$this->guardar($cobranzas,$cobrador);
@@ -115,15 +121,32 @@ class CobranzasController extends AppController
         }
         else
         {
+            $totales=[];
+
             $info_cobrador=$this->Cobradores->get($cobrador);
 
             $cobranzas=$this->CobranzasCobradores->find()
             ->contain('Cobranzas')
             ->where(['cobrador_id'=>$cobrador])
             ->order('Cobranzas.nombre')
-            ->toArray(); 
+            ->toArray();
 
-            $totales=[];
+            $fecha_inicio_nomina=date("Y-m-d",strtotime('monday this week -7 days'));
+
+            {
+                $nomina=$this->NominaEmpleadas->find()
+                ->where(['date(fecha_inicio)'=>$fecha_inicio_nomina])
+                ->first();
+
+                if($nomina!=null)
+                {
+                    $totales["nomina"]=$nomina->sueldo_final;
+                }
+                else
+                {
+                    $totales["nomina"]=0;
+                }
+            }
 
             foreach($cobranzas as $cobranza)
             { 
@@ -134,7 +157,7 @@ class CobranzasController extends AppController
                 $totales["prestamos_cobrador"]=0;
                 $totales["prestamos_seis_meses"]=0;
                 $totales["prestamos_doce_meses"]=0;
-
+                
                 switch ($nombre) {
 
                     case "cobranza_sucursal":

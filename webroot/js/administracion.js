@@ -58,7 +58,7 @@ jQuery(function($) {
 
 	});
 
-	$(".prueba").keyup(function(){
+	$(".corte").keyup(function(){
 
 		var suma_cobranzas=0;
 		var comisiones=0;
@@ -66,8 +66,9 @@ jQuery(function($) {
 		var cobranza_entregado=0;
 		var ingreso_caja=0;
 		var extra=0;
+		var nomina=0;
 
-		$(".prueba").each(function() {
+		$(".corte").each(function() {
 
 			if (isNaN(parseFloat($(this).val())))
 		    {
@@ -113,7 +114,16 @@ jQuery(function($) {
 	    	cobranza_entregado+=parseFloat($("#4").val());
 	    }
 
-	    ingreso_caja=Math.round(cobranza_entregado-comisiones-extra);
+	    if (isNaN(parseFloat($(".nomina").val())))
+	    {
+	     	nomina+=0;
+	    }
+	    else
+	    {
+	    	nomina+=parseFloat($(".nomina").val());
+	    }
+
+	    ingreso_caja=Math.round(cobranza_entregado-comisiones-extra-nomina);
 
 	    $(".cobranzas").val(suma_cobranzas);
         $(".comisiones").val(comisiones);
@@ -122,5 +132,4 @@ jQuery(function($) {
         $(".ingreso").val(ingreso_caja);
 
     });
-
 })

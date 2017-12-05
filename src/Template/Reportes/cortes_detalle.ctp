@@ -21,7 +21,7 @@
 						foreach($detalle as $det) {?> 
 						    <tr>
 						    	 <td align="left"><?= $this->Form->label($det->cobranza_descripcion, $det->cobranza_descripcion,['class' => 'control-label']) ?></td>
-						    	 <td width="30%"><?= $this->Form->text('det['.$det->cobranza_nombre.']['.$corte->id.']', ['class' => 'focus form-control prueba','value'=>$det->cantidad, 'readonly'=>'readonly']) ?></td>
+						    	 <td width="30%"><?= $this->Form->text('det['.$det->cobranza_nombre.']['.$corte->id.']', ['class' => 'focus form-control prueba','value'=>$this->number->currency($det->cantidad), 'readonly'=>'readonly']) ?></td>
 						    	 <td><?= $this->Form->label('porcentaje', '% '.$det->porcentaje_comision*100,['class' => 'control-label']) ?></td>
 						    </tr>
 						<?php $comisiones+=$det->comision; }}  ?>
@@ -37,23 +37,29 @@
 				<table class="table">
 				    <tr>
 			    	 <td><?= $this->Form->label('suma_cobranzas','Suma Cobranzas', ['class' => 'control-label']) ?></td>
-			    	 <td><?= $this->Form->text('suma_cobranzas', ['class' => 'focus form-control cobranzas', 'readonly'=>'readonly','value'=>$corte->total]) ?></td>
+			    	 <td><?= $this->Form->text('suma_cobranzas', ['class' => 'focus form-control cobranzas', 'readonly'=>'readonly','value'=>$this->number->currency($corte->total)]) ?></td>
 				    </tr>
 				    <tr>
 			    	 <td><?= $this->Form->label('cobranza_entregada','Cobranza Entregado', ['class' => 'control-label']) ?></td>
-			    	 <td><?= $this->Form->text('cobranza_entregada', ['class' => 'focus form-control cobranza_entregado', 'readonly'=>'readonly','value'=>$corte->total_cobrador]) ?></td>
+			    	 <td><?= $this->Form->text('cobranza_entregada', ['class' => 'focus form-control cobranza_entregado', 'readonly'=>'readonly','value'=>$this->number->currency($corte->total_cobrador)]) ?></td>
 				    </tr>
 				    <tr>
 			    	 <td><?= $this->Form->label('suma_comisiones','Suma Comisiones', ['class' => 'control-label']) ?></td>
-			    	 <td><?= $this->Form->text('suma_comisiones', ['class' => 'focus form-control comisiones', 'readonly'=>'readonly','value'=>$comisiones]) ?></td>
+			    	 <td><?= $this->Form->text('suma_comisiones', ['class' => 'focus form-control comisiones', 'readonly'=>'readonly','value'=>$this->number->currency($comisiones)]) ?></td>
 				    </tr>
+				    <?php if($corte->nomina!=null) { ?>
+					    <tr>
+				    	 <td><?= $this->Form->label('nomina','Nomina', ['class' => 'control-label']) ?></td>
+				    	 <td><?= $this->Form->text('nomina', ['class' => 'focus form-control nomina','value'=>$this->number->currency($corte->nomina), 'readonly'=>'readonly']) ?></td>
+					    </tr>
+					<?php } ?>
 				    <tr>
 			    	 <td><?= $this->Form->label('extras','Extra', ['class' => 'control-label']) ?></td>
-			    	 <td><?= $this->Form->text('extras', ['class' => 'focus form-control extras', 'readonly'=>'readonly','value'=>$corte->extra]) ?></td>
+			    	 <td><?= $this->Form->text('extras', ['class' => 'focus form-control extras', 'readonly'=>'readonly','value'=>$this->number->currency($corte->extra)]) ?></td>
 				    </tr>
 				    <tr>
 			    	 <td><?= $this->Form->label('ingresos','Dinero a Entregar', ['class' => 'control-label']) ?></td>
-			    	 <td><?= $this->Form->text('ingreso', ['class' => 'focus form-control ingreso', 'readonly'=>'readonly','value'=>$corte->ingreso_caja]) ?></td>
+			    	 <td><?= $this->Form->text('ingreso', ['class' => 'focus form-control ingreso', 'readonly'=>'readonly','value'=>$this->number->currency($corte->ingreso_caja)]) ?></td>
 				    </tr>
 				</table>
 				</td>

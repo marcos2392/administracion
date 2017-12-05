@@ -362,6 +362,7 @@ class ReportesController extends AppController
         $cortes_cobranzas=$this->CortesCobranzas->find()
         ->contain('CobranzasCobradores','Cobranzas')
         ->where(['corte_id'=>$corte_id])
+        //->order('id')
         ->toArray(); 
 
         $cobrador=$this->Cobradores->get($corte->cobrador_id);
