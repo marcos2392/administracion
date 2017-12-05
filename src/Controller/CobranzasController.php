@@ -89,6 +89,7 @@ class CobranzasController extends AppController
             $corte->fecha_termino=$fecha_termino;
             $corte->ingreso_caja=$ingreso;
 
+            if($info_cobrador->empleados_id!=null)
             {
                 $corte->nomina=$nomina;
             }
@@ -133,6 +134,7 @@ class CobranzasController extends AppController
 
             $fecha_inicio_nomina=date("Y-m-d",strtotime('monday this week -7 days'));
 
+            if($info_cobrador->empleados_id!=null)
             {
                 $nomina=$this->NominaEmpleadas->find()
                 ->where(['date(fecha_inicio)'=>$fecha_inicio_nomina])
