@@ -138,6 +138,7 @@ class CobranzasController extends AppController
             {
                 $nomina=$this->NominaEmpleadas->find()
                 ->where(['date(fecha_inicio)'=>$fecha_inicio_nomina])
+                ->order('id desc')
                 ->first();
 
                 if($nomina!=null)
