@@ -208,6 +208,7 @@ class ReportesController extends AppController
     public function pagoNominas(){
 
         $pagos_nomina=[];
+        $cortes=[];
         $info_sucursal=[];
 
         $fecha_inicio=strtotime('monday this week -7 days');
@@ -237,63 +238,58 @@ class ReportesController extends AppController
                 $condicion = ["date(fecha_inicio) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
 
+            $prueba=[];
+
             foreach($sucursales as $suc)
             {
-
-                $pagos_efectivo=$this->NominaEmpleadas->find()
-                ->select([
-                        'cantidad_pago' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre'])
-                ->join([
-                    'Sucursales' => [
-                        'table' => 'sucursales',
-                        'type' => 'inner',
-                        'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']],'Empleados' => [
-                        'table' => 'empleados',
-                        'type' => 'inner',
-                        'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
-                ->where([$condicion,'Empleados.tarjeta'=>0,'NominaEmpleadas.sucursal_id'=>$suc->id])
-                ->group('NominaEmpleadas.sucursal_id')
-                ->toArray();
-
-                $pagos_tarjeta=$this->NominaEmpleadas->find()
-                ->select([
-                        'cantidad_pago' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre'])
-                ->join([
-                    'Sucursales' => [
-                        'table' => 'sucursales',
-                        'type' => 'inner',
-                        'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']],'Empleados' => [
-                        'table' => 'empleados',
-                        'type' => 'inner',
-                        'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
-                ->where([$condicion,'Empleados.tarjeta'=>true,'NominaEmpleadas.sucursal_id'=>$suc->id])
-                ->group('NominaEmpleadas.sucursal_id')
-                ->toArray();
-
-                $pagos_mixto=$this->NominaEmpleadas->find()
-                ->select([
-                        'cantidad_pago' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre'])
-                ->join([
-                    'Sucursales' => [
-                        'table' => 'sucursales',
-                        'type' => 'inner',
-                        'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']],'Empleados' => [
-                        'table' => 'empleados',
-                        'type' => 'inner',
-                        'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
-                ->where([$condicion,'NominaEmpleadas.sucursal_id'=>$suc->id])
-                ->group('NominaEmpleadas.sucursal_id')
-                ->toArray();
-
+                $pagos_efectivo=$this->pagosEfectivo($condicion,$suc->id);
+                $pagos_tarjeta=$this->pagosTarjeta($condicion,$suc->id);
+                $pagos_mixto=$this->pagosMixto($condicion,$suc->id);
+                
                 $pagos_nomina[$suc->id][$suc->nombre]["efectivo"]=$pagos_efectivo;
                 $pagos_nomina[$suc->id][$suc->nombre]["tarjeta"]=$pagos_tarjeta;
                 $pagos_nomina[$suc->id][$suc->nombre]["mixto"]=$pagos_mixto;
+            
 
+                $cortes=$this->NominaEmpleadas->find()
+                ->select([
+                            'fecha'=>'NominaEmpleadas.fecha','fecha_inicio'=>'NominaEmpleadas.fecha_inicio','fecha_termino'=>'NominaEmpleadas.fecha_fin','pago_total' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre','sucursal_id'=>'Sucursales.id'])
+                ->join([
+                    'Sucursales' => [
+                        'table' => 'sucursales',
+                        'type' => 'inner',
+                        'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']]])
+                ->where([$condicion,'NominaEmpleadas.sucursal_id'=>$suc->id])
+                ->group('NominaEmpleadas.fecha_inicio')
+                ->order('NominaEmpleadas.sucursal_id')
+                ->toArray();
+
+                $prueba[$suc->id]=$cortes;
+            }
+
+            foreach ($prueba as $sucursal_id=>$info) 
+            {
+                foreach($info as $corte)
+                {
+                    $condicion=["date(NominaEmpleadas.fecha_inicio)= '".$corte->fecha_inicio->format("Y-m-d")."'"];
+
+                    $pagos_efectivo=$this->pagosEfectivo($condicion,$corte->sucursal_id);
+                    $pagos_tarjeta=$this->pagosTarjeta($condicion,$corte->sucursal_id);
+
+                    foreach($pagos_efectivo as $pago)
+                    {
+                        $corte->pago_efectivo=$pago->cantidad_pago;
+                    }
+
+                    foreach($pagos_tarjeta as $pago)
+                    {
+                        $corte->pago_tarjeta=$pago->cantidad_pago;
+                    }
+                }
             }
         }
          
-        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin','info_sucursal'));
-
+        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin','info_sucursal','prueba'));
     }
 
     public function detalleNomina(){
@@ -311,7 +307,6 @@ class ReportesController extends AppController
         ->order('Empleados.nombre')
         ->toArray();
 
-
         foreach($nomina as $nom)
         { 
             if($nom->venta_id!=null)
@@ -323,7 +318,6 @@ class ReportesController extends AppController
         }
 
         $this->set(compact('sucursal_info','nomina','venta_sucursal','fecha_inicio','fecha_fin'));
-
     }
 
     public function cortes(){
@@ -380,5 +374,65 @@ class ReportesController extends AppController
 
         $this->set(compact('detalles','corte')); 
         
+    }
+
+    private function pagosEfectivo($condicion,$sucursal){
+
+        $pagos_efectivo=$this->NominaEmpleadas->find()
+                ->select([
+                        'cantidad_pago' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre'])
+                ->join([
+                    'Sucursales' => [
+                        'table' => 'sucursales',
+                        'type' => 'inner',
+                        'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']],'Empleados' => [
+                        'table' => 'empleados',
+                        'type' => 'inner',
+                        'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
+                ->where([$condicion,'Empleados.tarjeta'=>0,'NominaEmpleadas.sucursal_id'=>$sucursal])
+                ->group('NominaEmpleadas.sucursal_id')
+                ->toArray();
+
+        return $pagos_efectivo;
+    }
+
+    private function pagosTarjeta($condicion,$sucursal){
+
+        $pagos_tarjeta=$this->NominaEmpleadas->find()
+                ->select([
+                        'cantidad_pago' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre'])
+                ->join([
+                    'Sucursales' => [
+                        'table' => 'sucursales',
+                        'type' => 'inner',
+                        'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']],'Empleados' => [
+                        'table' => 'empleados',
+                        'type' => 'inner',
+                        'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
+                ->where([$condicion,'Empleados.tarjeta'=>1,'NominaEmpleadas.sucursal_id'=>$sucursal])
+                ->group('NominaEmpleadas.sucursal_id')
+                ->toArray();
+
+        return $pagos_tarjeta;
+    }
+
+    private function pagosMixto($condicion,$sucursal){
+
+        $pagos_mixto=$this->NominaEmpleadas->find()
+            ->select([
+                    'cantidad_pago' => 'sum(NominaEmpleadas.sueldo_final)','sucursal_nombre'=>'Sucursales.nombre'])
+            ->join([
+                'Sucursales' => [
+                    'table' => 'sucursales',
+                    'type' => 'inner',
+                    'conditions' => ['Sucursales.id = NominaEmpleadas.sucursal_id']],'Empleados' => [
+                    'table' => 'empleados',
+                    'type' => 'inner',
+                    'conditions' => ['Empleados.id = NominaEmpleadas.empleados_id']]])
+            ->where([$condicion,'NominaEmpleadas.sucursal_id'=>$sucursal])
+            ->group('NominaEmpleadas.sucursal_id')
+            ->toArray();
+
+        return $pagos_mixto;
     }
 }

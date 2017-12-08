@@ -45,71 +45,99 @@
     <?= $this->Form->hidden('menu', ['value' => $menu]) ?>
 
 <?= $this->Form->end() ?>
-<br><br>
+<br>
 
 <?php if($pagos_nomina!=null){ ?>
 
-    <div class="row" >
-        <div class="col-sm-6 col-sm-offset-3">
-            <h4><b>Fecha Nomina : </b><?= date("d-M-Y",$fecha_inicio).' / '.date("d-M-Y",$fecha_fin) ?></h4>
-            <br>
-            <ol class="breadcrumb center hidden-print">
-                <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
-            </ol>
-            <table  class="table table-striped">
-                    <tr class="active">
-                        <th>Sucursal</th>
-                        <th>Pago Efectivo</th>
-                        <th>Pago Tarjeta</th>
-                        <th>Pago General</th>
-                    </tr>
-                    <tr>
-                    <?php
-
-                    $efectivo=0;
-                    $tarjeta=0;
-                    $mixto=0; 
-
-                    foreach ($pagos_nomina as $id_sucursal=>$info):?>
-                        
-                    <?php  foreach($info as $sucursal_nombre=>$pagos): ?>
-                        <td class="hidden-print"><?= $this->Html->link($sucursal_nombre, ['controller'=>'Reportes','action' => 'detalle_nomina','id' => $id_sucursal,"fecha_inicio"=>date("Y-m-d",$fecha_inicio),"fecha_fin"=>date("Y-m-d",$fecha_fin)],['target'=>'_blank']) ?></td>
-                        <td class="visible-print-block"><?= $sucursal_nombre ?></td> <?php
-                                foreach($pagos as $tipo=>$datos):
-                                    if($datos!=[]) 
-                                    {
-                                        foreach($datos as $info): 
-                                            if($tipo=='efectivo'){ ?>
-                                                <td><b><?= $this->Number->currency($info->cantidad_pago) ?></b></td> <?php
-                                            }
-                                            else
-                                            { ?>
-                                                <td><?= $this->Number->currency($info->cantidad_pago) ?></td>
-                                        <?php    }
-
-                                            if($tipo=='efectivo'){ $efectivo+=$info->cantidad_pago; }
-                                            if($tipo=='tarjeta'){ $tarjeta+=$info->cantidad_pago; }
-                                            if($tipo=='mixto'){ $mixto+=$info->cantidad_pago; }
-
-                                        endforeach;
-                                    }
-                                    else
-                                    { ?>
-                                        <td>$ 0</td> <?php
-                                    }
-                                endforeach;
-                            endforeach; ?>
-                    </tr> <?php
-                    endforeach; ?>
-
-                <tr class="active">
-                    <th>Total: </th>
-                    <th><b> <?= $this->Number->currency($efectivo) ?></b></th>
-                    <th><b> <?= $this->Number->currency($tarjeta) ?></b></th>
-                    <th><b> <?= $this->Number->currency($mixto) ?></b></th>
+    <h4><b>Fecha Nomina : </b><?= date("d-M-Y",$fecha_inicio).' / '.date("d-M-Y",$fecha_fin) ?></h4>
+    
+    <ol class="breadcrumb center hidden-print">
+        <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
+    </ol>
+    <?php if($prueba!=null){ ?>
+        <div style="float:left;" class="hidden-print">
+            <h3><b>Nominas Sucursales</b></h3>
+            <table class="table table-striped">
+                <tr>
+                    <td><b>#</b></td>
+                    <td><b>Sucursal</b></td>
+                    <td><b>Fecha Inicio</b></td>
+                    <td><b>Fecha Termino</b></td>
+                    <td><b>Efectivo</b></td>
+                    <td><b>Tarjeta</b></td>
+                    <td><b>Pago General</b></td>
                 </tr>
-                    
+                <?php $contador=1; 
+                foreach($prueba as $sucursal_id=>$info)
+                { 
+                    foreach($info as $corte){?>
+                        <tr>
+                            <td><?= $contador; ?></td>
+                            <td class="hidden-print"><?= $this->Html->link($corte->sucursal_nombre, ['controller'=>'Reportes','action' => 'detalle_nomina','id' => $corte->sucursal_id,'fecha_inicio'=>$corte->fecha_inicio->format("Y-m-d"),'fecha_fin'=>$corte->fecha_termino->format("Y-m-d")],['target'=>'_blank']) ?></td>
+                            <td class="visible-print-block"><?= $corte->sucursal_nombre; ?></td>
+                            <td><?= $corte->fecha_inicio->format("d-M-Y"); ?></td>
+                            <td><?= $corte->fecha_termino->format("d-M-Y"); ?></td>
+                            <td><?= $this->Number->currency($corte->pago_efectivo) ?></td>
+                            <td><?= $this->Number->currency($corte->pago_tarjeta) ?></td>
+                            <td><b><?= $this->Number->currency($corte->pago_total) ?></b></td>
+                        </tr>
+                <?php $contador++;} } ?>
             </table>
         </div>
+    <?php } ?>
+    <div style="float:left; <?php if($prueba==null){ ?> margin-left:120px; <?php }else { ?> margin-left:50px; <?php } ?> ">
+        <h3><b>Suma Nominas Sucursales</b></h3>
+        <table  class="table table-striped">
+            <tr class="active">
+                <th>Sucursal</th>
+                <th>Pago Efectivo</th>
+                <th>Pago Tarjeta</th>
+                <th>Pago General</th>
+            </tr>
+            <tr>
+                <?php
+
+                $efectivo=0;
+                $tarjeta=0;
+                $mixto=0; 
+
+                foreach ($pagos_nomina as $id_sucursal=>$info){?>
+                    
+                <?php  foreach($info as $sucursal_nombre=>$pagos){ ?>
+                    <td><?= $sucursal_nombre ?></td> <?php
+                            foreach($pagos as $tipo=>$datos){
+                                if($datos!=[]) 
+                                {
+                                    foreach($datos as $info){ 
+                                        if($tipo=='efectivo'){ ?>
+                                            <td><b><?= $this->Number->currency($info->cantidad_pago) ?></b></td> <?php
+                                        }
+                                        else
+                                        { ?>
+                                            <td><?= $this->Number->currency($info->cantidad_pago) ?></td>
+                                    <?php    }
+
+                                        if($tipo=='efectivo'){ $efectivo+=$info->cantidad_pago; }
+                                        if($tipo=='tarjeta'){ $tarjeta+=$info->cantidad_pago; }
+                                        if($tipo=='mixto'){ $mixto+=$info->cantidad_pago; }
+
+                                    }
+                                }
+                                else
+                                { ?>
+                                    <td>$ 0</td> <?php
+                                }
+                            }
+                        } ?>
+            </tr> <?php
+                } ?>
+
+            <tr class="active">
+                <th>Total: </th>
+                <th><b> <?= $this->Number->currency($efectivo) ?></b></th>
+                <th><b> <?= $this->Number->currency($tarjeta) ?></b></th>
+                <th><b> <?= $this->Number->currency($mixto) ?></b></th>
+            </tr>     
+        </table>
     </div>
 <?php } ?>
