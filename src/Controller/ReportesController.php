@@ -208,7 +208,7 @@ class ReportesController extends AppController
     public function pagoNominas(){
 
         $pagos_nomina=[];
-        $cortes=[];
+        $cortes_nominas=[];
         $info_sucursal=[];
 
         $fecha_inicio=strtotime('monday this week -7 days');
@@ -238,7 +238,7 @@ class ReportesController extends AppController
                 $condicion = ["date(fecha_inicio) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
             }
 
-            $prueba=[];
+            $cortes_nominas=[];
 
             foreach($sucursales as $suc)
             {
@@ -264,10 +264,10 @@ class ReportesController extends AppController
                 ->order('NominaEmpleadas.sucursal_id')
                 ->toArray();
 
-                $prueba[$suc->id]=$cortes;
+                $cortes_nominas[$suc->id]=$cortes;
             }
 
-            foreach ($prueba as $sucursal_id=>$info) 
+            foreach ($cortes_nominas as $sucursal_id=>$info) 
             {
                 foreach($info as $corte)
                 {
@@ -289,7 +289,7 @@ class ReportesController extends AppController
             }
         }
          
-        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin','info_sucursal','prueba'));
+        $this->set(compact('pagos_nomina','fechas','filtro','menu','fecha_inicio','fecha_fin','info_sucursal','cortes_nominas'));
     }
 
     public function detalleNomina(){

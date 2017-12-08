@@ -54,7 +54,7 @@
     <ol class="breadcrumb center hidden-print">
         <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
     </ol>
-    <?php if($prueba!=null){ ?>
+    <?php if($cortes_nominas!=null){ ?>
         <div style="float:left;" class="hidden-print">
             <h3><b>Nominas Sucursales</b></h3>
             <table class="table table-striped">
@@ -68,7 +68,7 @@
                     <td><b>Pago General</b></td>
                 </tr>
                 <?php $contador=1; 
-                foreach($prueba as $sucursal_id=>$info)
+                foreach($cortes_nominas as $sucursal_id=>$info)
                 { 
                     foreach($info as $corte){?>
                         <tr>
@@ -85,7 +85,7 @@
             </table>
         </div>
     <?php } ?>
-    <div style="float:left; <?php if($prueba==null){ ?> margin-left:120px; <?php }else { ?> margin-left:50px; <?php } ?> ">
+    <div style="float:left; <?php if($cortes_nominas==null){ ?> margin-left:120px; <?php }else { ?> margin-left:50px; <?php } ?> ">
         <h3><b>Suma Nominas Sucursales</b></h3>
         <table  class="table table-striped">
             <tr class="active">
