@@ -26,7 +26,7 @@
 
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Editar',['controller' =>'Nominas','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio_nomina]); ?></li>
-            <li><?=$this->Html->link('Agregar Empleado',['controller' =>'Nominas','action' => 'agregarEmpleado','sucursal'=>$sucursal,'inicio'=>$inicio_nomina,'termino'=>$termino_nomina],['target'=>'blank']); ?></li>
+            <li><?=$this->Html->link('Agregar Empleado',['controller' =>'Nominas','action' => 'agregarEmpleado','sucursal'=>$sucursal,'inicio'=>$inicio_nomina,'termino'=>$termino_nomina],['target'=>'_self']); ?></li>
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
         </ol>
         <br>

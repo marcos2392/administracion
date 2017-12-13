@@ -533,8 +533,17 @@ class NominasController extends AppController
                     $venta_id=$existe_nomina->venta_id;
                 }
             }
-            
-            $this->set(compact('empleados_sin_nomina','empleado','fecha_inicio','fecha_termino','sucursal','venta_id'));
+
+            if($empleados_sin_nomina==null)
+            {
+                $venta=$this->VentasSucursales->get($venta_id);
+                $this->Flash->default("En este Momento Todos los Empleados Activos Tienen Nomina Generada.");
+                $this->redirect(['action' => 'nominas', 'sucursal' => $sucursal,'venta_sucursal'=>$venta->venta]);
+            }
+            else
+            {
+                $this->set(compact('empleados_sin_nomina','empleado','fecha_inicio','fecha_termino','sucursal','venta_id'));
+            }
         }
     }
 }
