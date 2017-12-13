@@ -67,7 +67,7 @@
                     <td><b>Tarjeta</b></td>
                     <td><b>Pago General</b></td>
                 </tr>
-                <?php $contador=1; 
+                <?php $contador=1;
                 foreach($cortes_nominas as $sucursal_id=>$info)
                 { 
                     foreach($info as $corte){?>

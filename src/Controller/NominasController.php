@@ -481,4 +481,60 @@ class NominasController extends AppController
         
         return $horast;
     }
+
+    public function agregarEmpleado(){
+
+        $empleados_sin_nomina=[];
+
+        $sucursal=$this->request->getQuery('sucursal');
+        $fecha_inicio=$this->request->getQuery('inicio');
+        $fecha_termino=$this->request->getQuery('termino');
+
+        $empleado=$this->request->getQuery("empleado")?? 0;
+        $enviado = $this->request->getQuery('enviado') ?? false;
+
+        $empleados=$this->Empleados->find()
+        ->where(['sucursal_id'=>$sucursal,'status'=>true])
+        ->toArray();
+
+        if ($enviado!==false)
+        {
+            $venta_id=$this->request->getQuery('venta_id');
+            $agregar_nomina=$this->NominaEmpleadas->newEntity();
+
+            $agregar_nomina->fecha=date("Y-m-d");
+            $agregar_nomina->fecha_inicio=$fecha_inicio;
+            $agregar_nomina->fecha_fin=$fecha_termino;
+            $agregar_nomina->empleados_id=$empleado;
+            $agregar_nomina->sucursal_id=$sucursal;
+            $agregar_nomina->venta_id=$venta_id;
+
+            $this->NominaEmpleadas->save($agregar_nomina);
+
+            $venta=$this->VentasSucursales->get($venta_id);
+
+            $this->Flash->default("Se agrego al Empleado Correctamente");
+            $this->redirect(['action' => 'nominas', 'sucursal' => $sucursal,'venta_sucursal'=>$venta->venta]);
+        }
+        else
+        {
+            foreach($empleados as $empleado)
+            {
+                $existe_nomina=$this->NominaEmpleadas->find()
+                ->where(['empleados_id'=>$empleado->id,'fecha_inicio'=>$fecha_inicio,'fecha_fin'=>$fecha_termino])
+                ->first();
+
+                if($existe_nomina==null)
+                {
+                    $empleados_sin_nomina[$empleado->id]=$empleado;
+                }
+                else
+                {
+                    $venta_id=$existe_nomina->venta_id;
+                }
+            }
+            
+            $this->set(compact('empleados_sin_nomina','empleado','fecha_inicio','fecha_termino','sucursal','venta_id'));
+        }
+    }
 }

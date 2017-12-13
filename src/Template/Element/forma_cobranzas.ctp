@@ -11,17 +11,17 @@
 	<?= $this->Form->label('id', 'Fechas: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="form-group ">
     
-    <?= $this->element('select_fecha', [
-        'prefijo' => 'fecha1',
-        'fecha' => $fechas['f1']
-    ]) ?>
-    -
-    <?= $this->element('select_fecha', [
-        'prefijo' => 'fecha2',
-        'fecha' => $fechas['f2']
-    ]) ?>
+	    <?= $this->element('select_fecha', [
+	        'prefijo' => 'fecha1',
+	        'fecha' => $fechas['f1']
+	    ]) ?>
+	    -
+	    <?= $this->element('select_fecha', [
+	        'prefijo' => 'fecha2',
+	        'fecha' => $fechas['f2']
+	    ]) ?>
 
-</div>
+	</div>
 </div>
 
 <br><br><br><br><br><br><br>
