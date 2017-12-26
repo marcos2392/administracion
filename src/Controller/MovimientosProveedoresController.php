@@ -39,7 +39,6 @@ class MovimientosProveedoresController extends AppController
 
         if ($this->request->is('post'))
         {
-
         	$ultimo_movimiento=$this->MovimientosProveedores->find()
             ->where(['proveedor_id'=>$proveedor])
             ->order('fecha desc')

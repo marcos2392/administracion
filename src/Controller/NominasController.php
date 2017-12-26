@@ -454,8 +454,8 @@ class NominasController extends AppController
         $horas = $query ->fetchAll('assoc');
 
         foreach($horas as $hrs)
-        { 
-            $info_empleado=$this->Empleados->get($hrs["empleado_id"]); 
+        {
+            $info_empleado=$this->Empleados->get($hrs["empleado_id"]);
 
             $horas_empleado=$hrs["hrs_editadas"];
 

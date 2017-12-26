@@ -183,7 +183,7 @@ class ReportesController extends AppController
             $movimientos = $this->MovimientosProveedores->find()
             ->contain(['Usuarios','Proveedores'])
             ->where($condicion)
-            ->order(['Proveedores.nombre','MovimientosProveedores.fecha'])
+            ->order(['MovimientosProveedores.fecha'])
             ->toArray();
         }
 
