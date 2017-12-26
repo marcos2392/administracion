@@ -15,7 +15,7 @@
 <div class="form-group">
 	<?= $this->Form->label('can', 'Cantidad: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-2">
-		<?= $this->Form->text('cantidad', ['class' => 'focus form-control' ,'required', 'id'=>'cantidad', 'value'=>(isset($cantidad)?$cantidad:'')]) ?>
+		<?= $this->Form->number('cantidad', ['class' => 'focus form-control' ,'required', 'id'=>'cantidad', 'value'=>(isset($cantidad)?$cantidad:'')]) ?>
 	</div>
 </div>
 
