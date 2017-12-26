@@ -14,7 +14,7 @@
 					{ if($cobranza["cobranza"]["nombre"]!='nomina'){?> 
 					    <tr>
 					    	 <td align="left"><?= $this->Form->label($cobranza["cobranza"]["descripcion"], $cobranza["cobranza"]["descripcion"],['class' => 'control-label']) ?></td>
-					    	 <td width="25%"><?= $this->Form->number('cobranza['.$cobranza["cobranza"]["nombre"].']['.$cobranza["id"].']', ['class' => 'focus form-control corte','value'=>$totales[$cobranza["cobranza"]["nombre"]],'data-porcentaje'=>$cobranza["porcentaje_comision"],'id'=>$cobranza["cobranza"]["id"],['class' => 'col-md-1']]) ?></td>
+					    	 <td width="25%"><?= $this->Form->number('cobranza['.$cobranza["cobranza"]["nombre"].']['.$cobranza["id"].']', ['class' => 'focus form-control corte','value'=>$totales[$cobranza["cobranza"]["nombre"]], 'step'=>'any','data-porcentaje'=>$cobranza["porcentaje_comision"],'id'=>$cobranza["cobranza"]["id"],['class' => 'col-md-1']]) ?></td>
 					    	 <td><?= $this->Form->label('porcentaje', '% '.$cobranza["porcentaje_comision"]*100,['class' => 'control-label']) ?></td>
 					    </tr>
 					  <?php } ?>
