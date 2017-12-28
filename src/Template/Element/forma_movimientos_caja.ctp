@@ -32,7 +32,7 @@
 <div class="form-group">
 	<?= $this->Form->label('cantidad', 'Cantidad: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-2">
-		<?= $this->Form->number('cantidad', ['class' => 'focus form-control' ,'required', 'value'=>(isset($movimiento)?$movimiento->cantidad:'')]) ?>
+		<?= $this->Form->number('cantidad', ['class' => 'focus form-control' ,'required', 'value'=>(isset($movimiento)?$movimiento->cantidad:''), 'step'=>'any']) ?>
 	</div>
 </div>
 <br>
