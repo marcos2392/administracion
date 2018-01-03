@@ -98,7 +98,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acciones<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <?php if($usuario->admin ){ ?>
+                                <?php if($usuario->super_admin ){ ?>
                                     <li><?= $this->Html->link('Usuarios', ['controller' =>'Usuarios','action' => 'usuarios']); ?></li>
                                 <?php } ?>
 
@@ -106,22 +106,21 @@
                                     <li><?= $this->Html->link('Empleados', ['controller' =>'Empleados','action' => 'empleados']); ?></li>
                                 <?php } ?>
 
-                                <?php if($usuario->admin){ ?>
+                                <?php if($usuario->super_admin){ ?>
                                     <li><?= $this->Html->link('Sucursales', ['controller' =>'Sucursales','action' => 'sucursales']); ?></li>
                                 <?php } ?>
 
-                                <?php if($usuario->admin){ ?>
+                                <?php if($usuario->super_admin){ ?>
                                     <li><?= $this->Html->link('Joyeros', ['controller' =>'Joyeros','action' => 'joyeros']); ?></li>
                                 <?php } ?>
 
-                                <?php if($usuario->admin){ ?>
+                                <?php if($usuario->super_admin || $usuario->proveedores){ ?>
                                     <li><?= $this->Html->link('Proveedores', ['controller' =>'Proveedores','action' => 'proveedores']); ?></li>
                                 <?php } ?>
 
-                                <?php if($usuario->admin || $usuario->cobranzas){ ?>
+                                <?php if($usuario->super_admin || $usuario->cobranzas){ ?>
                                     <li><?= $this->Html->link('Cobradores', ['controller' =>'Cobradores','action' => 'cobradores']); ?></li>
                                 <?php } ?>
-                                
                             </ul>
                         </li>
                     </ul>
