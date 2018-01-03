@@ -67,7 +67,7 @@ class NominasController extends AppController
                 {
                     $info_checadas=$this->infochecada($inicio_nomina,$termino_nomina,$sucursal);
 
-                    if($info_checadas!="")
+                    if($info_checadas!=null)
                     {
                         $registros=[];
 
@@ -90,6 +90,7 @@ class NominasController extends AppController
                             $comision=0;
                             $pago_joyeria=0;
                             $extra=0;
+                            $ahorro=0;
 
                             $horas_trabajadas=$this->horasSemanales($inicio_nomina,$id);
 
@@ -117,8 +118,13 @@ class NominasController extends AppController
                                 $comision=$this->HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo,$comision_empleados_venta,$horas_trabajadas,$reg["empleado"]->id);
 
                             }
+
+                            if($reg["empleado"]->ahorro)
+                            {
+                                $ahorro=$reg["empleado"]->ahorro_cantidad;
+                            }
                             
-                            $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo);
+                            $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo-$ahorro);
 
                             $nomina->fecha=$fecha;
                             $nomina->fecha_inicio=$inicio_nomina;
@@ -135,6 +141,25 @@ class NominasController extends AppController
                             $nomina->prestamo=$prestamo;
                             $nomina->sueldo_final=$sueldo_final;
                             $nomina->venta_id=$venta_id;
+                            $nomina->ahorro_cantidad=$ahorro;
+                            $this->NominaEmpleadas->save($nomina); 
+                        }
+                    }
+                    else
+                    {
+                        $empleados=$this->Empleados->find()
+                        ->where(['sucursal_id'=>$sucursal,'status'=>true])
+                        ->order('id')
+                        ->toArray();
+
+                        foreach($empleados as $empleado)
+                        {
+                            $nomina = $this->NominaEmpleadas->newEntity();
+                            $nomina->fecha=$fecha;
+                            $nomina->fecha_inicio=$inicio_nomina;
+                            $nomina->fecha_fin=$termino_nomina;
+                            $nomina->sucursal_id=$sucursal;
+                            $nomina->empleados_id=$empleado->id;
                             $this->NominaEmpleadas->save($nomina); 
                         }
                     }
@@ -146,7 +171,7 @@ class NominasController extends AppController
                     ->toArray();
 
                     foreach($empleados as $emp)
-                    {
+                    { 
                         $nomina = $this->NominaEmpleadas->newEntity();
                         $nomina->fecha=$fecha;
                         $nomina->empleados_id=$emp->id;
@@ -213,9 +238,11 @@ class NominasController extends AppController
 
         $sucursal_info=$this->Sucursales->get($sucursal);
 
-    $i = 0;
+        $i = 0;
         foreach($empleados as $id=>$empleado)
         {
+            $ahorro=0;
+
             $venta_semanal=$empleado["venta_sucursal"];
 
             $horas_trabajadas=$this->HorasOperacion($empleado["horas"]);
@@ -241,9 +268,13 @@ class NominasController extends AppController
                 $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$sueldo,$comision_empleados_venta,$empleado["id"]);
             }
 
-            $sueldo_final=round($sueldo+$comision+$bono-$infonavit-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$prestamo+$empleado["extra"]);
+            if($info_empleado->ahorro)
+            {
+                $ahorro=$info_empleado->ahorro_cantidad;
+            }
 
-            
+            $sueldo_final=round($sueldo+$comision+$bono-$infonavit-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$prestamo+$empleado["extra"]-$ahorro);
+
             $nomina->sueldo=$sueldo;
             $nomina->comision=$comision;
             $nomina->bono=$bono;
@@ -256,6 +287,7 @@ class NominasController extends AppController
             $nomina->isr=$empleado["isr"];
             $nomina->deduccion=$empleado["deduccion"];
             $nomina->infonavit=$infonavit;
+            $nomina->ahorro_cantidad=$ahorro;
 
             $this->NominaEmpleadas->save($nomina); 
         $i++;

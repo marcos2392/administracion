@@ -30,6 +30,18 @@
 	</div>
 </div>
 <div class="form-group">
+	<?= $this->Form->label('ahorro', 'Ahorro', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('ahorro', ['class' => 'focus form-control', 'value' => $ahorro=($empleado->ahorro==null)?0 :$empleado->ahorro]) ?>
+	</div>
+</div>
+<div class="form-group">
+	<?= $this->Form->label('ahorro_cantidad', 'Cantidad Ahorro: ', ['class' => 'col-md-2 control-label']) ?>
+	<div class="col-md-3">
+		<?= $this->Form->text('ahorro_cantidad', ['class' => 'focus form-control', 'value' => $empleado->ahorro_cantidad]) ?>
+	</div>
+</div>
+<div class="form-group">
 	<?= $this->Form->label('infonavit', 'Infonavit', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
 		<?= $this->Form->text('infonavit', ['class' => 'focus form-control', 'value' => $infonavit=($empleado->infonavit==null)?0 :$empleado->infonavit]) ?>

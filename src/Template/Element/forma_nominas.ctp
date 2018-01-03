@@ -6,6 +6,7 @@
                     <th>Nombre</th>
                     <th>Hrs</th>
                     <th>Sueldo</th>
+                    <th>Ahorro</th>
                     <th>Comision</th>
                     <th>Bono</th>
                     <th>Joyeria</th>
@@ -29,7 +30,8 @@
                      <tr>
                      	<td><?= $reg->empleado->ncompleto ?></td>
                         <td width="80px"><?= $this->Form->text('empleados['.$reg->id.'][horas]', ['class' => 'focus form-control', 'value' => $horas=Horas($reg->horas)]) ?></td>
-                        <td><?= $this->Number->currency($reg->sueldo) ?></td> 
+                        <td><?= $this->Number->currency($reg->sueldo) ?></td>
+                        <td><?= $this->Number->currency($reg->ahorro_cantidad) ?></td> 
                         <td><?= $this->Number->currency($reg->comision) ?></td>
                         <td><?= $this->Number->currency($reg->bono) ?></td>
                         <td><?= $this->Number->currency($reg->joyeria) ?></td>

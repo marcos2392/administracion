@@ -87,6 +87,8 @@ class EmpleadosController extends AppController
         $porcentaje_comision = $this->request->getData('porcentaje')?? 0;
         $infonavit = $this->request->getData('infonavit')?? 0;
         $tarjeta = $this->request->getData('tarjeta')?? 0;
+        $ahorro = $this->request->getData('ahorro');
+        $ahorro_cantidad = $this->request->getData('ahorro_cantidad');
 
         $nombre=htmlentities($nombre, ENT_QUOTES,'UTF-8');
         $nombre = ucwords(strtolower($nombre));
@@ -116,6 +118,8 @@ class EmpleadosController extends AppController
         $empleado->porcentaje_comision=$porcentaje_comision;
         $empleado->infonavit=$infonavit;
         $empleado->tarjeta=$tarjeta;
+        $empleado->ahorro=$ahorro;
+        $empleado->ahorro_cantidad=$ahorro_cantidad;
 
         foreach($dias as $d)
         {
@@ -163,6 +167,8 @@ class EmpleadosController extends AppController
         $cliente_id = $this->request->getData('cliente_id')?? 0;
         $joyeria = $this->request->getData('joyeria')?? 0;
         $prestamo = $this->request->getData('prestamo')?? 0;
+        $ahorro = $this->request->getData('ahorro');
+        $ahorro_cantidad = $this->request->getData('ahorro_cantidad');
 
 
         $lunes_entrada = $this->request->getData('lunes_entrada');
@@ -227,6 +233,8 @@ class EmpleadosController extends AppController
         $empleado->joyeria=$joyeria;
         $empleado->prestamo=$prestamo;
         $empleado->sucursal_id=$sucursal;
+        $empleado->ahorro=$ahorro;
+        $empleado->ahorro_cantidad=$ahorro_cantidad;
         
 
         if ($this->request->is('post'))

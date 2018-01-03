@@ -38,6 +38,7 @@
                 <th>% Venta</th>
                 <th>Comision</th>
                 <th>Bono</th>
+                <th>Ahorro</th>
                 <th>Joyeria</th>
                 <th>Prestamo</th>
                 <th>Infonavit</th>
@@ -63,6 +64,7 @@
                 <th><?= $reg->empleado->porcentaje_comision ?></th> 
                 <td><?= $this->Number->currency($reg->comision) ?></td>
                 <td><?= $this->Number->currency($reg->bono) ?></td>
+                <td><?= $this->Number->currency($reg->ahorro_cantidad) ?></td>
                 <td><?= $this->Number->currency($reg->joyeria) ?></td>
                 <td><?= $this->Number->currency($reg->prestamo) ?></td>
                 <td><?= $this->Number->currency($reg->infonavit) ?></td>
