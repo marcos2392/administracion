@@ -29,6 +29,7 @@
                     <th>Sucursal</th>
                     <th>Sueldo</th>
                     <th>% Comision</th>
+                    <th>Ahorro</th>
                     <th>Infonavit</th>
                     <th>Tipo Pago</th>
                     <th colspan="2"></th>
@@ -44,6 +45,7 @@
                         <td><?= $empleado->sucursal->nombre ?></td>
                         <td><?= $this->number->currency($empleado->sueldo) ?></td>
                         <td><?= $empleado->porcentaje_comision ?></td>
+                        <td><?= $this->number->currency($empleado->ahorro_cantidad) ?></td>
                         <td><?= $this->number->currency($empleado->infonavit) ?></td>
                         <?php $tipo_pago=($empleado->tarjeta)? "Tarjeta" : "Efectivo" ; ?>
                         <td><?= $tipo_pago ?></td>
