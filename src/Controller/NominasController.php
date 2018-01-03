@@ -25,6 +25,7 @@ class NominasController extends AppController
         $this->loadModel('Transacciones');
         $this->loadModel('VentasSucursales');
         $this->loadModel('HorasChecadas');
+        $this->loadModel('Variables');
         
     }
 
@@ -41,6 +42,10 @@ class NominasController extends AppController
         $sucursales=$this->Sucursales->find()
         ->where(['generar_nomina'=>true])
         ->order('nombre');
+
+        $calculo_ahorro=$this->Variables->find()
+        ->where(['nombre'=>'ahorro'])
+        ->first();
 
         $sucursal=$this->request->getQuery('sucursal');
         
@@ -120,11 +125,15 @@ class NominasController extends AppController
 
                             }
 
-                            if($reg["empleado"]->ahorro)
+                            if($calculo_ahorro->estatus)
                             {
-                                $ahorro=$reg["empleado"]->ahorro_cantidad;
-                                $ahorro_extra=$ahorro+$ahorro/10;
+                                if($reg["empleado"]->ahorro)
+                                {
+                                    $ahorro=$reg["empleado"]->ahorro_cantidad;
+                                    $ahorro_extra=$ahorro+$ahorro/10;
+                                }
                             }
+                            
                             
                             $sueldo_final=round($sueldo+$comision+$bono-$reg["empleado"]->infonavit-$pago_joyeria+$horas_extras-$prestamo-$ahorro);
 
@@ -238,6 +247,10 @@ class NominasController extends AppController
 
     private function calcular($sucursal,$empleados){
 
+        $calculo_ahorro=$this->Variables->find()
+        ->where(['nombre'=>'ahorro'])
+        ->first();
+
         $sucursal_info=$this->Sucursales->get($sucursal);
 
         $i = 0;
@@ -271,10 +284,13 @@ class NominasController extends AppController
                 $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$sueldo,$comision_empleados_venta,$empleado["id"]);
             }
 
-            if($info_empleado->ahorro)
+            if($calculo_ahorro->estatus)
             {
-                $ahorro=$info_empleado->ahorro_cantidad;
-                $ahorro_extra=$ahorro+$ahorro/10;
+                if($info_empleado->ahorro)
+                {
+                    $ahorro=$info_empleado->ahorro_cantidad;
+                    $ahorro_extra=$ahorro+$ahorro/10;
+                }
             }
 
             $sueldo_final=round($sueldo+$comision+$bono-$infonavit-$pago_joyeria+$horas_extras-$empleado["deduccion"]-$empleado["isr"]-$prestamo+$empleado["extra"]-$ahorro);
