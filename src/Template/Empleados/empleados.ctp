@@ -43,10 +43,10 @@
                         <td><?= $empleado->ncompleto ?></td>
                         <td><b><?= $empleado->id ?></b></td>
                         <td><?= $empleado->sucursal->nombre ?></td>
-                        <td><?= $this->number->currency($empleado->sueldo) ?></td>
+                        <td><?= $this->Number->currency($empleado->sueldo) ?></td>
                         <td><?= $empleado->porcentaje_comision ?></td>
-                        <td><?= $this->number->currency($empleado->ahorro_cantidad) ?></td>
-                        <td><?= $this->number->currency($empleado->infonavit) ?></td>
+                        <td><?= $this->Number->currency($empleado->ahorro_cantidad) ?></td>
+                        <td><?= $this->Number->currency($empleado->infonavit) ?></td>
                         <?php $tipo_pago=($empleado->tarjeta)? "Tarjeta" : "Efectivo" ; ?>
                         <td><?= $tipo_pago ?></td>
                         <td><?= $this->Html->link('Editar', ['action' => 'editar', 'id' => $empleado->id]) ?></td>

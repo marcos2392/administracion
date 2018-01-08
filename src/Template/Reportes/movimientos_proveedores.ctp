@@ -89,8 +89,8 @@
                     <td><?= $mov->proveedor->nombre; ?></td>
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo ?></td>
-                    <td><?= $this->number->currency($mov->cantidad) ?></td>
-                    <td><?= $this->number->currency($mov->saldo) ?></td>
+                    <td><?= $this->Number->currency($mov->cantidad) ?></td>
+                    <td><?= $this->Number->currency($mov->saldo) ?></td>
                     <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){ ?>
                         <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
                     <?php } ?>
@@ -107,12 +107,12 @@
             <tr style="border: hidden">
                 <td colspan="4"></td>
                 <td><b>Total Depositos</b></td>
-                <td><?= $this->number->currency($total_depositos) ?></td>
+                <td><?= $this->Number->currency($total_depositos) ?></td>
             </tr>
             <tr style="border: hidden">
                 <td colspan="4"></td>
                 <td><b>Total Notas</b></td>
-                <td><?= $this->number->currency($total_notas) ?></td>
+                <td><?= $this->Number->currency($total_notas) ?></td>
             </tr>
         </table>
     </div>

@@ -4,7 +4,7 @@
 
         <h4><b>Sucursal: </b><?= $sucursal_info->nombre ?></h4>
         <h4><b>Fecha: </b><?= date("d-M-Y",strtotime($fecha_inicio))." / ".date("d-M-Y",strtotime($fecha_fin)) ?></h4>
-        <h4><b>Venta Sucursal: </b><?= $this->number->currency($venta_sucursal) ?></h4>
+        <h4><b>Venta Sucursal: </b><?= $this->Number->currency($venta_sucursal) ?></h4>
 
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>

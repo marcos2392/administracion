@@ -64,10 +64,10 @@
 						<td><?= $corte->fecha->format('d-M-Y h:i') ?></td>
 						<td><?= $this->Html->link($corte->id, ['controller' => 'Reportes', 'action' => 'cortes_detalle','id'=>$corte->id], ['target' => '_blank']) ?></td>
 						<td><?= $corte["cobrador"]["nombre"] ?></td>
-						<td><?= $this->number->currency($corte->total) ?></td>
-						<td><?= $this->number->currency($corte->total_sucursales) ?></td>
-						<td><?= $this->number->currency($corte->total_cobrador) ?></td>
-						<td><?= $this->number->currency($corte->ingreso_caja) ?></td>
+						<td><?= $this->Number->currency($corte->total) ?></td>
+						<td><?= $this->Number->currency($corte->total_sucursales) ?></td>
+						<td><?= $this->Number->currency($corte->total_cobrador) ?></td>
+						<td><?= $this->Number->currency($corte->ingreso_caja) ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</table>

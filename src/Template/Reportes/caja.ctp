@@ -88,8 +88,8 @@
                     <td><?= $mov["usuario"]["nombre"]; ?></td>
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo_movimiento ?></td>
-                    <td><?= $this->number->currency($mov->cantidad) ?></td>
-                    <td><?= $this->number->currency($mov->cantidad_existente) ?></td>
+                    <td><?= $this->Number->currency($mov->cantidad) ?></td>
+                    <td><?= $this->Number->currency($mov->cantidad_existente) ?></td>
                     <?php if($mov->usuario_id==$usuario->id){ ?>
                         <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosCaja', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
                     <?php } ?>
@@ -102,7 +102,7 @@
             <tr>
                 <td colspan="2"></td>
                 <td><b>Total Dinero en Caja</b></td>
-                <td><b><?= $this->number->currency($total_caja) ?></b></td>
+                <td><b><?= $this->Number->currency($total_caja) ?></b></td>
             </tr>
             <tr>
                 <td></td>
@@ -110,12 +110,12 @@
             <tr style="border: hidden">
                 <td colspan="2"></td>
                 <td><b>Total Ingresos</b></td>
-                <td><?= $this->number->currency($total_ingresos) ?></td>
+                <td><?= $this->Number->currency($total_ingresos) ?></td>
             </tr>
             <tr style="border: hidden">
                 <td colspan="2"></td>
                 <td><b>Total Gastos</b></td>
-                <td><?= $this->number->currency($total_gastos) ?></td>
+                <td><?= $this->Number->currency($total_gastos) ?></td>
             </tr>
         </table>
     </div>
