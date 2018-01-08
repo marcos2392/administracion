@@ -92,7 +92,7 @@ class AppController extends Controller
     }
 
     protected function getUsuario() {
-        $usuarios_table = TableRegistry::get('usuarios');
+        $usuarios_table = TableRegistry::get('Usuarios');
         return $usuarios_table->find('all')
             ->where(['Usuarios.usuario' => $this->Auth->user('usuario')])->first();
     }
