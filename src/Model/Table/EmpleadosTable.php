@@ -34,7 +34,7 @@ class EmpleadosTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('sucursales');
+        $this->belongsTo('Sucursales');
         
     }
 
