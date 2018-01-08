@@ -36,7 +36,7 @@ class EmpleadosController extends AppController
             $condicion[]=($sucursal!=0)?["Empleados.sucursal_id"=>$sucursal,"Empleados.status"=>true]: ["Empleados.status"=>true];
 
             $empleados=$this->Empleados->find()
-            ->contain(['sucursales'])
+            ->contain(['Sucursales'])
             ->where($condicion)
             ->order('Sucursales.nombre,Empleados.nombre')
             ->toArray(); 
