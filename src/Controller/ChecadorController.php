@@ -69,7 +69,7 @@ class ChecadorController extends AppController
             {
                $registros=$this->Checadas->find()
                 ->where($condicion)
-                ->order('empleados_id, fecha,checadas.entrada');
+                ->order('empleados_id, fecha,Checadas.entrada');
 
                 $registro=$this->checadas($registros,$inicio,$fin); 
 
@@ -93,7 +93,7 @@ class ChecadorController extends AppController
 
         $registros=$this->Checadas->find()
         ->where(['fecha between "'.$desde_fecha.'" and "'.$hasta_fecha.'" and sucursal_id="'.$sucursal.'"'])
-        ->order('empleados_id, fecha,checadas.entrada');
+        ->order('empleados_id, fecha,Checadas.entrada');
 
         $registro=$this->checadas($registros,$desde_fecha,$hasta_fecha);
 
@@ -456,8 +456,6 @@ class ChecadorController extends AppController
         $total_minutos_transcurridos=$total_minutos_transcurridos/60;
         $hrs=floor($total_minutos_transcurridos);
         $minutos=($total_minutos_transcurridos*60)%60;   
-
-        
 
         return ($hrs+$minutos/60); 
     }

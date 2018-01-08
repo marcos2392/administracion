@@ -105,8 +105,5 @@ class CobradoresController extends AppController
         }
 
         $this->redirect(['action' => 'cobradores']);
-
-
     }
-
 }

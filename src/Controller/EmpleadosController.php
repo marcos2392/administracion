@@ -33,12 +33,12 @@ class EmpleadosController extends AppController
         
         if ($enviado!==false) 
         {
-            $condicion[]=($sucursal!=0)?["empleados.sucursal_id"=>$sucursal,"empleados.status"=>true]: ["empleados.status"=>true];
+            $condicion[]=($sucursal!=0)?["Empleados.sucursal_id"=>$sucursal,"Empleados.status"=>true]: ["Empleados.status"=>true];
 
             $empleados=$this->Empleados->find()
             ->contain(['sucursales'])
             ->where($condicion)
-            ->order('sucursales.nombre,empleados.nombre')
+            ->order('Sucursales.nombre,Empleados.nombre')
             ->toArray(); 
         }
 
@@ -283,12 +283,12 @@ class EmpleadosController extends AppController
         $sucursal=$this->request->getQuery('sucursal');
         $enviado = $this->request->getQuery('enviado') ?? false;
 
-        $condicion = ["empleados.status=true"];
+        $condicion = ["Empleados.status=true"];
 
         $empleados=$this->Empleados->find()
         ->contain(['sucursales'])
         ->where($condicion)
-        ->order('sucursales.nombre,empleados.nombre');
+        ->order('Sucursales.nombre,Empleados.nombre');
 
         $sucursales=$this->Sucursales->find()
         ->order('nombre');

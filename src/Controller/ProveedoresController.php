@@ -20,7 +20,7 @@ class ProveedoresController extends AppController
 
         $this->loadModel('Proveedores');
         $this->loadModel('SaldoProveedores');
-        
+        $this->loadModel('ProveedoresSistema');
     }
 
     public function proveedores() {
@@ -31,7 +31,6 @@ class ProveedoresController extends AppController
         ->toArray();
 
         $this->set(compact('proveedores'));
-
     }
 
     public function nuevo() {
@@ -55,13 +54,18 @@ class ProveedoresController extends AppController
 
             $saldo_proveedor = $this->SaldoProveedores->newEntity();
             $saldo_proveedor->proveedor_id=$proveedor_id->id;
-
             $this->SaldoProveedores->save($saldo_proveedor);
+
+            $proveedor_sistema=$this->ProveedoresSistema->newEntity();
+            $proveedor_sistema->nombre=$proveedor;
+            $proveedor_sistema->visible_sucursal=false;
+            $proveedor_sistema->activo=true;
+            $proveedor_sistema->admin_proveedor_id=$proveedor_id->id;
+            $this->ProveedoresSistema->save($proveedor_sistema);
 
 	    	$this->Flash->default("Se Creo el Proveedor Correctamente.");
 	    	$this->redirect(['action' => 'proveedores']);
 	    }
-
 	    $this->set(compact('proveedor'));
     }
 
@@ -73,7 +77,6 @@ class ProveedoresController extends AppController
         $proveedor=$proveedores->nombre;
 
         $this->set(compact('proveedores','proveedor'));
-
     }
 
     public function actualizar() {
@@ -83,12 +86,16 @@ class ProveedoresController extends AppController
 
         $proveedores=$this->Proveedores->get($id);
         $proveedores->nombre=$proveedor;
-
         $this->Proveedores->save($proveedores);
+
+        $proveedores_sistema=$this->ProveedoresSistema->find()
+        ->where(['admin_proveedor_id'=>$id])
+        ->first();
+        $proveedores_sistema->nombre=$proveedor;
+        $this->ProveedoresSistema->save($proveedores_sistema);
 
         $this->Flash->default("Se Modifico el Proveedor Correctamente.");
         $this->redirect(['action' => 'proveedores']);
-
     }
 
     public function eliminar() {
@@ -96,13 +103,29 @@ class ProveedoresController extends AppController
         $id=$this->request->getParam('id');
 
         $proveedor=$this->Proveedores->get($id);
-        $proveedor->activo=false;
 
-        $this->Proveedores->save($proveedor);
+        $saldo_proveedor=$this->SaldoProveedores->find()
+        ->where(['proveedor_id'=>$proveedor->id])
+        ->first();
 
-        $this->Flash->default("Se Elimino el Proveedor Correctamente.");
-        $this->redirect(['action' => 'proveedores']);
+        if($saldo_proveedor->saldo==0)
+        {
+            $proveedor->activo=false;
+            $this->Proveedores->save($proveedor);
 
+            $proveedor_sistema=$this->ProveedoresSistema->find()
+            ->where(['admin_proveedor_id'=>$id])
+            ->first();
+            $proveedor_sistema->activo=false;
+            $this->ProveedoresSistema->save($proveedor_sistema);
 
+            $this->Flash->default("Se Elimino el Proveedor Correctamente.");
+            $this->redirect(['action' => 'proveedores']);
+        }
+        else
+        {
+            $this->Flash->default("No se elimino el proveedor debido a que su saldo no esta liquidado o se tiene saldo a favor.");
+            $this->redirect(['action' => 'proveedores']);
+        }
     }
 }

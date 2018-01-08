@@ -77,8 +77,6 @@ class SucursalesController extends AppController
                $this->redirect(['action' => 'editar']);
              }
         }
-
-        
     }
 
     public function editar() {

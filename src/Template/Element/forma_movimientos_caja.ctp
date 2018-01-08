@@ -5,7 +5,7 @@
 	<?= $this->Form->label('id', 'Tipo Movimiento: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
 		<select class="selectpicker" name="tipo_movimiento" id='tipo' class='hidden' required>
-		    <?php   
+		    <?php
 		    	if(isset($movimiento))
 		    	{
 		    		echo '<option value="'.$movimiento->tipo_movimiento.'">' .$movimiento->tipo_movimiento. '</option>';

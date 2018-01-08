@@ -132,4 +132,21 @@ jQuery(function($) {
         $(".ingreso").val(ingreso_caja);
 
     });
+
+    $('#boton').click(function){
+        var input_piezas = $('#valor1');
+		var	input_codigo = $('#valor2');
+
+        $.ajax({
+                data:  parametros,
+                url:   'cobradores/prueba',
+                type:  'post',
+                beforeSend: function () {
+                        $("#resultado").html("Procesando, espere por favor...");
+                },
+                success:  function (response) {
+                        $("#resultado").html(response);
+                }
+        });
+}
 })

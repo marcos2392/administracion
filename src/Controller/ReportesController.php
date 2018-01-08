@@ -87,7 +87,7 @@ class ReportesController extends AppController
 
             if($cantidad_anterior!=null){ $cantidad_movimiento_anterior=$cantidad_anterior->cantidad_existente; }
             
-            $condicion[]=["movimientoscaja.sucursal_id"=>$usuario_caja]; 
+            $condicion[]=["MovimientosCaja.sucursal_id"=>$usuario_caja]; 
             $movimientos = $this->MovimientosCaja->find()
             ->contain('Usuarios')
             ->where($condicion)
@@ -303,7 +303,7 @@ class ReportesController extends AppController
 
         $nomina=$this->NominaEmpleadas->find()
         ->contain('Empleados')
-        ->where(["nominaempleadas.sucursal_id"=>$sucursal_id,"date(nominaempleadas.fecha_inicio)"=>$fecha_inicio])
+        ->where(["NominaEmpleadas.sucursal_id"=>$sucursal_id,"date(NominaEmpleadas.fecha_inicio)"=>$fecha_inicio])
         ->order('Empleados.nombre')
         ->toArray();
 
@@ -338,7 +338,7 @@ class ReportesController extends AppController
 
             $cortes=$this->Cortes->find()
             ->contain('Cobradores')
-            ->where(["date(cortes.fecha) between '".$fecha_inicio."' and '".$fecha_termino."'",'cobrador_id'=>$cobrador_id])
+            ->where(["date(Cortes.fecha) between '".$fecha_inicio."' and '".$fecha_termino."'",'cobrador_id'=>$cobrador_id])
             ->order('Cobradores.nombre')
             ->toArray();
         }
