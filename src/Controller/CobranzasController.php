@@ -166,7 +166,7 @@ class CobranzasController extends AppController
                     case "cobranza_sucursal":
                         
                         $cobranza_sucursal=$this->DetallesCuentaCobranza->find()
-                        ->where(['cobrador_id'=>$info_cobrador->id_cobrador_sistema,'pago'=>true,"convert(date,fecha) between '".$fecha_inicio."' and '".$fecha_termino."' ","usuario_id <> 3"])
+                        ->where(['cobrador_id'=>$info_cobrador->id_cobrador_sistema,'pago'=>true,"date(fecha) between '".$fecha_inicio."' and '".$fecha_termino."' ","usuario_id <> 3"])
                         ->toArray();
 
                         foreach($cobranza_sucursal as $cobranza)
@@ -189,7 +189,7 @@ class CobranzasController extends AppController
                                 'conditions' => ['PagosCuentaPrestamo.cuenta_prestamo_id = CuentasPrestamo.id']
                             ]
                         ])->where([
-                            "CONVERT(date,PagosCuentaPrestamo.fecha_pago) between '".$fecha_inicio."' and '".$fecha_termino."' " ,"CuentasPrestamo.cobrador_id = '".$info_cobrador->id_cobrador_sistema."' ","PagosCuentaPrestamo.cantidad_pago<>0","PagosCuentaPrestamo.usuario_id <> 3"
+                            "date(PagosCuentaPrestamo.fecha_pago) between '".$fecha_inicio."' and '".$fecha_termino."' " ,"CuentasPrestamo.cobrador_id = '".$info_cobrador->id_cobrador_sistema."' ","PagosCuentaPrestamo.cantidad_pago<>0","PagosCuentaPrestamo.usuario_id <> 3"
                         ]);
                         
                         foreach($prestamo_sucursal as $prestamo)

@@ -379,7 +379,7 @@ class NominasController extends AppController
             $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
 
             $joyerias=$this->Transacciones->find()
-            ->where(["convert(date,fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0' and sistema_id <>'14'"])
+            ->where(["date(fecha) between '". $inicio_semana_actual ."' and '". $termino_semana_actual ."' and cliente_id='".$id."' and sucursal_id='0' and sistema_id <>'14'"])
             ->toArray();
 
             if($joyerias!=[])
@@ -404,7 +404,7 @@ class NominasController extends AppController
             ->where(function ($exp) {
             $inicio_semana_actual=date("Y-m-d",strtotime('monday this week'));
             $termino_semana_actual=date("Y-m-d",strtotime('sunday this week'));
-            return $exp->between('convert(date, fecha)', $inicio_semana_actual, $termino_semana_actual);
+            return $exp->between('date(fecha)', $inicio_semana_actual, $termino_semana_actual);
             })
             ->where(["cliente_id" => $id, "sucursal_id" => 0, "sistema_id" => 14])
             ->toArray();
@@ -425,7 +425,7 @@ class NominasController extends AppController
 
         $venta_semanal=$this->Transacciones->find()
         ->select(['vta'=>'sum(pago)'])
-        ->where(["Convert(date,fecha) between '". $inicio_nomina ."' and '". $termino_nomina ."' and sucursal_id= '".$sistema_id."'"])
+        ->where(["date(fecha) between '". $inicio_nomina ."' and '". $termino_nomina ."' and sucursal_id= '".$sistema_id."'"])
         ->first(); 
 
         $venta_semanal=round($venta_semanal->vta);
