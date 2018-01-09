@@ -73,7 +73,7 @@
                 <td><?= $this->Number->currency($reg->extra+$reg->pago_extras) ?></td>
                 <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
                 <th width="110px"></th>
-               <th class="hidden-print" style="min-width: 25px;" >
+               <th class="hidden-print" style="min-width: 25px" >
                     <?=$this->Html->link( $this->Html->image('delete.png'), array('controller'=>'Nominas','action'=>'eliminar','id'=>$reg->id,'venta'=>$venta_semanal), array('escape'=>false)); ?>
                 </th>
             <?php 
