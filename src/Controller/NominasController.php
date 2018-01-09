@@ -364,7 +364,7 @@ class NominasController extends AppController
     private function Nomina($sucursal,$fecha_inicio) {
         $sucursal_capturada=$this->NominaEmpleadas->find() 
             ->contain('Empleados')
-            ->where(["Nominaempleadas.sucursal_id"=>$sucursal,"date(NominaEmpleadas.fecha_inicio)"=>$fecha_inicio])
+            ->where(["NominaEmpleadas.sucursal_id"=>$sucursal,"date(NominaEmpleadas.fecha_inicio)"=>$fecha_inicio])
             ->order("Empleados.nombre");
         return $sucursal_capturada;
     }
