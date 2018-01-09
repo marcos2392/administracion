@@ -74,7 +74,7 @@
                 <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
                 <th width="110px"></th>
                <th class="hidden-print" style="min-width: 25px" >
-                    <?=$this->Html->link( $this->Html->image('delete.png',['width'="25px" 'height'="25px"]), array('controller'=>'Nominas','action'=>'eliminar','id'=>$reg->id,'venta'=>$venta_semanal), array('escape'=>false)); ?>
+                    <?=$this->Html->link( $this->Html->image('delete.png'), array('controller'=>'Nominas','action'=>'eliminar','id'=>$reg->id,'venta'=>$venta_semanal), array('escape'=>false)); ?>
                 </th>
             <?php 
             if($reg->empleado->tarjeta==false)
