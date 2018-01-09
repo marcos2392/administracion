@@ -17,8 +17,6 @@
 <?= $this->Form->end() ?>
 <br><br>
 <?php if(!$sucursal_capturada->isEmpty()){ ?>
-<div class="row">
-    <div class="col-sm-14 ">
 
         <h4><b>Sucursal: </b><?= $sucursal_info->nombre ?></h4>
         <h4><b>Fecha: </b><?= $inicio_nomina," / ",$termino_nomina ?></h4>
@@ -88,6 +86,4 @@
                 <th><b>Total Nomina</b></th>
                 <th><?= $this->Number->currency($total_nomina) ?></th>
         </table>
-    </div>
-</div>
 <?php } ?>
