@@ -33,7 +33,7 @@ jQuery(function($) {
 	});
 
 	$('form.disable').submit(function() {
-		
+
 		var boton = $(this).find("[type='submit']");
   		boton.prop('disabled',true);
 		if ($(this).data('disable-with')) {
@@ -73,8 +73,8 @@ jQuery(function($) {
 			if (isNaN(parseFloat($(this).val())))
 		    {
 		      suma_cobranzas += 0 ;
-		    } 
-		    else 
+		    }
+		    else
 		    {
 		    	if($(this).attr("id")==5 || $(this).attr("id")==6)
 		    	{
@@ -132,21 +132,5 @@ jQuery(function($) {
         $(".ingreso").val(ingreso_caja);
 
     });
-
-    $('#boton').click(function){
-        var input_piezas = $('#valor1');
-		var	input_codigo = $('#valor2');
-
-        $.ajax({
-                data:  parametros,
-                url:   'cobradores/prueba',
-                type:  'post',
-                beforeSend: function () {
-                        $("#resultado").html("Procesando, espere por favor...");
-                },
-                success:  function (response) {
-                        $("#resultado").html(response);
-                }
-        });
 }
 })
