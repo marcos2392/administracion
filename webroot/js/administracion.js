@@ -132,5 +132,4 @@ jQuery(function($) {
         $(".ingreso").val(ingreso_caja);
 
     });
-}
-})
+});
