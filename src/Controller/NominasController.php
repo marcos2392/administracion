@@ -95,7 +95,7 @@ class NominasController extends AppController
                             $comision=0;
                             $pago_joyeria=0;
                             $extra=0;
-                            $ahorro_extra=0;
+                            //$ahorro_extra=0;
                             $ahorro=0;
 
                             $horas_trabajadas=$this->horasSemanales($inicio_nomina,$id);
@@ -130,7 +130,7 @@ class NominasController extends AppController
                                 if($reg["empleado"]->ahorro)
                                 {
                                     $ahorro=$reg["empleado"]->ahorro_cantidad;
-                                    $ahorro_extra=$ahorro+$ahorro/10;
+                                    //$ahorro_extra=$ahorro+$ahorro/10;
                                 }
                             }
                             
@@ -152,7 +152,7 @@ class NominasController extends AppController
                             $nomina->prestamo=$prestamo;
                             $nomina->sueldo_final=$sueldo_final;
                             $nomina->venta_id=$venta_id;
-                            $nomina->ahorro_cantidad=$ahorro_extra;
+                            $nomina->ahorro_cantidad=$ahorro;
                             $this->NominaEmpleadas->save($nomina); 
                         }
                     }
@@ -257,7 +257,7 @@ class NominasController extends AppController
         foreach($empleados as $id=>$empleado)
         {
             $ahorro=0;
-            $ahorro_extra=0;
+            //$ahorro_extra=0;
 
             $venta_semanal=$empleado["venta_sucursal"];
 
@@ -289,7 +289,7 @@ class NominasController extends AppController
                 if($info_empleado->ahorro)
                 {
                     $ahorro=$info_empleado->ahorro_cantidad;
-                    $ahorro_extra=$ahorro+$ahorro/10;
+                    //$ahorro_extra=$ahorro+$ahorro/10;
                 }
             }
 
@@ -307,7 +307,7 @@ class NominasController extends AppController
             $nomina->isr=$empleado["isr"];
             $nomina->deduccion=$empleado["deduccion"];
             $nomina->infonavit=$infonavit;
-            $nomina->ahorro_cantidad=$ahorro_extra;
+            $nomina->ahorro_cantidad=$ahorro;
 
             $this->NominaEmpleadas->save($nomina); 
         $i++;
