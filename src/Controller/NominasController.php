@@ -279,9 +279,12 @@ class NominasController extends AppController
 
             if($sucursal_info->comision_empleados==true)
             {  
-                $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
+                if($info_empleado->comision==true)
+                {
+                    $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
 
-                $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$sueldo,$comision_empleados_venta,$empleado["id"]);
+                    $comision=$this->HorasSemanalesEmpleadas($sucursal_info->id,$empleado["fecha_inicio"],$sueldo,$comision_empleados_venta,$empleado["id"]);
+                }
             }
 
             if($calculo_ahorro->estatus)
@@ -509,14 +512,17 @@ class NominasController extends AppController
         {
             $info_empleado=$this->Empleados->get($hrs["empleado_id"]);
 
-            $horas_empleado=$hrs["hrs_editadas"];
-
-            if($horas_empleado>48)
+            if($info_empleado->comision==true)
             {
-                $horas_empleado=48;
-            }
+                $horas_empleado=$hrs["hrs_editadas"];
 
-            $suma_sueldos+=round($info_empleado->sueldo/48*($horas_empleado)); 
+                if($horas_empleado>48)
+                {
+                    $horas_empleado=48;
+                }
+
+                $suma_sueldos+=round($info_empleado->sueldo/48*($horas_empleado)); 
+            } 
         }
 
         $comision=round(($sueldo_empleado/$suma_sueldos)*$comision_sucursal);
