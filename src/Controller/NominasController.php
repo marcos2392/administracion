@@ -117,12 +117,14 @@ class NominasController extends AppController
 
                            if($sucursal_info->comision_empleados==true)
                             { 
-                                $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
+                                if($reg["empleado"]->comision==true)
+                                {   
+                                    $comision_empleados_venta=round($venta_semanal*$sucursal_info->porcentaje_comision_empleados);
 
-                                $suma_sueldos=0;
+                                    $suma_sueldos=0;
 
-                                $comision=$this->HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo,$comision_empleados_venta,$horas_trabajadas,$reg["empleado"]->id);
-
+                                    $comision=$this->HorasSemanalesEmpleadas($sucursal,$inicio_nomina,$sueldo,$comision_empleados_venta,$horas_trabajadas,$reg["empleado"]->id);
+                                }
                             }
 
                             if($calculo_ahorro->estatus)
