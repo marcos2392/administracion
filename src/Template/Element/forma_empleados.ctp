@@ -38,7 +38,7 @@
 <div class="form-group">
 	<?= $this->Form->label('ahorro_cantidad', 'Cantidad Ahorro: ', ['class' => 'col-md-2 control-label']) ?>
 	<div class="col-md-3">
-		<?= $this->Form->text('ahorro_cantidad', ['class' => 'focus form-control', 'value' => $empleado->ahorro_cantidad]) ?>
+		<?= $this->Form->text('ahorro_cantidad', ['class' => 'focus form-control', 'value' => $ahorro_cantidad=($empleado->ahorro_cantidad==null)?0 :$empleado->ahorro_cantidad]) ?>
 	</div>
 </div>
 <div class="form-group">
