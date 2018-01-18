@@ -199,9 +199,12 @@ class NominasController extends AppController
             }
         }
 
+        $datos_generales=$this->NominaEmpleadas->find()
+        ->where(['sucursal_id'=>$sucursal,'date(fecha_inicio)'=>$inicio_nomina]);
+
         $sucursal_capturada=$this->nomina($sucursal,$inicio_nomina);
 
-        $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','termino_nomina','sucursal_info'));
+        $this->set(compact('sucursales','suc','sucursal','registros','venta_semanal','sucursal_capturada','inicio_nomina','termino_nomina','sucursal_info','datos_generales'));
     }
 
     public function editar() {
