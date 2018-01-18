@@ -15,27 +15,49 @@
 
      <?= $this->Form->hidden('enviado', ['value' => true]) ?>
 <?= $this->Form->end() ?>
-<br><br>
-<?php if(!$sucursal_capturada->isEmpty()){ ?>
+<br>
+<?php if(!$sucursal_capturada->isEmpty()){
+
+        $total_nomina=0;
+        foreach($sucursal_capturada as $reg)
+        {
+            if($reg->empleado->tarjeta==false)
+            {
+                $total_nomina+= $reg->sueldo_final;
+            }
+        } ?>
 
         <h4><b>Sucursal: </b><?= $sucursal_info->nombre ?></h4>
         <h4><b>Fecha: </b><?= $inicio_nomina," / ",$termino_nomina ?></h4>
         <h4><b>Venta Sucursal: </b><?= $this->Number->currency($venta_semanal) ?></h4>
+        <h4><b>Total Nomina: </b><?= $this->Number->currency($total_nomina) ?></h4>
 
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Editar',['controller' =>'Nominas','action' => 'editar','sucursal'=>$sucursal,'inicio'=>$inicio_nomina]); ?></li>
             <li><?=$this->Html->link('Agregar Empleado',['controller' =>'Nominas','action' => 'agregarEmpleado','sucursal'=>$sucursal,'inicio'=>$inicio_nomina,'termino'=>$termino_nomina],['target'=>'_self']); ?></li>
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
         </ol>
+
+        <?php $bono=false;$comision=false;
+        foreach($datos_generales as $datos)
+        {
+            if($datos->comision>0){ $comision=true;}
+            if($datos->bono>0){ $bono=true;}
+        } ?>
+
         <br>
         <table  class="table table-striped">
             <tr class="active">
                 <th>Nombre</th>
                 <th>Hrs</th>
                 <th>Sueldo</th>
-                <th>% Venta</th>
-                <th>Comision</th>
-                <th>Bono</th>
+                <?php if($comision==true){ ?>
+                    <th>% Venta</th>
+                    <th>Comision</th>
+                <?php }
+                if($bono==true){ ?>
+                    <th>Bono</th>
+                <?php } ?>
                 <th>Ahorro</th>
                 <th>Joyeria</th>
                 <th>Prestamo</th>
@@ -46,7 +68,7 @@
                 <th>Sueldo Final</th>
                 <th>Firma</th>
             </tr>
-            <?php $contador=1; $total_nomina=0;
+            <?php $contador=1;
             foreach($sucursal_capturada as $reg):
                 if($reg["empleado"]["tarjeta"]==true)
                 {
@@ -59,9 +81,13 @@
                 <td class="visible-print-block"><?= $reg->empleado->ncompleto ?></td>
                 <td><?= $horas=Horas($reg->horas); ?></td>
                 <td><?= $this->Number->currency($reg->sueldo) ?></td>
-                <th><?= $reg->empleado->porcentaje_comision ?></th> 
-                <td><?= $this->Number->currency($reg->comision) ?></td>
-                <td><?= $this->Number->currency($reg->bono) ?></td>
+                <?php if($comision==true){ ?>
+                    <th><?= $reg->empleado->porcentaje_comision ?></th> 
+                    <td><?= $this->Number->currency($reg->comision) ?></td>
+                <?php }
+                if($bono==true){ ?>
+                    <td><?= $this->Number->currency($reg->bono) ?></td>
+                <?php } ?>
                 <td><?= $this->Number->currency($reg->ahorro_cantidad) ?></td>
                 <td><?= $this->Number->currency($reg->joyeria) ?></td>
                 <td><?= $this->Number->currency($reg->prestamo) ?></td>
@@ -75,15 +101,7 @@
                     <?=$this->Html->link( $this->Html->image('delete.png',['width'=>"10px"]), array('controller'=>'Nominas','action'=>'eliminar','id'=>$reg->id,'venta'=>$venta_semanal), array('escape'=>false)); ?>
                 </th>
             <?php 
-            if($reg->empleado->tarjeta==false)
-            {
-                $total_nomina+= $reg->sueldo_final;
-            }
             endforeach; ?>
             </tr>
-            <tr> 
-                <td colspan="11"></td>
-                <th><b>Total Nomina</b></th>
-                <th><?= $this->Number->currency($total_nomina) ?></th>
         </table>
 <?php } ?>

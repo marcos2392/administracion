@@ -39,11 +39,11 @@
 <body>
     <br>
     <div class="container">
-        <div class="row margenes">
+        <div class="row">
             <div class="container clearfix">
-                    <?=$this->Html->link( $this->Html->image('jmeza_logo.jpg', ['class' => 'img-responsive']), array('controller'=>'Principal','action'=>'inicio'), array('escape'=>false)); ?>
+                    <?=$this->Html->link( $this->Html->image('jmeza_logo.jpg', ['class' => 'img-responsive ','width'=>"200px"]), array('controller'=>'Principal','action'=>'inicio'), array('escape'=>false)); ?>
             </div>
-            <div style="float: right;"> 
+            <!--<div style="float: right;"> 
             <div class="col-md-12 hidden-print">
                 <?php if (isset($usuario)): ?>
                     <div class="der">
@@ -57,7 +57,7 @@
                     </div>
                 <?php endif; ?>
             </div>
-            </div>
+            </div> -->
         </div>
         <br>
         <?php if (isset($usuario)): ?>
@@ -121,6 +121,10 @@
                                 <?php if($usuario->super_admin || $usuario->cobranzas){ ?>
                                     <li><?= $this->Html->link('Cobradores', ['controller' =>'Cobradores','action' => 'cobradores']); ?></li>
                                 <?php } ?>
+                                <li role="separator" class="divider"></li>
+                                <li>Usuario: <strong><?= $usuario->nombre ?></strong></li>
+                                <li role="separator" class="divider"></li>
+                                <li><b><?= $this->Html->link('Cerrar sesión', ['controller' => 'Usuarios', 'action' => 'logout']) ?></b></li>
                             </ul>
                         </li>
                     </ul>
