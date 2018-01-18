@@ -40,7 +40,7 @@
 
         <?php $bono=false;$comision=false;$deduccion=false;$infonavit=false;$joyeria=false;$prestamo=false;
         foreach($datos_generales as $datos)
-        { debug($datos_generales->toArray()); die;
+        {
             if($datos->comision>0){ $comision=true;}
             if($datos->bono>0){ $bono=true;}
             if($datos->deduccion>0){ $deduccion=true;}
