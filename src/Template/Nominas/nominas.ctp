@@ -38,11 +38,15 @@
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
         </ol>
 
-        <?php $bono=false;$comision=false;
+        <?php $bono=false;$comision=false;$deduccion=false;$infonavit=false;$joyeria=false;$prestamo=false;
         foreach($datos_generales as $datos)
-        {
+        { debug($datos_generales->toArray()); die;
             if($datos->comision>0){ $comision=true;}
             if($datos->bono>0){ $bono=true;}
+            if($datos->deduccion>0){ $deduccion=true;}
+            if($datos->infonavit>0){ $infonavit=true;}
+            if($datos->joyeria>0){ $joyeria=true;}
+            if($datos->prestamo>0){ $prestamo=true;}
         } ?>
 
         <br>
@@ -59,10 +63,18 @@
                     <th>Bono</th>
                 <?php } ?>
                 <th>Ahorro</th>
-                <th>Joyeria</th>
-                <th>Prestamo</th>
-                <th>Infonavit</th>
-                <th>Deduccion</th>
+                <?php if($joyeria==true){ ?>
+                    <th>Joyeria</th>
+                <?php }
+                if($prestamo==true){ ?>
+                    <th>Prestamo</th>
+                <?php }
+                if($infonavit==true){ ?>
+                    <th>Infonavit</th>
+                <?php }
+                if($deduccion==true){ ?>
+                    <th>Deduccion</th>
+                <?php } ?>
                 <th>ISR</th>
                 <th>Extra</th>
                 <th>Sueldo Final</th>
@@ -89,10 +101,18 @@
                     <td><?= $this->Number->currency($reg->bono) ?></td>
                 <?php } ?>
                 <td><?= $this->Number->currency($reg->ahorro_cantidad) ?></td>
-                <td><?= $this->Number->currency($reg->joyeria) ?></td>
-                <td><?= $this->Number->currency($reg->prestamo) ?></td>
-                <td><?= $this->Number->currency($reg->infonavit) ?></td>
-                <td><?= $this->Number->currency($reg->deduccion) ?></td>
+                <?php if($joyeria==true){ ?>
+                    <td><?= $this->Number->currency($reg->joyeria) ?></td>
+                <?php }
+                if($prestamo==true){ ?>
+                    <td><?= $this->Number->currency($reg->prestamo) ?></td>
+                <?php }
+                if($infonavit==true){ ?>
+                    <td><?= $this->Number->currency($reg->infonavit) ?></td>
+                <?php }
+                if($deduccion==true){ ?>
+                    <td><?= $this->Number->currency($reg->deduccion) ?></td>
+                <?php } ?>
                 <td><?= $this->Number->currency($reg->isr) ?></td>
                 <td><?= $this->Number->currency($reg->extra+$reg->pago_extras) ?></td>
                 <th><?= $this->Number->currency($reg->sueldo_final) ?></th>
