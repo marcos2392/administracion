@@ -49,7 +49,7 @@ class ProveedoresController extends AppController
 	    	$this->Proveedores->save($proveedores);
 
             $proveedor_id=$this->Proveedores->find()
-            ->order('id desc')
+            ->order('fecha desc')
             ->first();
 
             $saldo_proveedor = $this->SaldoProveedores->newEntity();

@@ -208,6 +208,8 @@ Inflector::rules('irregular', ['CobranzaCobrador' => 'cobranzascobradores']);
 Inflector::rules('irregular', ['cobranza_cobrador' => 'cobranzas_cobradores']);
 Inflector::rules('irregular', ['CorteCobranza' => 'cortescobranzas']);
 Inflector::rules('irregular', ['corte_cobranza' => 'cortes_cobranzas']);
+Inflector::rules('irregular', ['ProveedorNotasPagadas' => 'proveedoresnotaspagadas']);
+Inflector::rules('irregular', ['proveedor_notas_pagadas' => 'proveedores_notas_pagadas']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 

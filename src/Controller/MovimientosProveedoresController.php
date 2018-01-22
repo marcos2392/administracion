@@ -151,6 +151,7 @@ class MovimientosProveedoresController extends AppController
 
         $movimiento_anterior=$this->MovimientosProveedores->find()
         ->where(['fecha <'=>$fecha,'proveedor_id'=>$proveedor])
+        ->order('fecha desc')
         ->first();
 
         if($movimiento_anterior==null)
@@ -168,11 +169,10 @@ class MovimientosProveedoresController extends AppController
         else
         {
             $saldo=$movimiento_anterior->saldo;
-            $fecha=$movimiento_anterior->fecha->format('Y-m-d H:i:s');
         }
 
         $recalcular=$this->MovimientosProveedores->find()
-        ->where(['fecha > "'.$fecha.'" and proveedor_id = "'.$proveedor.'" '])
+        ->where(['fecha >'=>$fecha,'proveedor_id'=>$proveedor])
         ->order('fecha')
         ->toArray();
 
