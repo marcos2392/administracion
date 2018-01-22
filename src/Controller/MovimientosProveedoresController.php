@@ -123,7 +123,7 @@ class MovimientosProveedoresController extends AppController
 
         $this->MovimientosProveedores->save($movimiento);
 
-        $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha);
+        $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha->format("Y-m-d H:i:s"),false);
 
         $this->Flash->default("Se Modifico el Movimiento Correctamente.");
         $this->redirect(['action' => 'movimientos']);
@@ -140,14 +140,14 @@ class MovimientosProveedoresController extends AppController
 
         $this->MovimientosProveedores->delete($movimiento);
 
-        $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha);
+        $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha->format("Y-m-d H:i:s"),true);
 
         $this->Flash->default("Se Elimino el Movimiento Correctamente.");
         $this->redirect(['controller'=>'Reportes','action' => 'movimientos_proveedores']);
 
     }
 
-    private function RecalcularCantidades($proveedor,$fecha){
+    private function RecalcularCantidades($proveedor,$fecha,$eliminar){ 
 
         $movimiento_anterior=$this->MovimientosProveedores->find()
         ->where(['fecha <'=>$fecha,'proveedor_id'=>$proveedor])
@@ -162,28 +162,36 @@ class MovimientosProveedoresController extends AppController
             ->first();
 
             $saldo=$movimiento->saldo_anterior;
-            $fecha=$movimiento->fecha->format('Y-m-d H:i:s');
-            $fecha = strtotime ( '-1 day' , strtotime ( $fecha ) ) ;
-            $fecha = date ( 'Y-m-d H:i:s' , $fecha );
+            $fecha=$movimiento->fecha;
         }
         else
         {
             $saldo=$movimiento_anterior->saldo;
         }
 
+        if($eliminar){
+            $condicion=['fecha >'=>$fecha];
+        }
+        else{
+            $condicion=['fecha >='=>$fecha];
+        }
+        
         $recalcular=$this->MovimientosProveedores->find()
-        ->where(['fecha >'=>$fecha,'proveedor_id'=>$proveedor])
+        ->where($condicion,['proveedor_id'=>$proveedor])
         ->order('fecha')
         ->toArray();
 
-        foreach($recalcular as $registro)
+        if($recalcular!=null)
         {
-            $movimiento=$this->MovimientosProveedores->get($registro->id);
+            foreach($recalcular as $registro)
+            {
+                $movimiento=$this->MovimientosProveedores->get($registro->id);
 
-            $movimiento->saldo_anterior=$saldo;
-            $movimiento->saldo=($movimiento->tipo=="Nota")? $saldo+=$movimiento->cantidad : $saldo-=$movimiento->cantidad;
+                $movimiento->saldo_anterior=$saldo;
+                $movimiento->saldo=($movimiento->tipo=="Nota")? $saldo+=$movimiento->cantidad : $saldo-=$movimiento->cantidad;
 
-            $this->MovimientosProveedores->save($movimiento);
+                $this->MovimientosProveedores->save($movimiento);
+            }
         }
 
         $saldo_proveedor=$this->SaldoProveedores->find()
