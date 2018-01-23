@@ -99,7 +99,7 @@
                     <td><?= $this->Number->currency($mov->saldo) ?></td>
                     <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){
                             if($mov->nota_proveedor_id==null){ ?>
-                        <!-- <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td> -->
+                        <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
                     <?php } } ?>
                 </tr>
                 <?php

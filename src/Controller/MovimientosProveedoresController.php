@@ -130,7 +130,7 @@ class MovimientosProveedoresController extends AppController
 
     }
 
-    public function eliminar(){
+    public function eliminar(){ 
 
     	$filtro=$this->request->getQuery('filtro');
         $enviado=true;
@@ -138,9 +138,8 @@ class MovimientosProveedoresController extends AppController
         $id=$this->request->getParam('id');
         $movimiento=$this->MovimientosProveedores->get($id);
 
-        $this->MovimientosProveedores->delete($movimiento);
-
         $this->RecalcularCantidades($movimiento->proveedor_id,$movimiento->fecha->format("Y-m-d H:i:s"),true);
+        $this->MovimientosProveedores->delete($movimiento);
 
         $this->Flash->default("Se Elimino el Movimiento Correctamente.");
         $this->redirect(['controller'=>'Reportes','action' => 'movimientos_proveedores']);
@@ -170,14 +169,14 @@ class MovimientosProveedoresController extends AppController
         }
 
         if($eliminar){
-            $condicion=['fecha >'=>$fecha];
+            $condicion=["fecha >"=>$fecha];
         }
         else{
-            $condicion=['fecha >='=>$fecha];
+            $condicion=["fecha >="=>$fecha];
         }
         
         $recalcular=$this->MovimientosProveedores->find()
-        ->where($condicion,['proveedor_id'=>$proveedor])
+        ->where([$condicion,'proveedor_id'=>$proveedor])
         ->order('fecha')
         ->toArray();
 

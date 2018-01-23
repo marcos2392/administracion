@@ -185,9 +185,19 @@ class ReportesController extends AppController
             ->where($condicion)
             ->order(['MovimientosProveedores.fecha'])
             ->toArray();
+
+            $nota_proveedor_id=false;
+
+            foreach($movimientos as $movimiento)
+            {
+                if($movimiento->nota_proveedor_id!=null)
+                {
+                    $nota_proveedor_id=true;
+                }
+            }
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','proveedores','proveedor','menu'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','proveedores','proveedor','menu','nota_proveedor_id'));
 
     }
 
