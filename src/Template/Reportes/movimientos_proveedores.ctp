@@ -52,7 +52,7 @@
 
 <?php if(!empty($movimientos)){ ?>
 <div class="row">
-    <div class="col-sm-10 ">
+    <div class="col-sm-12 ">
         <h4>Fecha: <?= ($filtro=="dia")? $fecha : $fecha_inicio ." / ".$fecha_fin ?></h4>
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
@@ -60,13 +60,16 @@
         <br>
         <table  class="table table-striped">
             <tr class="active">
-                <th width="20%">Fecha</th>
+                <th >Fecha</th>
                 <th>Usuario</th>
                 <th>Proveedor</th>
+                <?php if($nota_proveedor_id){ ?>
+                    <th>Nota Costeo ID</th>
+                <?php } ?>
                 <th>Descripcion</th>
-                <th width="15%">Tipo Movimiento</th>
-                <th width="15%">Cantidad</th>
-                <th width="15%">Saldo</th>
+                <th >Tipo Movimiento</th>
+                <th >Cantidad</th>
+                <th >Saldo</th>
             </tr>
             <?php
             $total_depositos=0;
@@ -87,13 +90,17 @@
                     } ?>
                     <td><?= $mov->usuario->nombre; ?></td>
                     <td><?= $mov->proveedor->nombre; ?></td>
+                    <?php if($nota_proveedor_id){ ?>
+                        <td><?= $mov->nota_proveedor_id; ?></td>
+                    <?php } ?>
                     <td><?= $mov->descripcion; ?></td>
                     <td><?= $mov->tipo ?></td>
                     <td><?= $this->Number->currency($mov->cantidad) ?></td>
                     <td><?= $this->Number->currency($mov->saldo) ?></td>
-                    <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){ ?>
-                        <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
-                    <?php } ?>
+                    <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){
+                            if($mov->nota_proveedor_id==null){ ?>
+                        <!-- <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td> -->
+                    <?php } } ?>
                 </tr>
                 <?php
                 $saldo=$mov->saldo;
