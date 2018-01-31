@@ -33,6 +33,7 @@ class ReportesController extends AppController
         $this->loadModel('Cobranzas');
         $this->loadModel('CobranzasCobradores');
         $this->loadModel('Cobradores');
+        $this->loadModel('ProveedoresNotasPagadas');
     }
 
     public function reportes()
@@ -162,6 +163,8 @@ class ReportesController extends AppController
         $filtro = $this->request->getQuery('filtro') ?? 'dia';
         $enviado = $this->request->getQuery('enviado') ?? false;
         $proveedor = $this->request->getQuery('proveedor')?? '';
+        $checkbox_notas_pagadas = $this->request->getQuery('checkbox_notas_pagadas') ?? 0;
+        $checked=($checkbox_notas_pagadas)? 'checked' : '';
         
         $movimientos=[];
 
@@ -169,22 +172,42 @@ class ReportesController extends AppController
         { 
             if ($filtro == "dia") {
                 $fecha=date('Y-m-d');
-                $condicion= ["date(MovimientosProveedores.fecha)" => $fecha];
+
+                if($checkbox_notas_pagadas){
+                    $condicion= ["date(ProveedoresNotasPagadas.fecha)" => $fecha];
+                }else{
+                    $condicion= ["date(MovimientosProveedores.fecha)" => $fecha];
+                }
+                
             } 
             else 
             { 
                 $fecha_inicio=date('d-M-Y', $fechas['f1']);
                 $fecha_fin=date('d-M-Y', $fechas['f2']);
-                $condicion = ["date(MovimientosProveedores.fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"]; 
+
+                if($checkbox_notas_pagadas){
+                    $condicion = ["date(ProveedoresNotasPagadas.fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"];
+                }else{
+                    $condicion = ["date(MovimientosProveedores.fecha) BETWEEN '" . date('Y-m-d', $fechas['f1']) . "' AND '" . date('Y-m-d', $fechas['f2']) . "'"];
+                }
+                 
             }
             
             $condicion[]=($proveedor!=0)?["proveedor_id"=>$proveedor]: []; 
 
-            $movimientos = $this->MovimientosProveedores->find()
-            ->contain(['Usuarios','Proveedores'])
-            ->where($condicion)
-            ->order(['MovimientosProveedores.fecha'])
-            ->toArray();
+            if($checkbox_notas_pagadas){
+                $movimientos=$this->ProveedoresNotasPagadas->find()
+                ->contain(['Usuarios','Proveedores'])
+                ->where($condicion)
+                ->order(['ProveedoresNotasPagadas.fecha'])
+                ->toArray();
+            }else{
+                $movimientos = $this->MovimientosProveedores->find()
+                ->contain(['Usuarios','Proveedores'])
+                ->where($condicion)
+                ->order(['MovimientosProveedores.fecha'])
+                ->toArray();
+            }
 
             $nota_proveedor_id=false;
 
@@ -197,7 +220,7 @@ class ReportesController extends AppController
             }
         }
 
-        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','proveedores','proveedor','menu','nota_proveedor_id'));
+        $this->set(compact('filtro','movimientos','fecha_inicio','fecha_fin','proveedores','proveedor','menu','nota_proveedor_id','checkbox_notas_pagadas','checked'));
 
     }
 

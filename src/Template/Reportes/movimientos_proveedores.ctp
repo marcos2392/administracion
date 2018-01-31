@@ -10,8 +10,13 @@
         <div class="col-md-3">
             <?= $this->Form->select('proveedor', $this->Select->options($proveedores, 'id', 'nombre', ['blank' => ['0' => 'Todos']]), ['value' => $proveedor, 'class' => 'form-control']) ?>
         </div>
-        <br><br>
+        <br><br><br>
         
+        <div class="col-md-3 form-inline">
+            <?= $this->Form->checkbox('checkbox_notas_pagadas',[$checked]); ?>
+            <?= $this->Form->label('notas_pagadas', 'Notas Pagadas', ['class' => 'control-label col-md-offset-2']) ?>
+        </div>
+        <br><br><br>
 
         <div class="col-md-4 radio">
             <label>
@@ -38,6 +43,7 @@
             ])
              ?>
         </div>
+        
     </div>
     <br><br>
     <div class="form-group form-inline control-label">
@@ -51,13 +57,53 @@
 <br><br>
 
 <?php if(!empty($movimientos)){ ?>
+
 <div class="row">
     <div class="col-sm-12 ">
+        <?php if($checkbox_notas_pagadas){?> <h3><b>Notas Pagadas</b></h3> <?php } ?>
         <h4>Fecha: <?= ($filtro=="dia")? $fecha : $fecha_inicio ." / ".$fecha_fin ?></h4>
         <ol class="breadcrumb center hidden-print">
             <li><?=$this->Html->link('Imprimir', '#', ['class' => 'link_imprimir']) ?></li>
         </ol>
         <br>
+        <?php if($checkbox_notas_pagadas){ ?>
+            <table  class="table table-striped">
+                <tr class="active">
+                    <th >Fecha</th>
+                    <th>Usuario</th>
+                    <th>Proveedor</th>
+                    <th>Nota Costeo ID</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                </tr>
+                <?php
+
+                foreach($movimientos as $mov)
+                {
+                    ?>
+                    <tr>
+                        <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){ ?>
+                        <td><?= $mov->fecha->format('d-m-Y h:i') ?></td>
+                        <?php 
+                        } 
+                        else
+                        { ?> 
+                            <td><?= $mov->fecha->format('d-m-Y h:i'); ?></td>
+                        <?php 
+                        } ?>
+                        <td><?= $mov->usuario->nombre; ?></td>
+                        <td><?= $mov->proveedor->nombre; ?></td>
+                        <td><?= $mov->nota_proveedor_id; ?></td>
+                        <td><?= $mov->descripcion; ?></td>
+                        <td><?= $this->Number->currency($mov->cantidad) ?></td>
+                        <?php if($mov->usuario_id==$usuario->id || $usuario->admin==true){
+                                if($mov->nota_proveedor_id==null){ ?>
+                            <td style="border: hidden"><?= $this->Html->link('Eliminar', ['controller' => 'MovimientosProveedores', 'action' => 'eliminar', 'id' => $mov->id,'filtro'=>$filtro], ['target' => '_self']) ?></td>
+                        <?php } } ?>
+                    </tr>
+            </table>
+
+        <?php } } else{ ?>
         <table  class="table table-striped">
             <tr class="active">
                 <th >Fecha</th>
@@ -124,4 +170,4 @@
         </table>
     </div>
 </div>
-<?php } ?>
+<?php } } ?>
