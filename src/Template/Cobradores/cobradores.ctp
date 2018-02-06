@@ -1,7 +1,7 @@
 <div class="titulo-principal">
 	<h3><b>Cobradores</b></h3>
 	<ul class="breadcrumb titulo-ligas">
-		<!-- <li><?=$this->Html->link('Nuevo Cobrador',['controller' =>'Cobradores','action' => 'nuevo']); ?></li> -->
+		<li><?=$this->Html->link('Nuevo Cobrador',['controller' =>'Cobradores','action' => 'nuevo']); ?></li>
 	</ul>
 </div>
 

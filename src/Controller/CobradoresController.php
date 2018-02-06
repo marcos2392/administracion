@@ -18,7 +18,9 @@ class CobradoresController extends AppController
     public function beforeFilter(Event $event) {
 
         $this->loadModel('Cobradores');
+        $this->loadModel('CobradoresSistema');
         $this->loadModel('Cobranzas');
+        $this->loadModel('Empleados');
         
     }
 
@@ -34,7 +36,7 @@ class CobradoresController extends AppController
     public function nuevo() {
 
     	$cobrador = $this->Cobradores->newEntity();
-
+        $fecha=date('Y-m-d H:i:s');
         $cobranzas=$this->Cobranzas->find()
         ->toArray();
 
@@ -42,13 +44,47 @@ class CobradoresController extends AppController
         {
             $cobrador=$this->Cobradores->patchEntity($cobrador,$this->request->getData());
 
-            $cobrador->fecha=date('Y-m-d');
+            $cobrador_sistema=$this->CobradoresSistema->newEntity();
+            $cobrador_sistema->nombre=ucwords(strtolower($cobrador->nombre));
+            $cobrador_sistema->fecha=$fecha;
+            $this->CobradoresSistema->save($cobrador_sistema);
+
+            $cobrador_sistema=$this->CobradoresSistema->find()
+            ->order('fecha desc')
+            ->first();
+
+            if($this->request->getData()["checkbox_empleado"])
+            {
+               $empleados=$this->Empleados->newEntity();
+               $empleados->nombre=ucwords(strtolower($cobrador->nombre));
+               $empleados->apellidos='';
+               $empleados->descanso=0;
+               $empleados->sucursal_id=12;
+               $empleados->infonavit=0;
+               $empleados->sueldo=0;
+               $empleados->porcentaje_comision=0;
+               $empleados->empleado_id=0;
+               $empleados->joyeria=false;
+               $empleados->prestamo=false;
+               $empleados->fecha=$fecha;
+               $this->Empleados->save($empleados);
+
+               $empleado=$this->Empleados->find()
+                ->order('fecha desc')
+                ->first();
+
+                $cobrador->empleados_id=$empleado->id;
+            }
+
+            $cobrador->fecha=$fecha;
             $cobrador->activo=true;
+            $cobrador->id_cobrador_sistema=$cobrador_sistema->id;
 
             if($this->Cobradores->save($cobrador))
             {
+
 	    	  $this->Flash->default("Se Creo el Crobador Correctamente.");
-              return $this->redirect(['action' => 'cobradores']);
+                return $this->redirect(['action' => 'cobradores']);
             }
             else
             {

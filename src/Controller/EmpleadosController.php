@@ -120,6 +120,7 @@ class EmpleadosController extends AppController
         $empleado->tarjeta=$tarjeta;
         $empleado->ahorro=$ahorro;
         $empleado->ahorro_cantidad=$ahorro_cantidad;
+        $empleado->fecha=date("Y-m-d H:i:s");
 
         foreach($dias as $d)
         {
