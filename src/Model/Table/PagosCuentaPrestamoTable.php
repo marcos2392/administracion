@@ -47,6 +47,12 @@ class PagosCuentaPrestamoTable extends Table
             'foreignKey' => 'cuenta_prestamo_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('UsuariosSistema', [
+            'foreignKey' => 'usuario_id',
+            'bindingKey' => 'id'
+        ]);
+        
         $this->belongsTo('Transacciones');
         $this->belongsTo('Sucursales');
         $this->belongsTo('Usuarios');

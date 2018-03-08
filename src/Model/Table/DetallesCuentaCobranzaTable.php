@@ -42,6 +42,10 @@ class DetallesCuentaCobranzaTable extends Table
             'foreignKey' => 'usuario_id',
             'bindingKey' => 'id'
         ]);
+        $this->belongsTo('UsuariosSistema', [
+            'foreignKey' => 'usuario_id',
+            'bindingKey' => 'id'
+        ]);
         $this->belongsTo('CuentasCobranza');
         $this->belongsTo('Sucursales');
         $this->belongsTo('Cobradores');

@@ -27,6 +27,8 @@ class CobranzasController extends AppController
         $this->loadModel('CortesCobranzas');
         $this->loadModel('MovimientosCaja');
         $this->loadModel('NominaEmpleadas');
+        $this->loadModel('UsuariosSistema');
+        $this->loadModel('Usuarios');
     }
 
     public function cobranzas(){
@@ -166,12 +168,15 @@ class CobranzasController extends AppController
                     case "cobranza_sucursal":
                         
                         $cobranza_sucursal=$this->DetallesCuentaCobranza->find()
-                        ->where(['cobrador_id'=>$info_cobrador->id_cobrador_sistema,'pago'=>true,"date(fecha) between '".$fecha_inicio."' and '".$fecha_termino."' ","usuario_id <> 3"])
+                        ->contain('UsuariosSistema')
+                        ->where(['DetallesCuentaCobranza.cobrador_id'=>$info_cobrador->id_cobrador_sistema,'DetallesCuentaCobranza.pago'=>true,"date(DetallesCuentaCobranza.fecha) between '".$fecha_inicio."' and '".$fecha_termino."'"])
                         ->toArray();
 
                         foreach($cobranza_sucursal as $cobranza)
                         {
-                            $total+=$cobranza->saldo_antes-$cobranza->saldo_despues;
+                            if(!$cobranza->usuarios_sistema->excluir_pagos_corte){
+                                $total+=$cobranza->saldo_antes-$cobranza->saldo_despues;
+                            }
                         }
 
                         $totales["cobranza_sucursal"]=$total;
@@ -181,20 +186,24 @@ class CobranzasController extends AppController
                         
                         $prestamo_sucursal = $this->CuentasPrestamo->find()
                         ->select([
-                            'pago' => 'PagosCuentaPrestamo.cantidad_pago'
+                            'pago' => 'PagosCuentaPrestamo.cantidad_pago','usuario'=>'PagosCuentaPrestamo.usuario_id'
                         ])->join([
                             'PagosCuentaPrestamo' => [
                                 'table' => 'pagos_cuenta_prestamo',
                                 'type' => 'inner',
-                                'conditions' => ['PagosCuentaPrestamo.cuenta_prestamo_id = CuentasPrestamo.id']
+                                'conditions' => ['PagosCuentaPrestamo.cuenta_prestamo_id = CuentasPrestamo.id'],
                             ]
-                        ])->where([
-                            "date(PagosCuentaPrestamo.fecha_pago) between '".$fecha_inicio."' and '".$fecha_termino."' " ,"CuentasPrestamo.cobrador_id = '".$info_cobrador->id_cobrador_sistema."' ","PagosCuentaPrestamo.cantidad_pago<>0","PagosCuentaPrestamo.usuario_id <> 3"
+                        ])
+                        ->where([
+                            "date(PagosCuentaPrestamo.fecha_pago) between '".$fecha_inicio."' and '".$fecha_termino."' " ,"CuentasPrestamo.cobrador_id = '".$info_cobrador->id_cobrador_sistema."' ","PagosCuentaPrestamo.cantidad_pago<>0"
                         ]);
                         
                         foreach($prestamo_sucursal as $prestamo)
                         { 
-                            $total+=$prestamo->pago;
+                            $usuario_sistema=$this->UsuariosSistema->get($prestamo->usuario);
+                            if(!$usuario_sistema->excluir_pagos_corte){
+                                $total+=$prestamo->pago;
+                            }   
                         }
 
                         $totales["prestamos_sucursal"]=$total;
